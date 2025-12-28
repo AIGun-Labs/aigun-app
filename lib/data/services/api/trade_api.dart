@@ -53,7 +53,6 @@ class TradeApi {
     if (network == Network.solana.value &&
         options.gasPrice != null &&
         mode == TradeMode.custom) {
-      // 只有solana 自定义模式才需要设置优先费和贿赂费
       newOptions['priority_fee'] = newPriorityFee;
       newOptions['tip_fee'] = newTipFee;
       newOptions.remove('gas_price');
@@ -119,7 +118,6 @@ class TradeApi {
     if (network == Network.solana.value &&
         options.gasPrice != null &&
         mode == TradeMode.custom) {
-      // 只有solana 自定义模式才需要设置优先费和贿赂费
       queryParameters['priority_fee'] = newPriorityFee;
       queryParameters['tip_fee'] = newTipFee;
       queryParameters.remove('gas_price');

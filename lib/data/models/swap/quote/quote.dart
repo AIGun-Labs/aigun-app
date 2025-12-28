@@ -6,7 +6,7 @@ part 'quote.g.dart';
 @freezed
 sealed class SwapQuote with _$SwapQuote {
   const factory SwapQuote({
-    @JsonKey(name: 'input_mint') String? inputMint, // 输入代币
+    @JsonKey(name: 'input_mint') String? inputMint, //
     @JsonKey(name: 'in_amount') String? inAmount,
     @JsonKey(name: 'in_usd_value') double? inUsdValue,
     @JsonKey(name: 'output_mint') String? outputMint,

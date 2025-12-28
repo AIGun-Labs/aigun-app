@@ -104,7 +104,6 @@ class _InviteSheetState extends State<InviteSheet> {
           ),
           child: BlocListener<InviteCubit, InviteState>(
             listenWhen: (previous, current) {
-              // 仅当 inviteCodeStatus 从非 success 变为 success 时触发
               return previous.inviteCodeStatus !=
                       const InviteCodeStatus.success() &&
                   current.inviteCodeStatus == const InviteCodeStatus.success();
@@ -136,8 +135,6 @@ class _InviteSheetState extends State<InviteSheet> {
                   ),
                 ),
                 14.verticalSpace,
-
-                // 标题
                 Text(
                   s.bindReferrerInviteCode,
                   textAlign: TextAlign.center,
@@ -148,8 +145,6 @@ class _InviteSheetState extends State<InviteSheet> {
                 ),
 
                 6.verticalSpace,
-
-                // 副标题
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
@@ -185,9 +180,8 @@ class _InviteSheetState extends State<InviteSheet> {
                     textCapitalization: .characters,
                     textInputAction: .done,
                     onSubmitted: (_) => _handleBind(),
-                    maxLength: NumericConstants.five, // 邀请码最大长度为 5
+                    maxLength: NumericConstants.five, //  5
                     inputFormatters: [
-                      // IOS 中文输入法情况下会将拼音截断
                       if (Platform.isAndroid)
                         FilteringTextInputFormatter.deny(RegExp(r'\s')),
                     ],
@@ -205,7 +199,6 @@ class _InviteSheetState extends State<InviteSheet> {
                         0.w,
                         14.h,
                       ),
-                      // 不用 suffixIcon，改用 suffix
                       suffixIcon: GestureDetector(
                         onTap: !_isLoading
                             ? () async => {
@@ -240,7 +233,6 @@ class _InviteSheetState extends State<InviteSheet> {
                   ),
                 ),
                 6.verticalSpace,
-                // 说明文字
                 Text(
                   s.goldDesc,
                   style: TextStyle(
@@ -249,7 +241,6 @@ class _InviteSheetState extends State<InviteSheet> {
                   ),
                 ),
                 10.verticalSpace,
-                // 错误提示
                 // if (_errorMessage != null)
                 //   Text(
                 //     _errorMessage!,
@@ -262,7 +253,6 @@ class _InviteSheetState extends State<InviteSheet> {
                 InviteErrorMessage(),
 
                 100.verticalSpace,
-                // 绑定按钮
                 SizedBox(
                   height: 45.w,
                   child: ElevatedButton(
@@ -299,7 +289,6 @@ class _InviteSheetState extends State<InviteSheet> {
   }
 }
 
-/// 将输入自动转为大写（如无需要可移除）
 class UpperCaseTextFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(

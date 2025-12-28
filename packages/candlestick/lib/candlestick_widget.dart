@@ -34,22 +34,13 @@ enum NowPriceAlignment { left, right }
 
 enum CrossPriceAlignment { left, right, auto }
 
-/// 图表手势状态，用于与父级滚动视图协调
 enum ChartGestureState {
-  /// 空闲状态，允许父级滚动
   idle,
-
-  /// 正在缩放（双指），应阻止父级滚动
   scaling,
-
-  /// 正在水平拖动（单指水平），应阻止父级滚动
   horizontalDragging,
-
-  /// 正在垂直拖动（单指垂直），允许父级滚动
   verticalDragging,
 }
 
-/// 手势状态变化回调
 typedef ChartGestureStateCallback = void Function(ChartGestureState state);
 
 class TimeFormat {
@@ -186,9 +177,6 @@ class CandlestickWidget extends StatefulWidget {
   final double boundaryThreshold;
 
   final int debounceDelay;
-
-  /// 手势状态变化回调，用于与父级滚动视图协调
-  /// 当手势状态变化时会调用此回调
   final ChartGestureStateCallback? onGestureStateChanged;
 
   @override
@@ -253,17 +241,9 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
   Object? _loadingError;
 
   int? _lastBoundaryTriggerTime;
-
-  /// 当前手势状态
   ChartGestureState _currentGestureState = ChartGestureState.idle;
-
-  /// 初始触摸位置，用于判断滑动方向
   Offset? _initialPointerPosition;
-
-  /// 是否已经确定了滑动方向
   bool _dragDirectionDetermined = false;
-
-  /// 更新手势状态并通知回调
   void _updateGestureState(ChartGestureState newState) {
     if (_currentGestureState != newState) {
       _currentGestureState = newState;
@@ -307,12 +287,12 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
       widget.chartStyle,
       widget.chartColors,
       baseDimension: baseDimension,
-      lines: lines, // 趋势线列表
-      sink: mInfoWindowStream.sink, // 信息弹窗数据流
+      lines: lines, //
+      sink: mInfoWindowStream.sink, //
       xFrontPadding: widget.xFrontPadding,
       xBackPadding: widget.xBackPadding,
-      isTrendLine: widget.isTrendLine, // 是否启用趋势线
-      selectY: mSelectY, // 选中的 Y 坐标（趋势线用）
+      isTrendLine: widget.isTrendLine, //
+      selectY: mSelectY, //  Y （）
       datas: widget.datas,
       scaleX: mScaleX,
       scrollX: mScrollX,
@@ -332,7 +312,7 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
       priceFormatter: widget.priceFormatter,
       nowPriceAlignment: widget.nowPriceAlignment,
       crossPriceAlignment: widget.crossPriceAlignment,
-      isCrossLocked: _isCrossLocked, // 十字线锁定状态
+      isCrossLocked: _isCrossLocked, //
     );
 
     return LayoutBuilder(
@@ -343,12 +323,10 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
         return Listener(
           onPointerDown: (event) {
             setState(() => _pointerCount++);
-            // 记录初始触摸位置
             if (_pointerCount == 1) {
               _initialPointerPosition = event.position;
               _dragDirectionDetermined = false;
             }
-            // 双指时立即通知缩放状态
             if (_pointerCount >= 2) {
               _updateGestureState(ChartGestureState.scaling);
             }
@@ -372,7 +350,7 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
             }
           },
           child: RawGestureDetector(
-            behavior: HitTestBehavior.opaque, // 确保空白区域也能接收事件
+            behavior: HitTestBehavior.opaque, //
             gestures: <Type, GestureRecognizerFactory>{
               ScaleGestureRecognizer:
                   GestureRecognizerFactoryWithHandlers<ScaleGestureRecognizer>(
@@ -381,18 +359,18 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
                   instance
                     ..onStart = (details) {
                       isOnTap = false;
-                      _stopAnimation(); // 停止惯性滚动
+                      _stopAnimation(); //
 
                       _lastPointerCount = _pointerCount;
 
-                      _scaleBase = 1.0; // 手势开始时总是 1.0
+                      _scaleBase = 1.0; //  1.0
                       _scaleXBase = mScaleX;
 
                       _anchorScreenX = details.focalPoint.dx;
                       _anchorIndex = painter.calculateSelectedX(_anchorScreenX);
 
-                      _boundaryOverscroll = 0.0; // 重置边界滑动累积
-                      _onDragChanged(true); // 通知拖拽状态改变
+                      _boundaryOverscroll = 0.0; //
+                      _onDragChanged(true); //
                     }
                     ..onUpdate = (details) {
                       if (isLongPress) return;
@@ -415,22 +393,18 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
                       final isPinching = _pointerCount >= 2;
 
                       if (!isPinching) {
-                        // 单指拖动：检测滑动方向
                         if (!_dragDirectionDetermined &&
                             _initialPointerPosition != null) {
                           final delta =
                               details.focalPoint - _initialPointerPosition!;
-                          const threshold = 10.0; // 方向判断阈值
+                          const threshold = 10.0; //
 
                           if (delta.distance > threshold) {
                             _dragDirectionDetermined = true;
-                            // 判断是水平还是垂直滑动
                             if (delta.dx.abs() > delta.dy.abs()) {
-                              // 水平滑动 - 图表处理，阻止父级滚动
                               _updateGestureState(
                                   ChartGestureState.horizontalDragging);
                             } else {
-                              // 垂直滑动 - 允许父级滚动
                               _updateGestureState(
                                   ChartGestureState.verticalDragging);
                             }
@@ -508,7 +482,7 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
                         mScaleX = newScaleX;
                       }
 
-                      notifyChanged(); // 触发重绘
+                      notifyChanged(); //
                     }
                     ..onEnd = (details) {
                       isScale = false;
@@ -531,7 +505,7 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
                       if (_isCrossLocked) {
                         _isCrossLocked = false;
                         isOnTap = false;
-                        mInfoWindowStream.sink.add(null); // 清空信息弹窗
+                        mInfoWindowStream.sink.add(null); //
                       } else {
                         _isCrossLocked = true;
                         isOnTap = true;
@@ -614,13 +588,13 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
                     }
                     ..onLongPressEnd = (details) {
                       isLongPress = false;
-                      enableCordRecord = true; // 启用趋势线坐标记录
+                      enableCordRecord = true; //
 
                       if (!widget.isTrendLine) {
                         _isCrossLocked = true;
-                        isOnTap = true; // 保持 isOnTap 为 true 以显示十字线
+                        isOnTap = true; //  isOnTap  true
                       } else {
-                        mInfoWindowStream.sink.add(null); // 趋势线模式清空信息弹窗
+                        mInfoWindowStream.sink.add(null); //
                       }
                       notifyChanged();
                     };
@@ -640,8 +614,8 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
                   _buildLoadingIndicator(),
               ],
             ),
-          ), // RawGestureDetector 结束
-        ); // Listener 结束
+          ), // RawGestureDetector
+        ); // Listener
       },
     );
   }
@@ -679,7 +653,7 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
 
       if (mScrollX <= 0) {
         mScrollX = 0;
-        _triggerBoundaryCallback(false); // false = 加载最新数据
+        _triggerBoundaryCallback(false); // false =
 
         if (widget.onLoadMore != null) {
           widget.onLoadMore!(false);
@@ -687,7 +661,7 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
         _stopAnimation();
       } else if (mScrollX >= ChartPainter.maxScrollX) {
         mScrollX = ChartPainter.maxScrollX;
-        _triggerBoundaryCallback(true); // true = 加载历史数据
+        _triggerBoundaryCallback(true); // true =
 
         if (widget.onLoadMore != null) {
           widget.onLoadMore!(true);
@@ -695,7 +669,7 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
         _stopAnimation();
       }
 
-      notifyChanged(); // 每帧重绘
+      notifyChanged(); //
     });
 
     aniX!.addStatusListener((status) {
@@ -724,7 +698,7 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
 
     setState(() {
       _isLoadingAtLeft = isLeft;
-      _loadingError = null; // 清除之前的错误
+      _loadingError = null; //
       _lastBoundaryTriggerTime = now;
     });
 

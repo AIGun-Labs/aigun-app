@@ -13,13 +13,13 @@ import java.io.File
 import java.nio.file.Path
 
 /**
- * 将安装相关的 MethodChannel 与实现从 MainActivity 模块化到独立类。
- * Flutter 侧的 MethodChannel 名称：app.updater/install
+ *  MethodChannel  MainActivity 。
+ * Flutter  MethodChannel ：app.updater/install
  *
- * 暴露的方法：
- * - install(path: String): 拉起系统安装器
- * - canRequestPackageInstalls(): Boolean，Android 8.0+ 是否允许此来源安装
- * - openSettings(): 打开“允许此来源安装”的设置页
+ * ：
+ * - install(path: String): 
+ * - canRequestPackageInstalls(): Boolean，Android 8.0+ 
+ * - openSettings(): “”
  */
 object InstallBridge {
     private const val CHANNEL = "app.updater/install"
@@ -110,5 +110,5 @@ object InstallBridge {
         }
     }
 }
-/** 用于将异常转换为 MethodChannel 错误码 */
+/**  MethodChannel  */
 class BridgeException(val code: String, override val message: String): Exception(message)

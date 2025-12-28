@@ -80,7 +80,7 @@ class _IntelligenceNewState extends State<IntelligenceNew>
         avatar: widget.intel.newsLogo,
         summary: widget.intel.content,
       ),
-    
+
       images: GridImagePreviewWrapper(
         uniquePrefix: widget.uniquePrefix,
         urls: widget.intel.mediaImageUrls.whereType<String>().toList(),
@@ -103,7 +103,6 @@ class _IntelligenceNewState extends State<IntelligenceNew>
     );
   }
 
-  /// 打开图片预览对话框
   void _openImagePreview(List<IntelMedia> images, int initialIndex) {
     int currentIndex = initialIndex;
 
@@ -139,7 +138,6 @@ class _IntelligenceNewState extends State<IntelligenceNew>
                   });
                 },
               ),
-              // 关闭按钮
               Positioned(
                 top: 40.h,
                 right: 20.w,
@@ -152,7 +150,6 @@ class _IntelligenceNewState extends State<IntelligenceNew>
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ),
-              // 图片计数器
               Positioned(
                 bottom: 40.h,
                 left: 0,

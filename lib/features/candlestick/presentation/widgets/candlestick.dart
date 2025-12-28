@@ -25,8 +25,6 @@ class AIGunCandlestick extends StatefulWidget {
 
   final double height;
   final double? width;
-
-  /// 手势状态变化回调，用于与父级滚动视图协调
   final ChartGestureStateCallback? onGestureStateChanged;
 
   @override
@@ -46,8 +44,6 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
     if (!state.volHidden) {
       height += 72;
     }
-
-    // 每个副图指标的高度
     height += state.secondaryStates.length * 72;
 
     return height;
@@ -94,7 +90,7 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
                 error: (_) => true,
               );
 
-// 
+              //
               if (isError) {
                 return SizedBox.shrink();
               }

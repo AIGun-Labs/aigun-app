@@ -20,10 +20,7 @@ import '../../../../widgets/feature_image.dart';
 import '../cubit/swap/swap_cubit.dart';
 import '../cubit/swap/swap_state.dart';
 
-/// Token 交换卡片组件
 ///
-/// 显示代币信息和金额输入/展示
-/// 使用 TradeToken 作为数据模型
 class TokenSwapCard extends StatefulWidget {
   const TokenSwapCard({
     super.key,
@@ -135,7 +132,6 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
   }
 }
 
-/// Token 选择器部分
 class _TokenSelector extends StatelessWidget {
   const _TokenSelector({required this.token, required this.onTap});
 
@@ -164,7 +160,6 @@ class _TokenSelector extends StatelessWidget {
   }
 }
 
-/// Token 图标组件
 class _TokenIcon extends StatelessWidget {
   const _TokenIcon({required this.token});
 
@@ -221,7 +216,6 @@ class _TokenIcon extends StatelessWidget {
   }
 }
 
-/// Token 占位符组件
 class _TokenPlaceholder extends StatelessWidget {
   const _TokenPlaceholder({
     required this.size,
@@ -253,7 +247,6 @@ class _TokenPlaceholder extends StatelessWidget {
   }
 }
 
-/// Token 名称组件
 class _TokenName extends StatelessWidget {
   const _TokenName({required this.tokenName, required this.hasSelectedToken});
 
@@ -279,7 +272,6 @@ class _TokenName extends StatelessWidget {
   }
 }
 
-/// 金额部分组件
 class _AmountSection extends StatelessWidget {
   const _AmountSection({
     required this.token,
@@ -327,7 +319,6 @@ class _AmountSection extends StatelessWidget {
   }
 }
 
-/// 可编辑金额输入框
 class _EditableAmount extends StatelessWidget {
   const _EditableAmount({
     required this.controller,
@@ -392,7 +383,6 @@ class _EditableAmount extends StatelessWidget {
   }
 }
 
-/// 只读金额显示
 class _DisplayAmount extends StatelessWidget {
   const _DisplayAmount({required this.amountController});
 
@@ -421,7 +411,6 @@ class _DisplayAmount extends StatelessWidget {
   }
 }
 
-/// 美元价值显示
 class _DollarValue extends StatelessWidget {
   const _DollarValue({required this.dollarValue});
 

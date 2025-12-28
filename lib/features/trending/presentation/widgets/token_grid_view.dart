@@ -42,7 +42,6 @@ class _TokenGridViewState extends State<TokenGridView>
   void _onTokenTap(BaseTokenEntity token) {
     final newToken = token.toToken();
     BlocProvider.of<QuickTradeCubit>(context).updateSelectedToken(newToken);
-    // 跳转到代币详情页面
     TokenDetailRoute(token).push(context);
   }
 
@@ -122,7 +121,6 @@ class _TokenGridViewState extends State<TokenGridView>
             PullToRefreshContainer((PullToRefreshScrollNotificationInfo? info) {
               return SliverToBoxAdapter(child: RefreshHeaderWidget(info));
             }),
-            // 内容区域
             SliverPadding(
               padding: .symmetric(horizontal: 15.w),
               sliver: BlocBuilder<TokensCubit, TokensState>(

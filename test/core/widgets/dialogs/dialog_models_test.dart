@@ -1,7 +1,7 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:aigun/core/widgets/dialogs/models/dialog_config.dart';
 import 'package:aigun/core/widgets/dialogs/models/dialog_action.dart';
+import 'package:aigun/core/widgets/dialogs/models/dialog_config.dart';
 import 'package:aigun/core/widgets/dialogs/models/dialog_type.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('DialogConfig', () {
@@ -120,7 +120,7 @@ void main() {
     test('should create cancel action with default label', () {
       final action = DialogAction.cancel();
 
-      expect(action.label, '取消');
+      expect(action.label, '');
       expect(action.type, DialogActionType.secondary);
     });
 
@@ -129,7 +129,7 @@ void main() {
         onPressed: () {},
       );
 
-      expect(action.label, '确认');
+      expect(action.label, '');
       expect(action.type, DialogActionType.primary);
     });
   });

@@ -21,14 +21,11 @@ class ApiResponse<T> {
   final String msg;
   final T? data;
   final Pagination? pagination;
-
-  /// 判断业务逻辑是否正确
   bool get isSuccess => code == 0 || code == 200;
   Map<String, dynamic> toJson(T Function(T value) toJsonT) =>
       _$ApiResponseToJson(this, toJsonT);
 }
 
-/// 分页数据模型
 @JsonSerializable()
 class Pagination {
   const Pagination({

@@ -292,7 +292,6 @@ class RiskContractAnalysisList extends StatelessWidget {
         .toList();
   }
 
-  // 骨架屏组件
   Widget _buildLoadingSkeleton() {
     return Column(
       children: List.generate(
@@ -303,7 +302,6 @@ class RiskContractAnalysisList extends StatelessWidget {
   }
 }
 
-// 骨架屏占位符组件
 class ContractAnalysisSkeletonItem extends StatelessWidget {
   const ContractAnalysisSkeletonItem({super.key});
 
@@ -314,7 +312,6 @@ class ContractAnalysisSkeletonItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 图标骨架
           Container(
             width: 20.w,
             height: 20.h,
@@ -324,12 +321,10 @@ class ContractAnalysisSkeletonItem extends StatelessWidget {
             ),
           ),
           SizedBox(width: 10.w),
-          // 文本内容骨架
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 标题骨架
                 Shimmer.fromColors(
                   baseColor: AppColors.shimmerBaseColor(context),
                   highlightColor: AppColors.shimmerHighlightColor(context),
@@ -343,7 +338,6 @@ class ContractAnalysisSkeletonItem extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 8.h),
-                // 描述骨架 - 两行
                 Shimmer.fromColors(
                   baseColor: AppColors.shimmerBaseColor(context),
                   highlightColor: AppColors.shimmerHighlightColor(context),
@@ -444,7 +438,6 @@ class ContractAnalysisItem extends StatelessWidget {
   }
 }
 
-// 整个风险分析页面的骨架屏
 class RiskTabContentSkeleton extends StatelessWidget {
   const RiskTabContentSkeleton({super.key});
 
@@ -603,7 +596,6 @@ class RiskTabContentSkeleton extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20.h),
-          // 合约分析项骨架屏
           Column(
             children: List.generate(
               3,

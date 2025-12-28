@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'wallet.freezed.dart';
 part 'wallet.g.dart';
 
-// 地址模型
 @freezed
 sealed class WalletAddress with _$WalletAddress {
   const factory WalletAddress({
@@ -19,7 +18,6 @@ sealed class WalletAddress with _$WalletAddress {
       _$WalletAddressFromJson(json);
 }
 
-// 钱包模型
 @freezed
 sealed class Wallet with _$Wallet {
   const factory Wallet({

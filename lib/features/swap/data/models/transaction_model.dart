@@ -2,12 +2,10 @@ import "package:freezed_annotation/freezed_annotation.dart";
 
 import '../../../../data/models/transfer/index.dart';
 import '../../domain/entities/swap_result_entity.dart';
-import '../../domain/entities/transaction_entity.dart';
 
 part "transaction_model.freezed.dart";
 part "transaction_model.g.dart";
 
-// 交易响应的数据类型
 @freezed
 sealed class TransactionModel with _$TransactionModel {
   const TransactionModel._();

@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:money2/money2.dart';
 
 import '../extensions/double.dart';
@@ -10,12 +9,9 @@ class CurrencyFormatter {
     bool showCurrency = false,
     String? currencyCode,
   }) {
-    // 处理极小数值
     if (amount > 0 && amount < 0.0001) {
       return _formatSmallNumber(amount);
     }
-
-    // 确定小数位数
     final decimalPlaces = _getDecimalPlaces(amount);
 
     if (currencyCode != null) {
@@ -35,28 +31,19 @@ class CurrencyFormatter {
         isoCode: currency.isoCode,
         decimalDigits: decimalPlaces,
       ).format(pattern);
-
-      // 去除尾部多余的0
       return _removeTrailingZeros(formatted);
     }
-
-    // 无货币格式化，去除尾部多余的0
     final formattedNumber = amount.toStringAsFixed(decimalPlaces);
     return _removeTrailingZeros(formattedNumber);
   }
 
-  /// 去除尾部多余的0
   static String _removeTrailingZeros(String number) {
     if (!number.contains('.')) return number;
-
-    // 移除整数后的.0
-    // 移除小数后的0
     return number
         .replaceAll(RegExp(r'\.?0+$'), '')
         .replaceAll(RegExp(r'(\.\d*?)0+$'), '\$1');
   }
 
-  /// 处理极小数值的格式化
   static String _formatSmallNumber(double number) {
     final scientificStr = number.toStringAsFixed(10);
     final parts = scientificStr.split('');
@@ -79,7 +66,6 @@ class CurrencyFormatter {
     }
 
     if (leadingZeros >= 4) {
-      // 移除尾部的0
       final significantDigits = scientificStr
           .replaceFirst('0.', '')
           .replaceAll(RegExp('^0+'), '')
@@ -91,7 +77,6 @@ class CurrencyFormatter {
     return _removeTrailingZeros(scientificStr);
   }
 
-  /// 根据数值大小确定小数位数
   static int _getDecimalPlaces(double amount) {
     final absAmount = amount.abs();
     if (absAmount >= 0.0001 && absAmount < 10) {
@@ -99,19 +84,15 @@ class CurrencyFormatter {
     } else if (absAmount >= 10) {
       return 2;
     }
-    return 10; // 对于小于0.0001的数字，使用10位小数以保留精度
+    return 10; // 0.0001，10
   }
 
-  /// 带货币符号的格式化
   static String formatWithSymbol(double amount, String currencyCode) {
     return format(amount, showCurrency: true, currencyCode: currencyCode);
   }
 
   static String formatWithFourDecimals(double amount) {
-    //  创建自定义货币，精度为 4
     final pseudoCurrency = Currency.create('XXX', 4);
-
-    // 2. 使用该货币从数字创建 Money 实例
     final money = Money.fromNumWithCurrency(amount, pseudoCurrency);
 
     return money.format('#.####');
@@ -125,9 +106,6 @@ class CurrencyFormatter {
     return _formatSmallNumber(double.tryParse(amount) ?? 0);
   }
 
-  // 接受一个可选的命名参数 symbol, 默认值为 '$'
-  // fixedDecimals: 固定保留的小数位数，null 表示自动去除尾部 0
-  // maxDecimals: 最大小数位数限制（当 fixedDecimals 为 null 时生效）
   static String abbreviateTokenPrice(
     double price, {
     String symbol = '',
@@ -135,7 +113,6 @@ class CurrencyFormatter {
     int? maxDecimals,
   }) {
     price = price.removeNegativeSign;
-    // 缩写判断：当小数点后连续零 ≥ 4
     if (price > 0 && price < 0.0001) {
       String priceStr = price.toStringAsFixed(20);
       RegExpMatch? match = RegExp(r'0\.0+').firstMatch(priceStr);
@@ -159,36 +136,25 @@ class CurrencyFormatter {
           if (significantDigits.length > sigDigitsCount) {
             significantDigits = significantDigits.substring(0, sigDigitsCount);
           } else if (fixedDecimals != null) {
-            // 固定小数位数，需要补 0
             significantDigits = significantDigits.padRight(fixedDecimals, '0');
           }
-
-          // 如果不是固定小数位数，去掉末尾的无效0
           if (fixedDecimals == null) {
-            significantDigits =
-                significantDigits.replaceAll(RegExp(r'0+$'), '');
+            significantDigits = significantDigits.replaceAll(
+              RegExp(r'0+$'),
+              '',
+            );
           }
-
-          // 使用传入的 symbol
           return '$symbol${'0.0'}${_toSubscript(zeroCount)}$significantDigits';
         }
       }
     }
-
-    // 规则 A: 价格 < $10,000
     if (price < 10000) {
       int decimalDigits = fixedDecimals ?? maxDecimals ?? 4;
-
-      // 使用截断而不是四舍五入
       String truncated = NumericUtils.truncateDecimals(price, decimalDigits);
-
-      // 如果不是固定小数位数，去除尾部 0
       if (fixedDecimals == null && truncated.contains('.')) {
         truncated = truncated
             .replaceAll(RegExp(r'0+$'), '')
             .replaceAll(RegExp(r'\.$'), '');
-
-        // 如果设置了最大小数位数限制，确保不超过
         if (maxDecimals != null) {
           final parts = truncated.split('.');
           if (parts.length == 2 && parts[1].length > maxDecimals) {
@@ -196,25 +162,14 @@ class CurrencyFormatter {
           }
         }
       }
-
-      // 添加千位分隔符和符号
       return _addThousandsSeparator(truncated, symbol);
-    }
-
-    // 规则 B: 价格 ≥ $10,000
-    else {
+    } else {
       int decimalDigits = fixedDecimals ?? maxDecimals ?? 2;
-
-      // 使用截断而不是四舍五入
       String truncated = NumericUtils.truncateDecimals(price, decimalDigits);
-
-      // 如果不是固定小数位数，去除尾部 0
       if (fixedDecimals == null && truncated.contains('.')) {
         truncated = truncated
             .replaceAll(RegExp(r'0+$'), '')
             .replaceAll(RegExp(r'\.$'), '');
-
-        // 如果设置了最大小数位数限制，确保不超过
         if (maxDecimals != null) {
           final parts = truncated.split('.');
           if (parts.length == 2 && parts[1].length > maxDecimals) {
@@ -222,19 +177,14 @@ class CurrencyFormatter {
           }
         }
       }
-
-      // 添加千位分隔符和符号
       return _addThousandsSeparator(truncated, symbol);
     }
   }
 
-  /// 添加千位分隔符和符号
   static String _addThousandsSeparator(String number, String symbol) {
     final parts = number.split('.');
     final integerPart = parts[0];
     final decimalPart = parts.length > 1 ? parts[1] : '';
-
-    // 添加千位分隔符
     String formattedInteger = '';
     for (int i = 0; i < integerPart.length; i++) {
       if (i > 0 && (integerPart.length - i) % 3 == 0) {
@@ -242,8 +192,6 @@ class CurrencyFormatter {
       }
       formattedInteger += integerPart[i];
     }
-
-    // 组合结果
     final result = decimalPart.isEmpty
         ? formattedInteger
         : '$formattedInteger.$decimalPart';
@@ -260,46 +208,46 @@ class CurrencyFormatter {
     return result;
   }
 
-  static String abbreviateTokenPriceWithSymbol(double price,
-      {String symbol = '\$'}) {
+  static String abbreviateTokenPriceWithSymbol(
+    double price, {
+    String symbol = '\$',
+  }) {
     return "$symbol${abbreviateTokenPrice(price)}";
   }
 
-  static String formatPriceEnglish(num price,
-      {int decimals = 2, String currencySymbol = '\$', lowerCase = false}) {
+  static String formatPriceEnglish(
+    num price, {
+    int decimals = 2,
+    String currencySymbol = '\$',
+    lowerCase = false,
+  }) {
     if (price < 1000) {
-      // 小于1000直接格式化
       return formatPrice(price.toString());
     } else if (price >= 1000000000000) {
-      // 万亿（T）
       double num = price / 1000000000000;
-      String result = num.toStringAsFixed(decimals)
-          .replaceAll(RegExp(r'\.0+$'), '')
-          .replaceAll(RegExp(r'\.00$'), '');
+      String result = num.toStringAsFixed(
+        decimals,
+      ).replaceAll(RegExp(r'\.0+$'), '').replaceAll(RegExp(r'\.00$'), '');
       return '$currencySymbol$result${lowerCase ? 't' : 'T'}';
     } else if (price >= 1000000000) {
-      // 十亿（B）
       double num = price / 1000000000;
-      String result = num.toStringAsFixed(decimals)
-          .replaceAll(RegExp(r'\.0+$'), '')
-          .replaceAll(RegExp(r'\.00$'), '');
+      String result = num.toStringAsFixed(
+        decimals,
+      ).replaceAll(RegExp(r'\.0+$'), '').replaceAll(RegExp(r'\.00$'), '');
       return '$currencySymbol$result${lowerCase ? 'b' : 'B'}';
     } else if (price >= 1000000) {
-      // 百万（M）
       double num = price / 1000000;
-      String result = num.toStringAsFixed(decimals)
-          .replaceAll(RegExp(r'\.0+$'), '')
-          .replaceAll(RegExp(r'\.00$'), '');
+      String result = num.toStringAsFixed(
+        decimals,
+      ).replaceAll(RegExp(r'\.0+$'), '').replaceAll(RegExp(r'\.00$'), '');
       return '$currencySymbol$result${lowerCase ? 'm' : 'M'}';
     } else if (price >= 1000) {
-      // 千（K）
       double num = price / 1000;
-      String result = num.toStringAsFixed(decimals)
-          .replaceAll(RegExp(r'\.0+$'), '')
-          .replaceAll(RegExp(r'\.00$'), '');
+      String result = num.toStringAsFixed(
+        decimals,
+      ).replaceAll(RegExp(r'\.0+$'), '').replaceAll(RegExp(r'\.00$'), '');
       return '$currencySymbol$result${lowerCase ? 'k' : 'K'}';
     } else {
-      // 理论不会到这里
       return '$currencySymbol${price.toString()}${lowerCase ? 't' : 'T'}';
     }
   }

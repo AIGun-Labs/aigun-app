@@ -8,9 +8,9 @@ part 'result.freezed.dart';
 sealed class Result<T> with _$Result<T> {
   const Result._();
 
-  const factory Result.success(T value) = _Success<T>; // 成功
-  const factory Result.loading() = _Loading<T>; // 可选：加载中
-  const factory Result.failure(String message) = _Failure<T>; // 失败，带 Failure
+  const factory Result.success(T value) = _Success<T>; //
+  const factory Result.loading() = _Loading<T>; // ：
+  const factory Result.failure(String message) = _Failure<T>; // ， Failure
   const factory Result.be(BusinessException be) = _Be<T>;
   const factory Result.cancelled(String message) = _Cancelled<T>;
 

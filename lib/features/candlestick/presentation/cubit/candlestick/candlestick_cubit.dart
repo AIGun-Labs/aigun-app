@@ -23,8 +23,6 @@ class CandlestickCubit extends Cubit<CandlestickState> {
   StreamSubscription<LatestCandlestickState>? _latestSub;
 
   Function(String price) onPriceUpdate;
-
-  /// 缓存上一次的数据获取参数，用于判断是否需要刷新数据
   GetCandlestickParams? _lastFetchParams;
 
   CandlestickCubit({
@@ -48,8 +46,6 @@ class CandlestickCubit extends Cubit<CandlestickState> {
 
   void _onParamsChanged(SelectionParamsState paramsState) {
     final params = paramsState.toParams();
-    // 只有当影响数据获取的参数变化时才刷新数据
-    // MainStates、SecondaryStates、volHidden 变化不触发刷新
     if (_lastFetchParams != params) {
       Logger.info('onParamsChanged (fetching): $params');
       _lastFetchParams = params;
@@ -68,8 +64,6 @@ class CandlestickCubit extends Cubit<CandlestickState> {
 
     final newSource = CandleSource.fromString(historyState.source);
     _selectionParamsCubit.updateSource(newSource);
-
-    // 当 source 为 cmc 且当前选中的 timeframe 是 m1 或 m5 时，自动切换到 m15
     // if (newSource == CandleSource.cmc) {
     //   final currentTimeframe = _selectionParamsCubit.state.selectedTimeframe;
     //   if (currentTimeframe == Timeframe.m1 ||
@@ -77,9 +71,7 @@ class CandlestickCubit extends Cubit<CandlestickState> {
     //     Logger.info(
     //       'Source is cmc, switching timeframe from $currentTimeframe to m15 (display only)',
     //     );
-    //     // 只更新 UI 显示的 timeframe，不修改 bar 参数（CMC 的 m5/m15 返回相同数据）
     //     _selectionParamsCubit.updateSelectedTimeframeOnly(Timeframe.m15);
-    //     // 继续执行，emit state 更新 source
     //   }
     // }
 
@@ -96,12 +88,9 @@ class CandlestickCubit extends Cubit<CandlestickState> {
 
   void _onLatestChanged(LatestCandlestickState latestState) {
     Logger.info('onLatestChanged: ${latestState.latest}');
-
-    // 将最新的 K 线数据合并到现有数据中
     if (latestState.latest != null) {
       final updatedData = [...state.candles];
       if (updatedData.isNotEmpty) {
-        // 替换最后一条或追加新数据
         final lastIndex = updatedData.length - 1;
         final lastCandle = updatedData[lastIndex];
         if (lastCandle.time == latestState.latest!.time) {
@@ -119,25 +108,18 @@ class CandlestickCubit extends Cubit<CandlestickState> {
     _selectionParamsCubit.updateToken(network: network, address: address);
   }
 
-  /// 手动触发数据刷新
   void refresh() {
     final params = _selectionParamsCubit.state.toParams();
     _historyCubit.fetch(params);
     _latestCubit.updateParams(params);
   }
 
-  /// 启动最新 K 线轮询
   void startPolling() => _latestCubit.startPolling();
-
-  /// 停止最新 K 线轮询
   void stopPolling() => _latestCubit.stopPolling();
-
-  /// 加载更多历史数据
   Future<void> loadMore() => _historyCubit.loadMore();
 
   @override
   Future<void> close() async {
-    // await 所有取消操作
     await Future.wait([
       _paramsSub?.cancel() ?? Future.value(),
       _historySub?.cancel() ?? Future.value(),

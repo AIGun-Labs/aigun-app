@@ -14,7 +14,6 @@ class TimeframeSelector extends StatefulWidget {
   final CandleSource source;
 
   /// All timeframes that can be shown as buttons
-  /// TODO: 暂时隐藏 h4, d1, w1
   static const List<Timeframe> allTimeframes = [
     Timeframe.m1,
     Timeframe.m5,
@@ -97,7 +96,6 @@ class _TimeframeSelectorState extends State<TimeframeSelector> {
 
         return LayoutBuilder(
           builder: (context, constraints) {
-            // 在下一帧计算可见按钮数量
             WidgetsBinding.instance.addPostFrameCallback((_) {
               _calculateVisibleButtons(constraints.maxWidth);
             });
@@ -108,7 +106,7 @@ class _TimeframeSelectorState extends State<TimeframeSelector> {
                 children: [
                   ..._availableTimeframes.asMap().entries.map(
                     (entry) => TimeframeButton(
-                      key: _buttonKeys[entry.key], // 声明 Key
+                      key: _buttonKeys[entry.key], //  Key
                       timeframe: entry.value,
                       isSelected: displayTimeframe == entry.value,
                       onPressed: () =>
@@ -135,19 +133,15 @@ class _TimeframeSelectorState extends State<TimeframeSelector> {
   void _calculateVisibleButtons(double maxWidth) {
     double totalWidth = 0;
     int count = 0;
-    const moreButtonWidth = 60.0; // 预估 More 按钮宽度
+    const moreButtonWidth = 60.0; //  More
 
     for (int i = 0; i < _buttonKeys.length; i++) {
-      // 获取每一个 button 的 key
       final key = _buttonKeys[i];
-      // 获取 Key 的上下文 
       final renderBox = key.currentContext?.findRenderObject() as RenderBox?;
       if (renderBox == null) continue;
 
       final buttonWidth = renderBox.size.width;
       final remainingSpace = maxWidth - totalWidth;
-
-      // 检查是否需要为 More 按钮留空间
       final needsMore = i < _buttonKeys.length - 1;
       final requiredSpace = needsMore
           ? buttonWidth + moreButtonWidth
@@ -160,8 +154,6 @@ class _TimeframeSelectorState extends State<TimeframeSelector> {
         break;
       }
     }
-
-    // 至少显示一个按钮
     count = count.clamp(1, _availableTimeframes.length);
 
     if (count != _visibleCount) {

@@ -1,6 +1,5 @@
 plugins {
     id "com.android.application"
-    // 如果以后需要使用 Firebase，取消下面的注释并添加 google-services 插件
     // id 'com.google.gms.google-services'
     id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
@@ -50,7 +49,7 @@ android {
         staging {
             dimension "environment"
             applicationId = "com.aigun.staging"
-            resValue "string", "app_name", "AIGun内测版"
+            resValue "string", "app_name", "AIGun"
         }
         production {
             dimension "environment"
@@ -71,21 +70,11 @@ android {
 
     buildTypes {
         release {
-            // 启用混淆
             minifyEnabled true
-
-            // 启用资源压缩
             shrinkResources true
-
-            // 配置APP签名
             signingConfig signingConfigs.release
-
-            // 指定 ProGuard 规则文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                          'proguard-rules.pro'
-            
-            // 配置原生库符号剥离 - 解决 "failed to strip debug symbols" 错误
-            // 使用 SYMBOL_TABLE 可以在保持较小体积的同时避免构建错误
             ndk {
                 debugSymbolLevel = 'SYMBOL_TABLE'
             }

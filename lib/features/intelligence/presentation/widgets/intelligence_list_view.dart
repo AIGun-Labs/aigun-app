@@ -128,7 +128,6 @@ class _IntelligenceListViewState extends State<IntelligenceListView> {
                       final isVisible = visibilityInfo.visibleFraction > 0;
                       widget.onVisibilityChanged?.call(item.id, isVisible);
                     },
-                    // 第一个item显示分隔符
                     child: index == 0
                         ? Column(
                             mainAxisSize: MainAxisSize.min,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// 波浪效果加载指示器
 class WaveLoadingIndicator extends StatefulWidget {
   final double size;
   final Color color;

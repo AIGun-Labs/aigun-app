@@ -12,10 +12,7 @@ class UpdateSheet extends StatelessWidget {
   const UpdateSheet({super.key, required this.info, required this.force});
   final ConfigEntity info;
   final bool force;
-
-  // 获取当前语言对应的 notes
   List<String> _getLocalizedNotes(BuildContext ctx) {
-    // 优先使用 multilingualNotes 中对应语言的内容
     final currentlocale = Localizations.localeOf(ctx);
 
     final code = currentlocale.languageCode;
@@ -40,7 +37,6 @@ class UpdateSheet extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // 顶部图片和标题
               Stack(
                 alignment: Alignment.bottomCenter,
                 clipBehavior: Clip.none,
@@ -57,8 +53,6 @@ class UpdateSheet extends StatelessWidget {
                   ),
                 ],
               ),
-
-              // 标题
               Text(
                 S.of(context).newVersionUpgrade,
                 style: TextStyle(
@@ -68,8 +62,6 @@ class UpdateSheet extends StatelessWidget {
                 ),
               ),
               4.verticalSpace,
-
-              // 版本号
               Text(
                 info.latest,
                 style: TextStyle(
@@ -78,7 +70,6 @@ class UpdateSheet extends StatelessWidget {
                 ),
               ),
               24.verticalSpace,
-              // 功能列表
               Container(
                 width: double.infinity,
                 constraints: BoxConstraints(maxHeight: 260.h),
@@ -115,11 +106,8 @@ class UpdateSheet extends StatelessWidget {
               ),
 
               24.verticalSpace,
-
-              // 按钮
               Column(
                 children: [
-                  // 升级按钮
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
                     child: SizedBox(
@@ -127,7 +115,6 @@ class UpdateSheet extends StatelessWidget {
                       height: 50.h,
                       child: ElevatedButton(
                         onPressed: () async {
-                          //TODO: 添加判断通知权限,提示去设置通知权限
                           await NotificationPermission.request();
 
                           getIt<UpdateCubit>().startDownload();

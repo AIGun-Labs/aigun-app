@@ -56,13 +56,11 @@ class _SettingDrawerState extends State<SettingDrawer> {
       child: SafeArea(
         child: Column(
           children: [
-            // 用户信息区域
             _buildUserProfile(context),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 32.w),
               child: Divider(height: 1, color: AppColors.border(context)),
             ),
-            // 菜单项
             Expanded(
               child: ListView(
                 padding: EdgeInsets.only(top: 10.h),
@@ -316,7 +314,6 @@ class _SettingDrawerState extends State<SettingDrawer> {
                 letterSpacing: 0.5,
               ),
             ),
-            // 有更新时显示 New 标记
             Container(
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
               decoration: BoxDecoration(

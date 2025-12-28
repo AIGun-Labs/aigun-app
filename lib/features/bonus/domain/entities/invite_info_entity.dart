@@ -26,39 +26,32 @@ sealed class InviteInfoEntity with _$InviteInfoEntity {
 
   String get inviteBonusDisplay {
     final percentage = inviteBonusRate * 100;
-    // 如果是整数，不显示小数部分
     if (percentage == percentage.roundToDouble()) {
       return '${percentage.toInt()}%';
     }
-    // 如果有小数，保留1位
     return '${percentage.toStringAsFixed(1)}%';
   }
 
-  //总领取gold(claimedAmount + aigunClaimedAmount)
   int get claimedGold {
     final claimed = double.tryParse(claimedAmount) ?? 0;
     final aigunClaimed = double.tryParse(aigunClaimedAmount) ?? 0;
     return (claimed + aigunClaimed).toInt();
   }
 
-  //未领取gold(unclaimedInviteGold + unclaimedTradeGold)
   int get unclaimedGold {
     final unclaimed = double.tryParse(unclaimedInviteGold) ?? 0;
     final unclaimedTrade = double.tryParse(unclaimedTradeGold) ?? 0;
     return (unclaimed + unclaimedTrade).toInt();
   }
 
-  //已领取funds(claimedDollar)
   double get claimedDollarValue {
     return double.tryParse(claimedDollar) ?? 0.0;
   }
 
-  //未领取funds(claimedDollar)
   double get unclaimedDollarValue {
     return double.tryParse(totalUnclaimedAmount) ?? 0.0;
   }
 
-  //受邀人交易量(inviteTotalTradingVolume)
   double get inviteTotalTradingVolumeValue {
     return double.tryParse(inviteTotalTradingVolume) ?? 0.0;
   }

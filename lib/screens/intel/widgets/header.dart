@@ -48,7 +48,7 @@ class _IntelHeaderState extends State<IntelHeader> {
               child: TextField(
                 controller: searchController,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.zero, // 去掉内边距 才能让文本居中
+                  contentPadding: EdgeInsets.zero, //
                   hintText: 'Search name or CA',
                   hintStyle: TextStyle(color: AppColors.textTertiary(context)),
                   // prefixIcon: const Icon(Icons.search_sharp),

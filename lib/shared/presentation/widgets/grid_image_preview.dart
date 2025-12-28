@@ -219,7 +219,7 @@ class ImageFourItemGrid extends StatelessWidget {
               ),
             ),
             8.horizontalSpace,
-            const Expanded(child: SizedBox()), // 空占位
+            const Expanded(child: SizedBox()), //
           ],
         ),
 
@@ -250,7 +250,7 @@ class ImageFourItemGrid extends StatelessWidget {
               ),
             ),
             8.horizontalSpace,
-            const Expanded(child: SizedBox()), // 空占位
+            const Expanded(child: SizedBox()), //
           ],
         ),
       ],

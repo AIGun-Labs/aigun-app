@@ -8,8 +8,6 @@ String dedupKey(RequestOptions o) {
 
   final method = o.method.toUpperCase();
   final uri = o.uri;
-
-  // canonical query（保证不同 map 顺序不会导致 key 不同）
   final qpAll = uri.queryParametersAll; // Map<String, List<String>>
   final keys = qpAll.keys.toList()..sort();
   final queryBuf = StringBuffer();
@@ -23,7 +21,6 @@ String dedupKey(RequestOptions o) {
   final bodySig = _bodySignature(o.data);
 
   return '$method|$base|q:${queryBuf.toString()}|b:$bodySig';
-  // 如果你希望 headers 也参与去重，可在这里拼接需要的 header
 }
 
 String _bodySignature(dynamic data) {
@@ -45,8 +42,6 @@ String _bodySignature(dynamic data) {
     if (data is Map || data is List) {
       return jsonEncode(_normalizeJson(data));
     }
-
-    // 兜底（避免因为对象不可 JSON 而崩）
     return data.toString();
   } catch (_) {
     return data.toString();

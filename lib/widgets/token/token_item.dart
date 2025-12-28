@@ -8,21 +8,22 @@ import 'index.dart';
 import 'models/token.dart';
 
 class TokenItem extends StatelessWidget {
-  const TokenItem(
-      {super.key,
-      this.token,
-      this.onTap,
-      this.tokenAvatarSize = 46,
-      this.chainLogoSize = 18,
-      this.isShowRight = true,
-      this.title,
-      this.subtitle,
-      this.trailing,
-      this.trailingSubtitle,
-      this.titleWidget,
-      this.subtitleWidget,
-      this.trailingWidget,
-      this.trailingSubtitleWidget});
+  const TokenItem({
+    super.key,
+    this.token,
+    this.onTap,
+    this.tokenAvatarSize = 46,
+    this.chainLogoSize = 18,
+    this.isShowRight = true,
+    this.title,
+    this.subtitle,
+    this.trailing,
+    this.trailingSubtitle,
+    this.titleWidget,
+    this.subtitleWidget,
+    this.trailingWidget,
+    this.trailingSubtitleWidget,
+  });
   final Token? token;
   final Function(Token?)? onTap;
   final double tokenAvatarSize;
@@ -49,8 +50,7 @@ class TokenItem extends StatelessWidget {
     return InkWell(
       onTap: () => onTap?.call(token),
       child: Padding(
-        padding:
-            EdgeInsets.fromLTRB(16.w, 8.h, 10.w, 8.h),
+        padding: EdgeInsets.fromLTRB(16.w, 8.h, 10.w, 8.h),
         child: Row(
           children: [
             AvatarToken(
@@ -73,9 +73,10 @@ class TokenItem extends StatelessWidget {
                       Text(
                         tileTitle ?? '',
                         style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18.sp,
-                            color: AppColors.textPrimary(context)),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18.sp,
+                          color: AppColors.textPrimary(context),
+                        ),
                       ),
                   subtitleWidget ??
                       Text(
@@ -97,15 +98,17 @@ class TokenItem extends StatelessWidget {
                       Text(
                         '\$$tileTrailing',
                         style: TextStyle(
-                            fontSize: 16.sp,
-                            color: AppColors.textPrimary(context)),
+                          fontSize: 16.sp,
+                          color: AppColors.textPrimary(context),
+                        ),
                       ),
                   trailingSubtitleWidget ??
                       Text(
                         tileTrailingSubtitle,
                         style: TextStyle(
-                            fontSize: 12.sp,
-                            color: AppColors.textQuaternary(context)),
+                          fontSize: 12.sp,
+                          color: AppColors.textQuaternary(context),
+                        ),
                       ),
                 ],
               ),
@@ -134,8 +137,10 @@ class TokenItemSkeleton extends StatelessWidget {
       baseColor: AppColors.shimmerBaseColor(context),
       highlightColor: AppColors.shimmerHighlightColor(context),
       child: ListTile(
-        contentPadding:
-            EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 2.0.w),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 16.0.w,
+          vertical: 2.0.w,
+        ),
         leading: _buildAvatarSkeleton(context),
         title: _buildTitleSkeleton(context),
         subtitle: _buildSubtitleSkeleton(context),
@@ -153,7 +158,6 @@ class TokenItemSkeleton extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          // 主头像骨架屏
           Container(
             width: tokenAvatarSize.w,
             height: tokenAvatarSize.w,
@@ -162,7 +166,6 @@ class TokenItemSkeleton extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          // 链图标骨架屏
           Positioned(
             bottom: 0,
             right: -6,
@@ -207,7 +210,6 @@ class TokenItemSkeleton extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        // 余额骨架屏
         Container(
           height: 16.sp,
           width: 100.w,
@@ -217,7 +219,6 @@ class TokenItemSkeleton extends StatelessWidget {
           ),
         ),
         SizedBox(height: 4.h),
-        // 价格骨架屏
         Container(
           height: 12.sp,
           width: 80.w,

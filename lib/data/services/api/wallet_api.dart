@@ -31,7 +31,6 @@ class WalletApi {
     return chains.map((chain) => Chain.fromJson(chain)).toList();
   }
 
-  /// 发送代币
   Future<void> sendToken({
     required String walletId,
     required String password,
@@ -51,16 +50,13 @@ class WalletApi {
         'token_address': tokenAddress,
       },
     );
-    // 响应拦截器已自动提取data字段，无需返回值的方法直接完成
   }
 
-  /// 创建钱包
   Future<Wallet> createWallet({required String chainType}) async {
     final response = await _dioClient.post(
       '$_basePath/',
       data: {'chain_type': chainType},
     );
-    // 响应拦截器已自动提取data字段，直接使用response.data
     return Wallet.fromJson(response as Map<String, dynamic>);
   }
 
@@ -88,14 +84,11 @@ class WalletApi {
     return response['token']['balance'];
   }
 
-  /// 删除钱包
   Future<bool> deleteWallet({required String address}) async {
     await _dioClient.delete<void>('$_basePath/wallets/$address');
-    // 响应拦截器已自动提取data字段，删除成功时返回true
     return true;
   }
 
-  /// 获取钱包列表
   Future<List<Wallet>> getWalletList() async {
     final response = await _dioClient.get('$_basePath/list');
 
@@ -108,13 +101,11 @@ class WalletApi {
     return wallets.map((wallet) => Wallet.fromJson(wallet)).toList();
   }
 
-  /// 获取余额
   Future<Balance> getBalance() async {
     final response = await _dioClient.get('$_basePath/balances');
     return Balance.fromJson(response.data);
   }
 
-  /// 获取指定地址的余额
   // Future<Balance> getBalanceByAddress({
   //   required String walletId,
   // }) async {
@@ -126,11 +117,8 @@ class WalletApi {
   //       "wallet_id": walletId,
   //     },
   //   );
-  //   // 响应拦截器已自动提取data字段，直接使用response.data
   //   return Balance.fromJson(response);
   // }
-
-  /// 导出私钥
   Future<ExportPrivateKey> exportPrivateKey({
     required String address,
     required String password,
@@ -139,7 +127,6 @@ class WalletApi {
       '$_basePath/privatekey',
       data: {'address': address, 'password': password},
     );
-    // 响应拦截器已自动提取data字段，直接使用response.data
     return ExportPrivateKey.fromJson(response as Map<String, dynamic>);
   }
 }

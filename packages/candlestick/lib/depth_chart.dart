@@ -84,17 +84,11 @@ class DepthChartPainter extends CustomPainter {
 
   Offset offset;
   DepthChartTranslations chartTranslations;
-
-  //最大的委托量
   //Maximum commission amount
   double? mMaxVolume, mMultiple;
-
-  //右侧绘制个数
   int mLineCount = 4;
 
   Path? mBuyPath, mSellPath;
-
-  //买卖出区域边线绘制画笔  //买卖出取悦绘制画笔
   Paint? mBuyLinePaint,
       mSellLinePaint,
       mBuyPathPaint,
@@ -166,12 +160,8 @@ class DepthChartPainter extends CustomPainter {
     mDrawHeight = size.height - mPaddingBottom;
     // canvas.drawColor(Colors.green, BlendMode.srcATop);
     canvas.save();
-    //绘制买入区域
     drawBuy(canvas);
-    //绘制卖出区域
     drawSell(canvas);
-
-    //绘制界面相关文案
     drawText(canvas);
     canvas.restore();
   }

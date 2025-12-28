@@ -6,7 +6,6 @@ import '../../../l10n/l10n.dart';
 import '../../../themes/themes.dart';
 import '../../../utils/url.dart';
 
-/// 使用 AnimatedContainer 实现的 Markdown 展开收起组件
 class IntelMarkdownAnimated extends StatefulWidget {
   const IntelMarkdownAnimated({
     super.key,
@@ -73,7 +72,9 @@ class _IntelMarkdownAnimatedState extends State<IntelMarkdownAnimated>
       h2: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       h3: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
       a: const TextStyle(
-          color: Colors.blue, decoration: TextDecoration.underline),
+        color: Colors.blue,
+        decoration: TextDecoration.underline,
+      ),
       blockquote: TextStyle(
         color: Colors.grey[600],
         fontStyle: FontStyle.italic,
@@ -83,8 +84,6 @@ class _IntelMarkdownAnimatedState extends State<IntelMarkdownAnimated>
         fontFamily: 'monospace',
       ),
     );
-
-    // 计算预估的收起高度（基于行数）
     final collapsedHeight = widget.collapsedMaxLines * 24.0.sp;
 
     return Column(
@@ -92,7 +91,6 @@ class _IntelMarkdownAnimatedState extends State<IntelMarkdownAnimated>
       children: [
         Stack(
           children: [
-            // 隐藏的完整内容，用于测量高度
             Visibility(
               visible: false,
               maintainSize: true,
@@ -110,14 +108,13 @@ class _IntelMarkdownAnimatedState extends State<IntelMarkdownAnimated>
                 },
               ),
             ),
-            // 实际显示的内容
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
               height: _isExpanded
                   ? _expandedHeight > 0
-                      ? _expandedHeight
-                      : null
+                        ? _expandedHeight
+                        : null
                   : collapsedHeight,
               child: Stack(
                 children: [
@@ -134,7 +131,6 @@ class _IntelMarkdownAnimatedState extends State<IntelMarkdownAnimated>
                       },
                     ),
                   ),
-                  // 渐变遮罩
                   if (!_isExpanded)
                     Positioned(
                       bottom: 0,
@@ -147,12 +143,12 @@ class _IntelMarkdownAnimatedState extends State<IntelMarkdownAnimated>
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              Theme.of(context)
-                                  .scaffoldBackgroundColor
-                                  .withValues(alpha: 0),
-                              Theme.of(context)
-                                  .scaffoldBackgroundColor
-                                  .withValues(alpha: 0.8),
+                              Theme.of(
+                                context,
+                              ).scaffoldBackgroundColor.withValues(alpha: 0),
+                              Theme.of(
+                                context,
+                              ).scaffoldBackgroundColor.withValues(alpha: 0.8),
                               Theme.of(context).scaffoldBackgroundColor,
                             ],
                             stops: const [0.0, 0.5, 1.0],
@@ -166,7 +162,6 @@ class _IntelMarkdownAnimatedState extends State<IntelMarkdownAnimated>
           ],
         ),
         SizedBox(height: 8.h),
-        // 展开/收起按钮
         InkWell(
           onTap: () {
             setState(() {

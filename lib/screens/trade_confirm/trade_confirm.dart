@@ -24,13 +24,11 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // 在这里安全地获取并保存 SwapCubit 的引用
     _swapCubit = context.read<SwapCubit>();
   }
 
   @override
   void dispose() {
-    // 使用保存的引用而不是通过 context 访问
     _swapCubit?.close();
     super.dispose();
   }
@@ -44,23 +42,14 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
         // title: _buildTokenAvatar(context),
         // leadingWidth: 0,
         leading: IconButton(
-            onPressed: () {
-              context.pop();
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-            )),
+          onPressed: () {
+            context.pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
         actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.refresh,
-              )),
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.more_vert,
-              )),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.refresh)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
         ],
       ),
       bottomNavigationBar: BottomButton(
@@ -79,15 +68,15 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
             // }
 
             await context.read<SwapCubit>().swap(
-                  fromChainId: state.selectedToken!.chainId.toString(),
-                  toChainId: state.selectedToken!.chainId.toString(),
-                  inputMint: state.selectedToken!.tokenAddress,
-                  outputMint: state.outputMint,
-                  amount: state.amount,
-                  slippage: state.slippage.toString(),
-                  // paymentPin: password,
-                  priorityFee: state.priorityFee,
-                );
+              fromChainId: state.selectedToken!.chainId.toString(),
+              toChainId: state.selectedToken!.chainId.toString(),
+              inputMint: state.selectedToken!.tokenAddress,
+              outputMint: state.outputMint,
+              amount: state.amount,
+              slippage: state.slippage.toString(),
+              // paymentPin: password,
+              priorityFee: state.priorityFee,
+            );
 
             state.transactionStatus.whenOrNull(
               success: (response) {
@@ -97,56 +86,128 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
               error: (error) {},
             );
           },
-          // text: "确认",
           backgroundColor: Colors.black,
           textColor: Colors.white,
-          child: Text(state.isLoading
-              ? S.of(context).transactionTraing
-              : S.of(context).common_confirm),
+          child: Text(
+            state.isLoading
+                ? S.of(context).transactionTraing
+                : S.of(context).common_confirm,
+          ),
         ),
       ),
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: BlocBuilder<SwapCubit, SwapState>(
-            buildWhen: (previous, current) =>
-                previous.quoteStatus != current.quoteStatus,
-            builder: (context, state) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 16.w,
-                children: [
-                  // _buildDefense(context),
-                  _buildSelectToken(context),
-                  _buildSpend(context),
-                  _buildPrecedence(context),
-                  _buildAmountInput(context),
-                  _buildOutputMint(context),
-                  _buildMessage(context)
-                ],
-              );
-            },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: BlocBuilder<SwapCubit, SwapState>(
+              buildWhen: (previous, current) =>
+                  previous.quoteStatus != current.quoteStatus,
+              builder: (context, state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 16.w,
+                  children: [
+                    // _buildDefense(context),
+                    _buildSelectToken(context),
+                    _buildSpend(context),
+                    _buildPrecedence(context),
+                    _buildAmountInput(context),
+                    _buildOutputMint(context),
+                    _buildMessage(context),
+                  ],
+                );
+              },
+            ),
           ),
         ),
-      )),
+      ),
     );
   }
 
   Widget _buildSelectToken(BuildContext context) {
-    final selectedToken =
-        context.select((SwapCubit cubit) => cubit.state.selectedToken);
+    final selectedToken = context.select(
+      (SwapCubit cubit) => cubit.state.selectedToken,
+    );
 
     return TokenSelector(
-        chainName: selectedToken?.chainName.toString() ?? "",
-        tokenAddress: selectedToken?.tokenAddress ?? "",
-        chainId: selectedToken?.chainId ?? '');
+      chainName: selectedToken?.chainName.toString() ?? "",
+      tokenAddress: selectedToken?.tokenAddress ?? "",
+      chainId: selectedToken?.chainId ?? '',
+    );
   }
 
   Widget _buildSpend(BuildContext context) {
     return _buildSection(
-        BlocBuilder<SwapCubit, SwapState>(builder: (context, state) {
-      return Column(
+      BlocBuilder<SwapCubit, SwapState>(
+        builder: (context, state) {
+          return Column(
+            spacing: 16.w,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IntrinsicWidth(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          S.of(context).slippage,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        SizedBox(height: 3.h), //
+                        SizedBox(
+                          height: 1,
+                          child: CustomPaint(painter: DashedLinePainter()),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text("${state.slippage.toInt()}%"),
+                  Expanded(
+                    child: Slider(
+                      value: state.slippage,
+                      max: 10000,
+                      min: 100,
+                      divisions: 99,
+                      label: "${state.slippage.toInt()}%",
+                      activeColor: AppColors.quinary,
+                      inactiveColor: AppColors.quinary.withValues(alpha: 0.3),
+                      onChanged: (double value) {
+                        context.read<SwapCubit>().updateSlippage(value);
+                      },
+                    ),
+                  ),
+                  const Text("10000%"),
+                ],
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildSection(Widget child) {
+    return Container(
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: AppColors.background(context),
+        borderRadius: BorderRadius.circular(10.w),
+      ),
+      child: child,
+    );
+  }
+
+  Widget _buildPrecedence(BuildContext context) {
+    return _buildSection(
+      Column(
         spacing: 16.w,
         children: [
           Row(
@@ -157,101 +218,43 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      S.of(context).slippage,
-                      style:
-                          TextStyle(fontSize: 16.sp, color: Colors.grey[600]),
+                      "",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Colors.grey[600],
+                      ),
                     ),
-                    SizedBox(height: 3.h), // 在这里调整文字与下划线的距离
+                    SizedBox(height: 3.h), //
                     SizedBox(
                       height: 1,
-                      child: CustomPaint(
-                        painter: DashedLinePainter(),
-                      ),
+                      child: CustomPaint(painter: DashedLinePainter()),
                     ),
                   ],
                 ),
               ),
             ],
           ),
-          Row(
-            children: [
-              Text("${state.slippage.toInt()}%"),
-              Expanded(
-                  child: Slider(
-                      value: state.slippage,
-                      max: 10000,
-                      min: 100,
-                      divisions: 99,
-                      label: "${state.slippage.toInt()}%",
-                      activeColor: AppColors.quinary,
-                      inactiveColor: AppColors.quinary.withValues(alpha: 0.3),
-                      onChanged: (double value) {
-                        context.read<SwapCubit>().updateSlippage(value);
-                      })),
-              const Text("10000%")
-            ],
-          )
-        ],
-      );
-    }));
-  }
-
-  Widget _buildSection(Widget child) {
-    return Container(
-        padding: EdgeInsets.all(16.w),
-        decoration: BoxDecoration(
-          color: AppColors.background(context),
-          borderRadius: BorderRadius.circular(10.w),
-        ),
-        child: child);
-  }
-
-  Widget _buildPrecedence(BuildContext context) {
-    return _buildSection(Column(
-      spacing: 16.w,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IntrinsicWidth(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    "优先费",
-                    style: TextStyle(fontSize: 16.sp, color: Colors.grey[600]),
-                  ),
-                  SizedBox(height: 3.h), // 在这里调整文字与下划线的距离
-                  SizedBox(
-                    height: 1,
-                    child: CustomPaint(
-                      painter: DashedLinePainter(),
-                    ),
-                  ),
-                ],
-              ),
+          Container(
+            padding: EdgeInsets.all(10.w),
+            decoration: BoxDecoration(
+              // color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(10.w),
             ),
-          ],
-        ),
-        Container(
-          padding: EdgeInsets.all(10.w),
-          decoration: BoxDecoration(
-            // color: Colors.grey[200],
-            borderRadius: BorderRadius.circular(10.w),
-          ),
-          child: TextField(
-            textAlign: TextAlign.right,
-            onChanged: (value) {
-              context.read<SwapCubit>().updatePriorityFee(value);
-            },
-            keyboardType: const TextInputType.numberWithOptions(
-                decimal: true), // 设置为数字输入框并允许输入小数
-            style: TextStyle(
+            child: TextField(
+              textAlign: TextAlign.right,
+              onChanged: (value) {
+                context.read<SwapCubit>().updatePriorityFee(value);
+              },
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ), //
+              style: TextStyle(
                 fontSize: 16.sp,
                 color: Colors.white,
                 // backgroundColor: AppColors.pageBg2Dark,
-                fontWeight: FontWeight.normal),
-            decoration: InputDecoration(
+                fontWeight: FontWeight.normal,
+              ),
+              decoration: InputDecoration(
                 filled: true,
                 fillColor: AppColors.background(context),
                 border: OutlineInputBorder(
@@ -260,9 +263,10 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
                 ),
                 // suffixText: "SO
                 suffixStyle: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black),
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black,
+                ),
                 isDense: true,
                 contentPadding: EdgeInsets.zero,
                 // border: InputBorder.none,
@@ -270,162 +274,190 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
                 // filled: true,
                 hintText: "0.00000000",
                 hintStyle: TextStyle(
-                    color: Colors.grey[400],
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.normal)),
+                  color: Colors.grey[400],
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
           ),
-        )
-      ],
-    ));
+        ],
+      ),
+    );
   }
 
   Widget _buildAmountInput(BuildContext context) {
-    return _buildSection(Column(
-      spacing: 16.w,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IntrinsicWidth(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    "代币数量",
-                    style: TextStyle(fontSize: 16.sp, color: Colors.grey[600]),
-                  ),
-                  SizedBox(height: 3.h), // 在这里调整文字与下划线的距离
-                  SizedBox(
-                    height: 1,
-                    child: CustomPaint(
-                      painter: DashedLinePainter(),
+    return _buildSection(
+      Column(
+        spacing: 16.w,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IntrinsicWidth(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      "",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Colors.grey[600],
+                      ),
                     ),
-                  ),
-                ],
+                    SizedBox(height: 3.h), //
+                    SizedBox(
+                      height: 1,
+                      child: CustomPaint(painter: DashedLinePainter()),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-        Container(
-          padding: EdgeInsets.all(10.w),
-          decoration: BoxDecoration(
-            color: AppColors.background(context),
-            borderRadius: BorderRadius.circular(10.w),
+            ],
           ),
-          child: TextField(
-            textAlign: TextAlign.right,
-            onChanged: (value) {
-              context.read<SwapCubit>().updateAmount(value);
-            },
-            keyboardType: const TextInputType.numberWithOptions(
-                decimal: true), // 设置为数字输入框并允许输入小数
-            style: TextStyle(
+          Container(
+            padding: EdgeInsets.all(10.w),
+            decoration: BoxDecoration(
+              color: AppColors.background(context),
+              borderRadius: BorderRadius.circular(10.w),
+            ),
+            child: TextField(
+              textAlign: TextAlign.right,
+              onChanged: (value) {
+                context.read<SwapCubit>().updateAmount(value);
+              },
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ), //
+              style: TextStyle(
                 fontSize: 16.sp,
                 color: Colors.white,
-                fontWeight: FontWeight.normal),
-            decoration: InputDecoration(
+                fontWeight: FontWeight.normal,
+              ),
+              decoration: InputDecoration(
                 // suffixText: "SOL",
                 suffixStyle: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black),
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black,
+                ),
                 isDense: true,
                 contentPadding: EdgeInsets.zero,
                 border: InputBorder.none,
                 hintText: "0.00000000",
                 hintStyle: TextStyle(
-                    color: Colors.grey[400],
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.normal)),
+                  color: Colors.grey[400],
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
           ),
-        )
-      ],
-    ));
+        ],
+      ),
+    );
   }
 
   Widget _buildOutputMint(BuildContext context) {
-    return _buildSection(Column(
-      spacing: 16.w,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IntrinsicWidth(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    "目标代币地址",
-                    style: TextStyle(fontSize: 16.sp, color: Colors.grey[600]),
-                  ),
-                  SizedBox(height: 3.h), // 在这里调整文字与下划线的距离
-                  SizedBox(
-                    height: 1,
-                    child: CustomPaint(
-                      painter: DashedLinePainter(),
+    return _buildSection(
+      Column(
+        spacing: 16.w,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IntrinsicWidth(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      "",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Colors.grey[600],
+                      ),
                     ),
-                  ),
-                ],
+                    SizedBox(height: 3.h), //
+                    SizedBox(
+                      height: 1,
+                      child: CustomPaint(painter: DashedLinePainter()),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-        Container(
-          padding: EdgeInsets.all(10.w),
-          decoration: BoxDecoration(
-            color: AppColors.background(context),
-            borderRadius: BorderRadius.circular(10.w),
+            ],
           ),
-          child: TextField(
-            textAlign: TextAlign.right,
-            onChanged: (value) {
-              context.read<SwapCubit>().updateOutputMint(value);
-            },
-            // keyboardType: const TextInputType.numberWithOptions(
-            //     decimal: true), // 设置为数字输入框并允许输入小数
-            style: TextStyle(
+          Container(
+            padding: EdgeInsets.all(10.w),
+            decoration: BoxDecoration(
+              color: AppColors.background(context),
+              borderRadius: BorderRadius.circular(10.w),
+            ),
+            child: TextField(
+              textAlign: TextAlign.right,
+              onChanged: (value) {
+                context.read<SwapCubit>().updateOutputMint(value);
+              },
+              // keyboardType: const TextInputType.numberWithOptions(
+              style: TextStyle(
                 fontSize: 16.sp,
                 color: Colors.white,
-                fontWeight: FontWeight.normal),
-            decoration: InputDecoration(
+                fontWeight: FontWeight.normal,
+              ),
+              decoration: InputDecoration(
                 // suffixText: "SOL",
                 suffixStyle: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black),
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black,
+                ),
                 isDense: true,
                 contentPadding: EdgeInsets.zero,
                 border: InputBorder.none,
-                hintText: "请输入目标代币地址",
+                hintText: "",
                 hintStyle: TextStyle(
-                    color: Colors.grey[400],
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.normal)),
+                  color: Colors.grey[400],
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
           ),
-        )
-      ],
-    ));
+        ],
+      ),
+    );
   }
 
   Widget _buildMessage(BuildContext context) {
-    return BlocBuilder<SwapCubit, SwapState>(builder: (context, state) {
-      return Padding(
+    return BlocBuilder<SwapCubit, SwapState>(
+      builder: (context, state) {
+        return Padding(
           padding: EdgeInsets.all(16.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 5,
             children: [
-              Text("Gas Fee：\$${state.quote?.gasFee ?? 0}",
-                  style: const TextStyle(color: Colors.grey)),
-              Text("Impact Price：${state.quote?.impactPrice ?? 0}",
-                  style: const TextStyle(color: Colors.grey)),
-              Text("Input：${state.quote?.inAmount ?? 0}",
-                  style: const TextStyle(color: Colors.grey)),
-              Text("Output：${state.quote?.outAmount ?? 0}",
-                  style: const TextStyle(color: Colors.grey)),
+              Text(
+                "Gas Fee：\$${state.quote?.gasFee ?? 0}",
+                style: const TextStyle(color: Colors.grey),
+              ),
+              Text(
+                "Impact Price：${state.quote?.impactPrice ?? 0}",
+                style: const TextStyle(color: Colors.grey),
+              ),
+              Text(
+                "Input：${state.quote?.inAmount ?? 0}",
+                style: const TextStyle(color: Colors.grey),
+              ),
+              Text(
+                "Output：${state.quote?.outAmount ?? 0}",
+                style: const TextStyle(color: Colors.grey),
+              ),
             ],
-          ));
-    });
+          ),
+        );
+      },
+    );
   }
 }
 

@@ -16,8 +16,6 @@ class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
   final FetchHistoryCandlesticks _fetchHistoryCandlesticks;
   final SelectionParamsCubit _selectionParamsCubit;
   CancelToken? _cancelToken;
-
-  /// 缓存当前的请求参数，用于 loadMore
   GetCandlestickParams? _currentParams;
 
   Future<void> fetch(GetCandlestickParams params) async {
@@ -47,8 +45,6 @@ class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
       );
       return;
     }
-
-    // 保存当前参数用于 loadMore
     _currentParams = params;
 
     emit(state.copyWith(status: const HistoryCandlestickStatus.loading()));
@@ -68,13 +64,11 @@ class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
 
     result.whenOrNull(
       success: (source) {
-        // 第一次请求需要处理没有数据的情况
         if (source.candles.isEmpty) {
           return emit(
             state.copyWith(status: HistoryCandlestickStatus.error('')),
           );
         }
-        // 将上次的数据设置为空
         emit(state.copyWith(candles: []));
         final newCandles = [
           ...source.candles.reversed,
@@ -102,17 +96,13 @@ class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
     );
   }
 
-  /// 加载更多历史数据（自动使用最早K线时间作为 to 参数）
   Future<void> loadMore() async {
-    // 防止重复请求或无更多数据时请求
     if (state.isLoadingMore || !state.hasMore) {
       Logger.info(
         'loadMore skipped: isLoadingMore=${state.isLoadingMore}, hasMore=${state.hasMore}',
       );
       return;
     }
-
-    // 需要有当前参数和已有数据
     if (_currentParams == null || state.earliestTime == null) {
       Logger.error('loadMore failed: no params or no candles');
       return;
@@ -145,7 +135,7 @@ class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
       success: (source) {
         final hasMore = source.candles.isNotEmpty;
         final newCandles = [
-          ...source.candles.reversed, // 更早的数据放前面
+          ...source.candles.reversed, //
           ...state.candles,
         ].toList();
 

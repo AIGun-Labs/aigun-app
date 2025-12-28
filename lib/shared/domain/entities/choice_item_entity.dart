@@ -8,10 +8,7 @@ part 'choice_item_entity.freezed.dart';
 
 @freezed
 sealed class NameType with _$NameType {
-  /// 纯文本
   const factory NameType.text(String value) = NameText;
-
-  /// 多语言文案
   const factory NameType.multilingual(MultilingualModel value) =
       NameMultilingual;
 }

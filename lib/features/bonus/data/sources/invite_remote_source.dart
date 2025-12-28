@@ -12,8 +12,6 @@ class InviteRemoteSource {
   static const String _activeInviteCodePath = '$_basePath/active';
 
   static const String _realTimeBalancePath = '$_basePath/realtime';
-
-  /// 获取邀请信息
   Future<InviteInfoModel> fetchInviteInfo() async {
     try {
       final data = await _dioClient.get(_basePath);
@@ -23,7 +21,6 @@ class InviteRemoteSource {
     }
   }
 
-  ///领取Gold
   Future<void> claimGold() async {
     try {
       await _dioClient.post(_claimGoldPath);
@@ -32,7 +29,6 @@ class InviteRemoteSource {
     }
   }
 
-  ///激活邀请码
   Future<bool> activateInviteCode(String inviteCode) async {
     try {
       await _dioClient.post(
@@ -45,7 +41,6 @@ class InviteRemoteSource {
     }
   }
 
-  ///实时资金查询
   Future<String> getRealTimeBalance() async {
     try {
       final data = await _dioClient.get(_realTimeBalancePath);

@@ -1,11 +1,8 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-/// 通知权限管理
 class NotificationPermission {
-  /// 请求通知权限（Android 13+ 需要）
   static Future<bool> request() async {
-    // 检查当前权限状态
     try {
       final status = await Permission.notification.status;
       if (status.isGranted) {
@@ -41,7 +38,6 @@ class NotificationPermission {
     }
   }
 
-  /// 检查是否已授予通知权限
   static Future<bool> isGranted() async {
     final status = await Permission.notification.status;
     return status.isGranted;

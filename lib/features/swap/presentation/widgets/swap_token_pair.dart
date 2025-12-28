@@ -9,21 +9,14 @@ import 'swap_converters.dart';
 import 'swap_divider.dart';
 import 'token_card/index.dart';
 
-/// 代币交换对组件
 ///
-/// 显示来源代币和目标代币卡片，支持代币选择和金额输入
-/// 遵循单一职责原则，只负责代币对的展示和交互
 class SwapTokenPair extends StatelessWidget {
   const SwapTokenPair({
     super.key,
     required this.onSelectSourceToken,
     required this.onSelectTargetToken,
   });
-
-  /// 选择来源代币回调
   final void Function(List<Token> availableTokens) onSelectSourceToken;
-
-  /// 选择目标代币回调
   final void Function(List<Token> availableTokens) onSelectTargetToken;
 
   @override
@@ -41,7 +34,6 @@ class SwapTokenPair extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 来源代币卡片
                 TokenCard(
                   config: fromTokenConfig,
                   interaction: TokenCardInteraction(
@@ -53,7 +45,6 @@ class SwapTokenPair extends StatelessWidget {
                   ),
                 ),
                 const SwapTokenDivider(),
-                // 目标代币卡片
                 TokenCard(
                   config: toTokenConfig,
                   interaction: TokenCardInteraction(
@@ -70,7 +61,6 @@ class SwapTokenPair extends StatelessWidget {
     );
   }
 
-  /// 判断是否需要重建
   bool _shouldRebuild(SwapState previous, SwapState current) {
     return previous.quote != current.quote ||
         previous.fromToken != current.fromToken ||
@@ -80,12 +70,10 @@ class SwapTokenPair extends StatelessWidget {
         previous.amount != current.amount;
   }
 
-  /// 构建可用代币列表
   List<Token> _buildAvailableTokens(SwapState state) {
     return state.availableTokens.map((e) => e.toToken()).toList();
   }
 
-  /// 构建来源代币配置
   TokenCardConfig _buildFromTokenConfig(SwapState state) {
     final inAmount =
         ((double.tryParse(state.amount) ?? 0) *
@@ -98,7 +86,6 @@ class SwapTokenPair extends StatelessWidget {
     );
   }
 
-  /// 构建目标代币配置
   TokenCardConfig _buildToTokenConfig(SwapState state) {
     final outAmount = state.quote?.outAmount.toString().divideByDecimalPower(
       state.toToken?.decimals ?? 18,

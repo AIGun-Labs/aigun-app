@@ -115,8 +115,6 @@ class _IntelligenceTwitterState extends State<IntelligenceTwitter>
 
     return newText;
   }
-
-  // /// 打开图片预览对话框
   // void _openImagePreview(List<IntelMedia> images, int initialIndex) {
   //   int currentIndex = initialIndex;
 
@@ -152,7 +150,6 @@ class _IntelligenceTwitterState extends State<IntelligenceTwitter>
   //                 });
   //               },
   //             ),
-  //             // 关闭按钮
   //             Positioned(
   //               top: 40.h,
   //               right: 20.w,
@@ -165,7 +162,6 @@ class _IntelligenceTwitterState extends State<IntelligenceTwitter>
   //                 onPressed: () => Navigator.of(context).pop(),
   //               ),
   //             ),
-  //             // 图片计数器
   //             Positioned(
   //               bottom: 40.h,
   //               left: 0,

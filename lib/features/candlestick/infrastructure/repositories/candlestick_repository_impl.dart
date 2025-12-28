@@ -34,8 +34,6 @@ class CandlestickRepositoryImpl implements CandlestickRepository {
       // if(result.candles.isEmpty) {
       //   return
       // }
-
-      // 如果 数据为空 则返回错误
       return result.candles.isEmpty
           ? Result.failure('No data found')
           : Result.success(result.toEntity());
@@ -67,7 +65,6 @@ class CandlestickRepositoryImpl implements CandlestickRepository {
       );
       return Result.success(result.toEntity());
     } catch (e) {
-      // 区分异常，取消请求的不算是错误，需要特殊处理
       if (e is NetworkException && e.cause?.type == DioExceptionType.cancel) {
         return Result.cancelled('Request cancelled');
       }

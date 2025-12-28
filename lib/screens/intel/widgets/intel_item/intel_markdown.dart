@@ -22,12 +22,11 @@ class IntelMarkdownContent extends StatefulWidget {
 
 class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
   final _key = GlobalKey();
-  bool _needsExpansion = false; // 标记是否需要展开按钮
+  bool _needsExpansion = false; //
 
   @override
   void initState() {
     super.initState();
-    // 延迟检查内容高度
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkIfNeedsExpansion();
     });
@@ -36,7 +35,6 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
   @override
   void didUpdateWidget(IntelMarkdownContent oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // 如果文本内容变化，重新检查
     if (oldWidget.text != widget.text) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _checkIfNeedsExpansion();
@@ -49,7 +47,6 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
     super.dispose();
   }
 
-  // 检查内容是否需要展开功能
   void _checkIfNeedsExpansion() {
     final renderBox = _key.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox != null) {
@@ -57,8 +54,6 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
       final lineHeight = 16.sp * 1.4;
       const maxLines = 3;
       final maxCollapsedHeight = lineHeight * maxLines;
-
-      // 缓冲区比例，用于处理高度计算误差和特殊字符
       const bufferRate = 1.1;
 
       if (mounted) {
@@ -77,9 +72,10 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
       h2: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold, height: 1.4),
       h3: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold, height: 1.4),
       a: const TextStyle(
-          height: 1.4,
-          color: Colors.blue,
-          decoration: TextDecoration.underline),
+        height: 1.4,
+        color: Colors.blue,
+        decoration: TextDecoration.underline,
+      ),
       blockquote: TextStyle(
         height: 1.4,
         color: Colors.grey[600],
@@ -112,9 +108,6 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
     //   children: [
     //     LayoutBuilder(
     //       builder: (context, constraints) {
-    //         // 基于字体大小计算收起时的最大高度
-    //         final lineHeight = 16.sp * 1.4; // 行高 = 字体大小 * 行间距系数
-    //         const maxLines = 3.2; // 0.2的微调因子解决下沉部问题
     //         final maxCollapsedHeight = lineHeight * maxLines;
 
     //         return AnimatedContainer(
@@ -123,11 +116,8 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
     //           constraints: widget.isExpanded || !_needsExpansion
     //               ? null
     //               : BoxConstraints(maxHeight: maxCollapsedHeight),
-    //           clipBehavior: Clip.hardEdge, // 裁剪超出的内容
     //           decoration:
-    //               const BoxDecoration(), // 需要添加decoration才能使clipBehavior生效
     //           child: SingleChildScrollView(
-    //             physics: const NeverScrollableScrollPhysics(), // 禁用滚动
     //             child: MarkdownBody(
     //               key: _key,
     //               data: widget.text,
@@ -143,7 +133,6 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
     //         );
     //       },
     //     ),
-    //     // 只有在需要时才显示展开/收起按钮
     //     if (_needsExpansion) ...[
     //       GestureDetector(
     //         onTap: () => widget.onTap(!widget.isExpanded),

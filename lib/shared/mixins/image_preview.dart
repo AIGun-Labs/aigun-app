@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/image_viewer.dart';
 
-/// 图片预览混合器
-/// 用于在页面中打开图片预览
 mixin ImagePreviewMixin<T extends StatefulWidget> on State<T> {
   void openImagePreview(
     List<String> urls,

@@ -16,7 +16,6 @@ import '../themes/themes.dart';
 import '../utils/extensions/list.dart';
 import '../utils/storage/local/permission_storage.dart';
 
-// 启动动画设置
 List<String> splashImages = [
   Assets.images.splash.splash1.path,
   Assets.images.splash.splash2.path,

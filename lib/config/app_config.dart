@@ -7,7 +7,6 @@ import 'env/i_app_env.dart';
 class AppConfig {
   factory AppConfig() => _instance;
   AppConfig._internal();
-  // 单例模式（可选，视需求而定）
   static final AppConfig _instance = AppConfig._internal();
 
   late final IAppEnv _envConfig;
@@ -18,11 +17,7 @@ class AppConfig {
     'ENABLE_INNER_UPDATE',
     defaultValue: true,
   );
-
-  // 获取当前环境配置
   IAppEnv get env => _envConfig;
-
-  //根据环境初始化环境配置
   void _initEnv(Environment env) {
     environment = env;
 
@@ -36,7 +31,6 @@ class AppConfig {
     }
   }
 
-  // 初始化方法，在 main.dart 中调用
   void init({required Environment environment}) {
     _initEnv(environment);
   }

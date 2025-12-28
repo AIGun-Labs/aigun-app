@@ -6,19 +6,13 @@ import 'index.dart';
 class AddressValidator {
   static ValidationResult validateEvmAddress(String address) {
     if (address.isEmpty) {
-      return const ValidationResult(
-        isValid: false,
-        errorMessage: '地址不能为空',
-      );
+      return const ValidationResult(isValid: false, errorMessage: '');
     }
 
     try {
       EthereumAddress.fromHex(address);
     } catch (e) {
-      return const ValidationResult(
-        isValid: false,
-        errorMessage: '地址格式不正确',
-      );
+      return const ValidationResult(isValid: false, errorMessage: '');
     }
 
     return const ValidationResult(isValid: true);
@@ -26,19 +20,13 @@ class AddressValidator {
 
   static ValidationResult validateSolanaAddress(String address) {
     if (address.isEmpty) {
-      return const ValidationResult(
-        isValid: false,
-        errorMessage: '地址不能为空',
-      );
+      return const ValidationResult(isValid: false, errorMessage: '');
     }
 
     try {
       Pubkey.fromBase58(address);
     } catch (e) {
-      return const ValidationResult(
-        isValid: false,
-        errorMessage: '地址格式不正确',
-      );
+      return const ValidationResult(isValid: false, errorMessage: '');
     }
 
     return const ValidationResult(isValid: true);

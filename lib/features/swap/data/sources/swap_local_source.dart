@@ -5,11 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../models/swap_token_model.dart';
 
-/// Swap 本地数据源 - 负责代币选择的本地持久化
 ///
-/// 职责：
-/// - 存取用户上次选择的代币对
-/// - 不处理业务默认值（由 Repository 层处理）
 class SwapLocalSource {
   final SharedPreferences _prefs;
 
@@ -17,8 +13,6 @@ class SwapLocalSource {
 
   static const String _fromTokenKey = 'from_token_swap';
   static const String _toTokenKey = 'to_token_swap';
-
-  /// 保存选中的代币对
   Future<void> saveSelectedTokens({
     required TransactionEntity fromToken,
     required TransactionEntity toToken,
@@ -29,30 +23,21 @@ class SwapLocalSource {
     ]);
   }
 
-  /// 保存 From 代币
   Future<void> saveFromToken(TransactionEntity token) async {
     await _saveToken(_fromTokenKey, token);
   }
 
-  /// 保存 To 代币
   Future<void> saveToToken(TransactionEntity token) async {
     await _saveToken(_toTokenKey, token);
   }
 
-  /// 获取选中的代币对
-  /// 返回 null 表示没有缓存，由上层决定默认值
   Future<({TransactionEntity? from, TransactionEntity? to})>
   getSelectedTokens() async {
     return (from: _getToken(_fromTokenKey), to: _getToken(_toTokenKey));
   }
 
-  /// 获取 From 代币
   TransactionEntity? getFromToken() => _getToken(_fromTokenKey);
-
-  /// 获取 To 代币
   TransactionEntity? getToToken() => _getToken(_toTokenKey);
-
-  /// 清除所有缓存
   Future<void> clear() async {
     await Future.wait([
       _prefs.remove(_fromTokenKey),

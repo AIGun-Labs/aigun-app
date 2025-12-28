@@ -1,7 +1,7 @@
 {
   "servers": {
     "Sentry": {
-      "url": "https://mcp.sentry.dev/mcp/web3-py/flutter-aigun",
+      "url": "https://mcp.sentry.dev/mcp/biteagle-sz/aigun-app",
       "type": "http"
     }
   }

@@ -29,14 +29,13 @@ sealed class SwapState with _$SwapState {
   const factory SwapState({
     @Default(TransactionStatus.initial()) TransactionStatus transactionStatus,
     @Default(QuoteStatus.initial()) QuoteStatus quoteStatus,
-    @Default(56) int fromChainId, // 来源链
-    @Default('56') String toChainId, // 目标链
-    @Default('') String inputMint, // 输入代币
-    @Default('0xba2ae424d960c26247dd6c32edc70b295c744c43')
-    String outputMint, // 输出代币
-    @Default('0') String amount, // 输入数量
-    @Default(100) double slippage, // 滑点
-    @Default('0') String priorityFee, // 优先费
+    @Default(56) int fromChainId, //
+    @Default('56') String toChainId, //
+    @Default('') String inputMint, //
+    @Default('0xba2ae424d960c26247dd6c32edc70b295c744c43') String outputMint, //
+    @Default('0') String amount, //
+    @Default(100) double slippage, //
+    @Default('0') String priorityFee, //
     @Default(false) bool isLoading,
     TargetToken? toToken,
     SwapQuote? quote,

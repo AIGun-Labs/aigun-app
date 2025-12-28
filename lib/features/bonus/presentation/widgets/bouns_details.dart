@@ -13,7 +13,6 @@ class BounsDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 预先过滤：只保留能生成文案的条目
     final visibleItems = bonusDetails
         .map((e) => (item: e, text: _buildContentText(context, e)))
         .where((it) => it.text != null)

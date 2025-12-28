@@ -54,15 +54,9 @@ class TokenPurchaseService {
     Token token,
     QuickTradeMode mode,
   ) {
-    // 从 context 获取全局 SwapCubit 实例（而不是创建新实例）
     final swapCubit = context.read<SwapCubit>();
-
-    // 清除之前的状态（报价、金额等），准备新的交易
     swapCubit.clear();
-
-    // 使用原子化的 setTokenPair 配置代币对，避免中间状态
     if (_isSolToken(token)) {
-      // TODO: 不能直接依赖 SwapCubit，后续进行优化
       // swapCubit.updateFromToken(defaultBNBTradeToken);
       // swapCubit.updateToToken(defaultFormTradeToken);
       _configureSolanaTokenSwap(swapCubit, mode);
@@ -71,15 +65,12 @@ class TokenPurchaseService {
       // swapCubit.updateToToken(token.toTransactionEntity());
       _configureNonSolanaTokenSwap(swapCubit, token, mode);
     }
-
-    // 状态更新完成后再显示弹窗
     ShowSheet.common(
       context,
       CommonSheet(
         top: 16.w,
         left: 0,
         right: 0,
-        // TODO：先暂时使用 Swap 模块的组件，后续需要设置为共享的
         child: SwapWidget(buyToken: true),
       ),
     );
@@ -90,13 +81,11 @@ class TokenPurchaseService {
     QuickTradeMode mode,
   ) {
     if (mode == QuickTradeMode.buy) {
-      // BUY: 用 BNB 买 SOL
       swapCubit.setTokenPair(
         fromToken: defaultBNBTradeToken,
         toToken: defaultFormTradeToken,
       );
     } else {
-      // SELL: 卖 SOL 换 BNB
       swapCubit.setTokenPair(
         fromToken: defaultFormTradeToken,
         toToken: defaultBNBTradeToken,
@@ -110,13 +99,11 @@ class TokenPurchaseService {
     QuickTradeMode mode,
   ) {
     if (mode == QuickTradeMode.buy) {
-      // BUY: 用 SOL 买目标代币
       swapCubit.setTokenPair(
         fromToken: defaultFormTradeToken,
         toToken: token.toTransactionEntity(),
       );
     } else {
-      // SELL: 卖目标代币换 SOL
       swapCubit.setTokenPair(
         fromToken: token.toTransactionEntity(),
         toToken: defaultFormTradeToken,
@@ -141,7 +128,6 @@ class TokenPurchaseService {
     );
   }
 
-  /// 从 tokens 列表中排除掉指定的 token（通过 network 和 address 匹配）
   static List<Token> excludeToken(
     List<Token> tokens,
     String network,
@@ -156,7 +142,6 @@ class TokenPurchaseService {
         .toList();
   }
 
-  /// 过滤掉 balance 为 0 或 null 的代币
   static List<Token> filterTokensWithBalance(List<Token> tokens) {
     return tokens.where((token) {
       final balance = double.tryParse(token.balance);
@@ -208,61 +193,40 @@ class TokenPurchaseService {
 
   static bool calculateFinalBalance({
     String? currentBalanceStr,
-    // 计划卖出的代币数量（字符串形式，便于直接对接输入框）
     required String sellAmountStr,
-    // 费用均以“代币数量”为单位传入；如果你的费用以 USD 或原生币计价，请先换算
     String? tipFee = '0',
     String? gasFee = '0',
     String? priorityFee = '0',
   }) {
     final balance = double.tryParse(currentBalanceStr ?? '0') ?? 0.0;
     final sellAmount = double.tryParse(sellAmountStr) ?? 0.0;
-
-    // 合计需要从代币余额中扣减的费用（以代币单位计）
     final totalFeeInToken =
         (double.tryParse(tipFee ?? '0') ?? 0) +
         (double.tryParse(gasFee ?? '0') ?? 0) +
         (double.tryParse(priorityFee ?? '0') ?? 0);
-
-    // 计算剩余余额，避免出现负数
     final remain = balance - sellAmount - totalFeeInToken;
     final safeRemain = remain.isFinite ? (remain < 0 ? 0.0 : remain) : 0.0;
-
-    // 为了避免过长小数，这里限制展示小数位不超过 8 位
     return safeRemain > 0;
   }
 
-  /// 计算扣除卖出金额和各项费用后的剩余余额
-  /// 返回剩余余额的字符串形式，保持精度
   static String calculateRemainingBalance({
     String? currentBalanceStr,
-    // 计划卖出的代币数量
     // required String sellAmountStr,
-    // 费用均以"代币数量"为单位传入
     String? tipFee = '0',
     String? gasFee = '0',
     String? priorityFee = '0',
   }) {
     final balance = double.tryParse(currentBalanceStr ?? '0') ?? 0.0;
     // final sellAmount = double.tryParse(sellAmountStr) ?? 0.0;
-
-    // 合计需要从代币余额中扣减的费用（以代币单位计）
     final totalFeeInToken =
         (double.tryParse(tipFee ?? '0') ?? 0) +
         (double.tryParse(gasFee ?? '0') ?? 0) +
         (double.tryParse(priorityFee ?? '0') ?? 0);
-
-    // 计算剩余余额
     final remain = balance - totalFeeInToken;
-
-    // 处理异常情况：负数或非有限值
     final safeRemain = remain.isFinite ? (remain < 0 ? 0.0 : remain) : 0.0;
-
-    // 返回字符串形式，保持精度
     return safeRemain.toString();
   }
 
-  /// 若你的贿赂费 / Gas / 优先费是以 USD 表示，可用此辅助函数先换算到代币单位
   static double feeUsdToTokenUnits({
     required double feeUsd,
     required Token token,

@@ -21,7 +21,6 @@ class TokenSecurityModel with _$TokenSecurityModel {
   final TradeTaxModel? tradeTax;
 }
 
-// 普通 DTO + JsonSerializable
 @JsonSerializable()
 class SecurityItemModel {
   SecurityItemModel({

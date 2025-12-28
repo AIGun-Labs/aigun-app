@@ -28,7 +28,6 @@ class _IntelScreenState extends State<IntelScreen>
   @override
   void initState() {
     super.initState();
-    // 在 widget 构建完成后执行
 
     primaryTC = TabController(length: 2, vsync: this);
     // primaryTC.addListener(tabControllerListenner);
@@ -108,7 +107,6 @@ class _IntelScreenState extends State<IntelScreen>
   bool _onNotification(ScrollNotification notification) {
     if (notification.depth == 1) {
       if (notification is ScrollUpdateNotification) {
-        // 解决 IOS 下拉时回弹的搜索框的问题
         if (notification.metrics.pixels < 0 &&
             (notification.scrollDelta ?? 0) > 0) {
           return false;
@@ -130,7 +128,6 @@ class _IntelScreenState extends State<IntelScreen>
           });
         }
       } else if (notification is ScrollEndNotification) {
-        // 滚动结束时确保 unreadBar 状态正确
         _updateUnreadBarVisibility(notification.metrics.pixels);
       }
     }

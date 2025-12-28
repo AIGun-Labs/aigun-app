@@ -8,14 +8,15 @@ import 'token_card.dart';
 import 'token_skeleton.dart';
 
 class TokenList extends StatefulWidget {
-  const TokenList(
-      {super.key,
-      required this.tokens,
-      required this.isLoading,
-      this.errorMessage,
-      this.showAddress = false,
-      this.replace = false,
-      required this.onTap});
+  const TokenList({
+    super.key,
+    required this.tokens,
+    required this.isLoading,
+    this.errorMessage,
+    this.showAddress = false,
+    this.replace = false,
+    required this.onTap,
+  });
   final bool showAddress;
   final bool replace;
   final List<Token>? tokens;
@@ -32,15 +33,11 @@ class _TokenListState extends State<TokenList> {
   @override
   Widget build(BuildContext context) {
     if (widget.isLoading) {
-      // 如果有之前的数据，显示之前的数据
       if (widget.tokens != null) {
         return _buildTokenList(context);
       }
-      // 首次加载显示骨架屏
       return const TokenSkeleton();
     }
-
-    // 显示数据
     return _buildTokenList(context);
   }
 
@@ -61,7 +58,8 @@ class _TokenListState extends State<TokenList> {
     }
 
     return Column(
-      children: widget.tokens?.map((token) {
+      children:
+          widget.tokens?.map((token) {
             return TokenCard(
               token: token,
               showAddress: widget.showAddress,

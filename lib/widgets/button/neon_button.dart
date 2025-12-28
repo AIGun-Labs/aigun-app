@@ -3,7 +3,6 @@ import "package:flutter_screenutil/flutter_screenutil.dart";
 
 import "../../themes/themes.dart";
 
-/// 一个具有左下角切角效果的自定义按钮
 class NeonCutCornerButton extends StatelessWidget {
   const NeonCutCornerButton({
     super.key,
@@ -26,21 +25,14 @@ class NeonCutCornerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipPath(
-      // 使用我们自定义的 Clipper
       clipper: CutCornerButtonClipper(cutSize: cutSize),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          // 设置按钮的背景色和前景色（文字颜色）
           backgroundColor: backgroundColor ?? AppColors.primary,
           foregroundColor: foregroundColor ?? AppColors.foreground(context),
           textStyle: Theme.of(context).textTheme.titleMedium,
-          // 关键：将按钮自身的形状设置为矩形（无圆角），
-          // 这样裁剪才能得到干净利落的直角。
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.zero,
-          ),
-          // 为了让按钮足够大，可以设置一个最小尺寸或内边距
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 18.h),
         ),
         child: Row(
@@ -66,9 +58,7 @@ class NeonCutCornerButton extends StatelessWidget {
   }
 }
 
-/// 一个自定义的 Clipper，用于在左下角创建一个切角效果。
 class CutCornerButtonClipper extends CustomClipper<Path> {
-  /// 切角的大小
   final double cutSize;
 
   CutCornerButtonClipper({this.cutSize = 20.0});
@@ -76,23 +66,11 @@ class CutCornerButtonClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
-
-    // 1. 从左上角开始 (0, 0)
     path.moveTo(0, 0);
-
-    // 2. 画到右上角 (width, 0)
     path.lineTo(size.width, 0);
-
-    // 3. 画到右下角 (width, height)
     path.lineTo(size.width, size.height);
-
-    // 4. 画到底部切角的起始点 (cutSize, height)
     path.lineTo(cutSize, size.height);
-
-    // 5. 画到左边切角的结束点 (0, height - cutSize)
     path.lineTo(0, size.height - cutSize);
-
-    // 6. 闭合路径，自动连接到起点 (0, 0)
     path.close();
 
     return path;
@@ -100,7 +78,6 @@ class CutCornerButtonClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) {
-    // 如果切角大小是动态变化的，这里应该返回 true
     return false;
   }
 }

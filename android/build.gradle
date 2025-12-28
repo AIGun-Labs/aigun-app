@@ -2,7 +2,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        // 添加友盟 Maven 仓库
         maven { url 'https://repo1.maven.org/maven2/' }
     }
 }

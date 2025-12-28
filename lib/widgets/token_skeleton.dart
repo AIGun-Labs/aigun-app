@@ -5,16 +5,12 @@ import 'package:shimmer/shimmer.dart';
 import '../themes/colors.dart';
 
 class TokenSkeleton extends StatelessWidget {
-  const TokenSkeleton({
-    super.key,
-    this.itemCount = 5,
-  });
+  const TokenSkeleton({super.key, this.itemCount = 5});
 
   final int itemCount;
 
   @override
   Widget build(BuildContext context) {
-    // 使用透明背景而不是灰色背景，避免遮罩效果
     const containerColor = Colors.transparent;
 
     Widget buildShimmerElement(double width, double height) {
@@ -55,10 +51,8 @@ class TokenSkeleton extends StatelessWidget {
           color: containerColor,
           child: Row(
             children: [
-              // 左侧头像骨架
               buildAvatar(),
               SizedBox(width: 16.w),
-              // 中间两行文字
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,7 +65,6 @@ class TokenSkeleton extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 16.w),
-              // 右侧两行文字
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -154,17 +147,17 @@ class HeaderTokenSkeleton extends StatelessWidget {
 }
 
 class IntelSkeleton extends StatelessWidget {
-  const IntelSkeleton({
-    super.key,
-    this.itemCount = 3,
-  });
+  const IntelSkeleton({super.key, this.itemCount = 3});
 
   final int itemCount;
 
   @override
   Widget build(BuildContext context) {
-    Widget buildShimmerElement(double width, double height,
-        {BorderRadius? borderRadius}) {
+    Widget buildShimmerElement(
+      double width,
+      double height, {
+      BorderRadius? borderRadius,
+    }) {
       return Shimmer.fromColors(
         baseColor: AppColors.shimmerBaseColor(context),
         highlightColor: AppColors.shimmerHighlightColor(context),
@@ -200,7 +193,6 @@ class IntelSkeleton extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header 部分
             Row(
               children: [
                 Row(
@@ -260,8 +252,6 @@ class IntelSkeleton extends StatelessWidget {
               ),
             ),
             SizedBox(height: 12.h),
-
-            // 文本内容骨架
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -275,8 +265,6 @@ class IntelSkeleton extends StatelessWidget {
               ],
             ),
             SizedBox(height: 12.h),
-
-            // 图片网格骨架
             GridView.count(
               crossAxisCount: 3,
               shrinkWrap: true,
@@ -292,8 +280,6 @@ class IntelSkeleton extends StatelessWidget {
               }),
             ),
             SizedBox(height: 12.h),
-
-            // 底部消息骨架
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

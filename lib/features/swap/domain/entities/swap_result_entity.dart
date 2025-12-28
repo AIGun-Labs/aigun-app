@@ -5,7 +5,6 @@ import '../../../../data/models/transfer/index.dart';
 part "swap_result_entity.freezed.dart";
 part "swap_result_entity.g.dart";
 
-// 交易响应的数据类型
 @freezed
 sealed class SwapResultEntity with _$SwapResultEntity {
   const factory SwapResultEntity({

@@ -15,13 +15,7 @@ import '../../../domain/usecases/get_quote.dart';
 import '../../../domain/usecases/validate_swap_params.dart';
 import 'quote_state.dart';
 
-/// QuoteCubit 负责管理询价逻辑
 ///
-/// 职责：
-/// - 询价请求（带防抖）
-/// - 询价定时刷新（10秒）
-/// - 管理 amount / slippage / priorityFee
-/// - 验证询价参数
 class QuoteCubit extends Cubit<QuoteState> {
   QuoteCubit({
     required GetQuote getQuote,
@@ -39,29 +33,21 @@ class QuoteCubit extends Cubit<QuoteState> {
   final Debouncer _quoteDebouncer = Debouncer(
     delay: const Duration(milliseconds: 300),
   );
-
-  /// 当前选中的 tokens（由外部设置）
   TransactionEntity? _fromToken;
   TransactionEntity? _toToken;
 
   // ==================== Token Updates ====================
-
-  /// 更新当前选中的 tokens（由 SwapCubit 调用）
   void updateTokens({
     TransactionEntity? fromToken,
     TransactionEntity? toToken,
   }) {
     _fromToken = fromToken;
     _toToken = toToken;
-
-    // Token 变化时，清除当前报价并重新询价
     emit(state.copyWith(quote: null));
     _requestQuoteWithDebounce();
   }
 
   // ==================== Amount Management ====================
-
-  /// 更新交易金额
   void updateAmount(String amount) {
     if (!amount.isNotEmptyAndZeroValue) {
       emit(state.copyWith(quote: null, amount: amount));
@@ -72,17 +58,14 @@ class QuoteCubit extends Cubit<QuoteState> {
     _requestQuoteWithDebounce();
   }
 
-  /// 更新滑点
   void updateSlippage(int slippage) {
     emit(state.copyWith(slippage: slippage));
   }
 
-  /// 更新优先费用
   void updatePriorityFee(int priorityFee) {
     emit(state.copyWith(priorityFee: priorityFee));
   }
 
-  /// 清除金额和报价
   void clear() {
     _quoteTimer?.cancel();
     emit(
@@ -96,15 +79,11 @@ class QuoteCubit extends Cubit<QuoteState> {
   }
 
   // ==================== Quote Request ====================
-
-  /// 带防抖的询价请求
   void _requestQuoteWithDebounce() {
     _quoteDebouncer.run(getQuote);
   }
 
-  /// 执行询价请求
   Future<void> getQuote() async {
-    // 验证参数
     final validation = _validateSwapParams.callForQuote(
       fromToken: _fromToken,
       toToken: _toToken,
@@ -115,8 +94,6 @@ class QuoteCubit extends Cubit<QuoteState> {
       emit(state.copyWith(paramsStatus: const QuoteParamsStatus.invalid()));
       return;
     }
-
-    // 计算原子单位金额
     final atomicAmount = multiplyByDecimalPower(
       state.amount,
       _fromToken!.decimals,
@@ -172,8 +149,6 @@ class QuoteCubit extends Cubit<QuoteState> {
   }
 
   // ==================== Quote Timer ====================
-
-  /// 启动询价定时器
   void _startQuoteTimer() {
     _quoteTimer?.cancel();
 
@@ -198,7 +173,6 @@ class QuoteCubit extends Cubit<QuoteState> {
     }
   }
 
-  /// 启动周期性询价定时器
   void _startPeriodicQuoteTimer() {
     _quoteTimer?.cancel();
     _quoteTimer = Timer.periodic(Duration(seconds: NumericConstants.ten), (
@@ -208,20 +182,16 @@ class QuoteCubit extends Cubit<QuoteState> {
     });
   }
 
-  /// 停止询价定时器
   void stopQuoteTimer() {
     _quoteTimer?.cancel();
     _quoteTimer = null;
   }
 
   // ==================== Lifecycle ====================
-
-  /// 暂停定时器（在页面不可见时调用）
   void pause() {
     stopQuoteTimer();
   }
 
-  /// 恢复定时器（在页面重新可见时调用）
   void resume() {
     if (state.amount.isNotEmpty && _fromToken != null && _toToken != null) {
       _startQuoteTimer();

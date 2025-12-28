@@ -42,21 +42,16 @@ on:
         required: false
         type: boolean
         default: false
-
-# 环境变量
 env:
   FLUTTER_VERSION: "3.38.5"
   JAVA_VERSION: "17"
   APP_NAME: "aigun"
-
-# 权限image.png
 permissions:
   contents: write
   packages: write
 
 jobs:
   # ====================================
-  # Job 1: 版本信息
   # ====================================
   version_info:
     name: Extract Version Info
@@ -68,31 +63,23 @@ jobs:
       changelog_en: ${{ steps.changelog.outputs.changelog_en }}
 
     steps:
-      # 检出代码
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      # 获取版本信息
       - name: Get version info
         id: version
         run: |
-          # 从 pubspec.yaml 读取版本信息
           VERSION_LINE=$(grep -oP '(?<=version: )[0-9]+\.[0-9]+\.[0-9]+\+[0-9]+' pubspec.yaml)
 
           if [ -z "$VERSION_LINE" ]; then
-            echo "❌ 无法从 pubspec.yaml 提取版本信息"
+            echo "❌  pubspec.yaml "
             exit 1
           fi
-
-          # 分离 version_name 和 version_code
           VERSION_NAME=$(echo "$VERSION_LINE" | cut -d'+' -f1)
           VERSION_CODE=$(echo "$VERSION_LINE" | cut -d'+' -f2)
 
           echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
           echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
           echo "✅ Version: v$VERSION_NAME (build $VERSION_CODE)"
-
-      # 提取更新内容
       - name: Extract changelog
         id: changelog
         run: |
@@ -113,7 +100,6 @@ jobs:
           echo "✅ Changelog extracted"
 
   # ====================================
-  # Job 2: Android 构建 + 直接上传
   # ====================================
   build_android:
     name: Build Android APK
@@ -132,31 +118,22 @@ jobs:
       qiniu_latest_json_url: ${{ steps.upload_qiniu.outputs.latest_json_url }}
 
     steps:
-      # 检出代码
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      # 设置 Java
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
           java-version: ${{ env.JAVA_VERSION }}
           cache: "gradle"
-
-      # 设置 Gradle
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-
-      # 设置 Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
           cache: true
-
-      # 设置 Flutter 构建环境
       - name: Setup Flutter build environment
         uses: ./.github/actions/setup-flutter-build
         with:
@@ -168,8 +145,6 @@ jobs:
           candlestick-url: ${{ vars.CANDLESTICK_URL }}
           base-test-api-url: ${{ vars.API_URL_TEST }}
           base-test-ws-url: ${{ vars.WS_URL_TEST }}
-
-      # 安装依赖和代码生成
       - name: Install dependencies and code generation
         run: |
           set -euo pipefail
@@ -177,8 +152,6 @@ jobs:
           flutter pub run build_runner build --delete-conflicting-outputs
           flutter gen-l10n
           echo "✅ Dependencies and codegen completed"
-
-      # 构建 Android APK
       - name: Build Android APK
         id: build
         uses: ./.github/actions/build-android-apk
@@ -193,8 +166,6 @@ jobs:
           store-password: ${{ secrets.ANDROID_STORE_PASSWORD }}
           key-password: ${{ secrets.ANDROID_KEY_PASSWORD }}
           key-alias: ${{ secrets.ANDROID_KEY_ALIAS }}
-
-      # 上传到 S3 和生成 latest.json
       - name: Upload to S3 and generate latest.json
         id: upload_s3
         uses: ./.github/actions/upload-to-s3
@@ -213,8 +184,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ vars.S3_REGION }}
           environment: ${{ inputs.environment }}
-
-      # 上传到七牛云和生成 latest.json
       - name: Upload to Qiniu and generate latest.json
         id: upload_qiniu
         uses: ./.github/actions/upload-to-qiniu
@@ -245,7 +214,6 @@ jobs:
             -d "{\"version_name\": \"$ENVIRONMENT\"}"
 
   # ====================================
-  # Job 3: iOS 构建 (可选)
   # ====================================
   build_ios:
     name: Build iOS IPA
@@ -256,19 +224,14 @@ jobs:
       ipa_name: ${{ steps.build.outputs.ipa_name }}
 
     steps:
-      # 检出代码
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      # 设置 Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
           cache: true
-
-      # 设置 Flutter 构建环境
       - name: Setup Flutter build environment
         uses: ./.github/actions/setup-flutter-build
         with:
@@ -282,15 +245,11 @@ jobs:
           candlestick-url: ${{ vars.CANDLESTICK_URL }}
           base-test-api-url: ${{ vars.API_URL_TEST }}
           base-test-ws-url: ${{ vars.WS_URL_TEST }}
-
-      # 安装依赖和代码生成
       - name: Install dependencies and code generation
         run: |
           flutter pub get
           flutter pub run build_runner build --delete-conflicting-outputs
           flutter gen-l10n
-
-      # 构建 iOS IPA
       - name: Build iOS IPA
         id: build
         uses: ./.github/actions/build-ios-ipa
@@ -313,7 +272,6 @@ jobs:
       release_url: ${{ steps.release.outputs.url }}
 
     steps:
-      # 创建 GitHub Release
       - name: Create GitHub Release
         id: release
         uses: softprops/action-gh-release@v1
@@ -321,11 +279,6 @@ jobs:
           name: ${{ inputs.environment == 'production' && 'Release' || 'Test' }} v${{ needs.version_info.outputs.version_name }}
           tag_name: v${{ needs.version_info.outputs.version_name }}${{ inputs.release_suffix }}
           body: |
-            ## 🎉 AIGun ${{ inputs.environment == 'production' && '正式版' || '测试版' }} v${{ needs.version_info.outputs.version_name }} 发布
-
-            ### 📝 更新内容
-
-            #### 🇨🇳 中文描述
             ${{ needs.version_info.outputs.changelog_zh }}
 
             #### 🇬🇧 English Description
@@ -334,26 +287,26 @@ jobs:
             ---
 
             ### 📱 Android APK
-            **版本信息：**
-            - **版本号**: `${{ needs.version_info.outputs.version_name }}`
-            - **构建号**: `${{ needs.version_info.outputs.version_code }}`
-            - **环境**: `${{ inputs.environment }}`
-            - **文件名**: `${{ needs.build_android.outputs.apk_name }}`
+            **：**
+            - ****: `${{ needs.version_info.outputs.version_name }}`
+            - ****: `${{ needs.version_info.outputs.version_code }}`
+            - ****: `${{ inputs.environment }}`
+            - ****: `${{ needs.build_android.outputs.apk_name }}`
             - **SHA‑256**: `${{ needs.build_android.outputs.s3_apk_sha || needs.build_android.outputs.qiniu_apk_sha }}`
 
-            **构建信息：**
+            **：**
             - **Flutter**: ${{ env.FLUTTER_VERSION }}
             - **Java**: ${{ env.JAVA_VERSION }}
-            - **构建编号**: #${{ github.run_number }}
-            - **提交 SHA**: `${{ github.sha }}`
+            - ****: #${{ github.run_number }}
+            - ** SHA**: `${{ github.sha }}`
 
-            **S3下载链接：**
+            **S3：**
             - [${{ needs.build_android.outputs.apk_name }}](${{ needs.build_android.outputs.s3_apk_url }})
             - [latest.json](${{ needs.build_android.outputs.s3_latest_json_url }})
             - [${{ needs.build_android.outputs.apk_name }}.sha256](${{ needs.build_android.outputs.s3_sha256_url }})
             - SHA‑256: `${{ needs.build_android.outputs.s3_apk_sha }}`
 
-            **七牛云下载链接：**
+            **：**
             - [${{ needs.build_android.outputs.apk_name }}](${{ needs.build_android.outputs.qiniu_apk_url }})
             - [latest.json](${{ needs.build_android.outputs.qiniu_latest_json_url }})
             - [${{ needs.build_android.outputs.apk_name }}.sha256](${{ needs.build_android.outputs.qiniu_sha256_url }})

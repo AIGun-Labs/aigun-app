@@ -21,10 +21,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   final UserRemoteSource _userRemoteSource;
 
   PollingService? _pollingService;
-
-  // 不能这样写是因为 quick trade cubit 也需要 不能使用 stream
   // final SwapCubit _swapCubit;
-  // 移除 _tradeCubit 字段，改为延迟获取以避免循环依赖
   Timer? _timer;
 
   Future<void> init() async {
@@ -83,37 +80,25 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   }
 
   Future<TradeLiveData?> getTradeLiveData() async {
-    // 使用 TradeSettingCubit 自己维护的 network 状态
     return _userRemoteSource.getTradeLiveData(state.network);
   }
 
   Future<void> updateNetwork(String network, {bool forceUpdate = true}) async {
     final networkLower = network.toLowerCase();
-
-    // 1. 立即更新网络状态，确保 UI 响应 (Optimistic Update)
-    // 即使不等待此方法完成，UI 也能拿到正确的 network
     if (state.network != networkLower) {
       emit(state.copyWith(network: networkLower));
     }
-
-    // 如果不需要强制刷新则返回
     if (!forceUpdate) return;
     Logger.info('forceUpdate');
 
     final newCustomSetting = getTradeCustomSettingByNetwork(network);
-
-    // 使用新的 network 获取 liveData
     final liveData = await safeRequest(
       () => _userRemoteSource.getTradeLiveData(networkLower),
     );
-
-    // 准备更新的 customSettings
     final newCustomSettings = Map<String, TradeCustomSetting>.from(
       state.customSettings,
     );
     newCustomSettings[networkLower] = newCustomSetting;
-
-    // 一次性 emit 所有更新，避免多次 emit 导致状态不一致
     if (liveData != null) {
       emit(
         state.copyWith(
@@ -170,12 +155,10 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     emit(state.copyWith(customSettings: newCustomSettings));
   }
 
-  /// 为指定网络更新自定义设置
   void updateCustomSettingForNetwork(
     String networkKey,
     TradeCustomSetting setting,
   ) {
-    // 确保初始化了所有网络的默认设置
     final newCustomSettings = Map<String, TradeCustomSetting>.from(
       state.customSettings.isEmpty ? defaultSettings : state.customSettings,
     );
@@ -197,7 +180,6 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
     if (newCustom != null) {
       updateCustomSetting(newCustom);
-      // 操作 slippage 时，更新 mode 为 custom
       updateTradeMode(TradeMode.custom);
     }
   }
@@ -209,7 +191,6 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
         const TradeCustomSetting();
     final newCustom = currentCustom.copyWith(mevProtect: mevProtect);
     updateCustomSetting(newCustom);
-    // 操作 mev protect 时，更新 mode 为 custom
     updateTradeMode(TradeMode.custom);
   }
 
@@ -248,8 +229,6 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
       final tradeConfig = await _userRemoteSource.getUserTradeConfig(
         state.network,
       );
-
-      // 更新对应链的 name
       updateCustomSetting(tradeConfig.config);
       updateTradeMode(TradeMode.values.byName(tradeConfig.mode));
       updateNetwork(tradeConfig.network.toString());

@@ -5,7 +5,6 @@ import '../../domain/entities/transaction_entity.dart';
 part 'swap_token_model.freezed.dart';
 part 'swap_token_model.g.dart';
 
-/// Swap Token 数据模型 - 用于本地存储的 JSON 序列化
 @freezed
 sealed class SwapTokenModel with _$SwapTokenModel {
   const SwapTokenModel._();
@@ -27,8 +26,6 @@ sealed class SwapTokenModel with _$SwapTokenModel {
 
   factory SwapTokenModel.fromJson(Map<String, dynamic> json) =>
       _$SwapTokenModelFromJson(json);
-
-  /// 从 Entity 创建 Model
   factory SwapTokenModel.fromEntity(TransactionEntity entity) {
     return SwapTokenModel(
       chainId: entity.chainId,
@@ -45,8 +42,6 @@ sealed class SwapTokenModel with _$SwapTokenModel {
       network: entity.network,
     );
   }
-
-  /// 转换为 Domain Entity
   TransactionEntity toEntity() {
     return TransactionEntity(
       chainId: chainId,

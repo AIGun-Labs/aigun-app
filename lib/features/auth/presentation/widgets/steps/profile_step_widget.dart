@@ -54,7 +54,6 @@ class ProfileStepWidget extends StatelessWidget {
             }
           },
           failure: (failure, errorCode) => switch (failure) {
-            // 如果是用户未同意协议则不显示错误的弹窗而是显示提示文案
             ProfileStepFailure.termsNotAgreed => null,
             ProfileStepFailure.inviteCodeInvalid => null,
             ProfileStepFailure.codeExpired => {

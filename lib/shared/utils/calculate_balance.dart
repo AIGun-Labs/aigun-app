@@ -1,5 +1,4 @@
 class CalculateBalance {
-  /// 检查交易费用是否足够
   /// tipFee + priorityFee + transactionSol < solBalance
   static bool hasEnoughSolForTransaction({
     required String tipFee,
@@ -21,7 +20,6 @@ class CalculateBalance {
     }
   }
 
-  /// 计算交易总费用
   static double calculateTotalTransactionFees({
     required String tipFee,
     required String priorityFee,

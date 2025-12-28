@@ -117,14 +117,10 @@ class GlobalErrorWidget extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                Icons.refresh,
-                size: 18.sp,
-                color: Colors.white,
-              ),
+              Icon(Icons.refresh, size: 18.sp, color: Colors.white),
               SizedBox(width: 8.w),
               Text(
-                retryButtonText ?? '重试',
+                retryButtonText ?? '',
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
@@ -141,11 +137,7 @@ class GlobalErrorWidget extends StatelessWidget {
 
 // Network Error Widget - Specific implementation for network errors
 class NetworkErrorWidget extends StatelessWidget {
-  const NetworkErrorWidget({
-    super.key,
-    required this.onRetry,
-    this.message,
-  });
+  const NetworkErrorWidget({super.key, required this.onRetry, this.message});
 
   final VoidCallback onRetry;
   final String? message;
@@ -153,8 +145,8 @@ class NetworkErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlobalErrorWidget(
-      title: '网络错误',
-      message: message ?? '请检查您的网络连接后重试',
+      title: '',
+      message: message ?? '',
       onRetry: onRetry,
       icon: Container(
         width: 80.w,
@@ -191,12 +183,13 @@ class EmptyDataWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlobalErrorWidget(
-      title: title ?? '暂无数据',
-      message: message ?? '暂时没有相关数据',
+      title: title ?? '',
+      message: message ?? '',
       onRetry: onRefresh,
       showRetryButton: onRefresh != null,
-      retryButtonText: '刷新',
-      icon: icon ??
+      retryButtonText: '',
+      icon:
+          icon ??
           Container(
             width: 80.w,
             height: 80.h,
@@ -216,31 +209,27 @@ class EmptyDataWidget extends StatelessWidget {
 
 // Loading Error Widget - For data loading failures
 class LoadingErrorWidget extends StatelessWidget {
-  const LoadingErrorWidget({
-    super.key,
-    required this.onRetry,
-    this.error,
-  });
+  const LoadingErrorWidget({super.key, required this.onRetry, this.error});
 
   final VoidCallback onRetry;
   final dynamic error;
 
   @override
   Widget build(BuildContext context) {
-    String errorMessage = '加载失败';
+    String errorMessage = '';
 
     if (error != null) {
       if (error is String) {
         errorMessage = error;
       } else if (error.toString().contains('SocketException')) {
-        errorMessage = '网络连接失败，请检查您的网络';
+        errorMessage = '，';
       } else if (error.toString().contains('TimeoutException')) {
-        errorMessage = '请求超时，请稍后重试';
+        errorMessage = '，';
       }
     }
 
     return GlobalErrorWidget(
-      title: '加载失败',
+      title: '',
       message: errorMessage,
       onRetry: onRetry,
       icon: Container(
@@ -290,8 +279,8 @@ class CustomErrorWidgetBuilder {
         );
       case CustomErrorType.general:
         return GlobalErrorWidget(
-          title: customTitle ?? '错误',
-          message: customMessage ?? '发生了一个错误，请重试',
+          title: customTitle ?? '',
+          message: customMessage ?? '，',
           onRetry: onRetry,
           icon: customIcon,
         );
@@ -299,9 +288,4 @@ class CustomErrorWidgetBuilder {
   }
 }
 
-enum CustomErrorType {
-  network,
-  empty,
-  loading,
-  general,
-}
+enum CustomErrorType { network, empty, loading, general }

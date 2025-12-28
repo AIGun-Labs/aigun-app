@@ -23,16 +23,12 @@ final class AppErrorHandler {
   AppException handle(Object error, {StackTrace? stackTrace}) {
     String errorMessage = 'Unknown error: $error';
     StackTrace? stackTrace0 = stackTrace;
-
-    //先创建一个网络错误兜底
     AppException<Object?> appException = AppException(
       message: errorMessage,
       code: -1,
       cause: error,
       stackTrace: stackTrace0,
     );
-
-    //如果错误是业务异常，则直接返回(BusinessException,和JsonException 都是AppException的子类)
     if (error is AppException) {
       if (error is BusinessException) {
         errorMessage = 'BusinessException: $error';
@@ -46,8 +42,6 @@ final class AppErrorHandler {
       appException = error;
       stackTrace0 ??= error.stackTrace;
     }
-
-    //如果错误是DioException，则处理成网络错误
     if (error is DioException) {
       final ex = _handleDioException(error);
 
@@ -55,8 +49,6 @@ final class AppErrorHandler {
       appException = ex;
       stackTrace0 ??= error.stackTrace;
     }
-
-    //如果错误是FormatException或TypeError，则处理成Json错误
     if (error is FormatException || error is TypeError) {
       final ex = JsonException(
         message: 'Data parsing error',
@@ -68,8 +60,6 @@ final class AppErrorHandler {
       errorMessage = 'JsonException: $error';
       appException = ex;
     }
-
-    //记录错误日志
     _logger.error(
       errorMessage,
       tag: _tag,

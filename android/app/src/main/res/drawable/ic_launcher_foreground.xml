@@ -4,7 +4,7 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-  <!-- 简单的白色圆形作为前景占位，可后续替换为品牌图形 -->
+  <!-- ， -->
   <path
       android:fillColor="#FFFFFF"
       android:pathData="M54,12a42,42 0 1,0 0,84a42,42 0 1,0 0,-84z"/>

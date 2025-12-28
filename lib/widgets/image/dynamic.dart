@@ -58,15 +58,16 @@ class DynamicImage extends StatefulWidget {
   final Widget? placeholderWidget;
   final Map<String, String>? httpHeaders;
 
-  const DynamicImage(
-      {super.key,
-      required this.imageUrl,
-      this.width,
-      this.height,
-      this.fit = BoxFit.cover,
-      this.errorWidget,
-      this.placeholderWidget,
-      this.httpHeaders});
+  const DynamicImage({
+    super.key,
+    required this.imageUrl,
+    this.width,
+    this.height,
+    this.fit = BoxFit.cover,
+    this.errorWidget,
+    this.placeholderWidget,
+    this.httpHeaders,
+  });
 
   @override
   State<DynamicImage> createState() => _DynamicImageState();
@@ -91,7 +92,6 @@ class _DynamicImageState extends State<DynamicImage> {
   }
 
   Future<void> _checkImageType() async {
-    // 避免在组件销毁后还尝试更新状态
     if (!mounted) return;
     try {
       final headers = widget.httpHeaders ?? _getDefaultHeaders();
@@ -105,10 +105,9 @@ class _DynamicImageState extends State<DynamicImage> {
         });
       }
     } catch (e) {
-      print('无法获取图片类型: $e');
+      print(': $e');
       if (mounted) {
         setState(() {
-          // 发生错误时，设置一个可识别的错误类型
           _contentType = 'error';
         });
       }

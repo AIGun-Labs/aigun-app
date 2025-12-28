@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+
+import '../models/dialog_action.dart';
 import '../models/dialog_config.dart';
 import '../models/dialog_type.dart';
-import '../models/dialog_action.dart';
 import '../theme/dialog_theme.dart';
 
-/// 基础对话框组件
 class BaseAppDialog extends StatelessWidget {
   final DialogConfig config;
 
@@ -28,26 +28,19 @@ class BaseAppDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // 图标（如果有）
             if (config.showIcon &&
                 (config.customIcon != null || _shouldShowDefaultIcon))
               _buildIcon(dialogTheme),
-
-            // 标题
             if (config.title?.isNotEmpty ?? false) ...[
               _buildTitle(theme, dialogTheme),
               SizedBox(height: config.titleSpacing ?? 12),
             ],
-
-            // 内容
             if (config.customContent != null)
               config.customContent!
             else
               _buildMessage(theme, dialogTheme),
 
             SizedBox(height: config.contentButtonSpacing ?? 24),
-
-            // 按钮
             if (config.actions != null && config.actions!.isNotEmpty)
               _buildActions(context, theme, dialogTheme),
           ],
@@ -96,7 +89,6 @@ class BaseAppDialog extends StatelessWidget {
   }
 
   Widget _buildTitle(ThemeData theme, AppDialogTheme dialogTheme) {
-    // 使用自定义样式或默认样式
     final textStyle =
         config.titleStyle ??
         theme.textTheme.titleLarge?.copyWith(
@@ -112,7 +104,6 @@ class BaseAppDialog extends StatelessWidget {
   }
 
   Widget _buildMessage(ThemeData theme, AppDialogTheme dialogTheme) {
-    // 使用自定义样式或默认样式
     final textStyle =
         config.messageStyle ??
         theme.textTheme.bodyMedium?.copyWith(
@@ -133,8 +124,6 @@ class BaseAppDialog extends StatelessWidget {
     AppDialogTheme dialogTheme,
   ) {
     final actions = config.actions!;
-
-    // 单按钮：全宽
     if (actions.length == 1) {
       return _buildActionButton(
         context,
@@ -144,8 +133,6 @@ class BaseAppDialog extends StatelessWidget {
         isFullWidth: true,
       );
     }
-
-    // 多按钮：横向排列
     return Row(
       children: actions.map((action) {
         return Expanded(
@@ -196,8 +183,6 @@ class BaseAppDialog extends StatelessWidget {
         child: action.customWidget,
       );
     }
-
-    // 主要按钮样式
     if (action.type == DialogActionType.primary) {
       final backgroundColor = action.isDestructive
           ? dialogTheme.errorColor
@@ -239,8 +224,6 @@ class BaseAppDialog extends StatelessWidget {
         ),
       );
     }
-
-    // 次要按钮样式（边框按钮）
     if (action.type == DialogActionType.secondary) {
       return SizedBox(
         height: 44,
@@ -259,8 +242,6 @@ class BaseAppDialog extends StatelessWidget {
         ),
       );
     }
-
-    // 文本按钮
     return TextButton(onPressed: onPressed, child: Text(action.label));
   }
 }

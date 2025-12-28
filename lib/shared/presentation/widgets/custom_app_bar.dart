@@ -4,64 +4,29 @@ import 'package:go_router/go_router.dart';
 
 import '../../../themes/colors.dart';
 
-/// 自定义 AppBar 组件
 ///
-/// 这是一个可复用的 AppBar 组件，支持多种自定义选项
 ///
-/// 使用示例:
 /// ```dart
 /// CustomAppBar(
-///   title: '页面标题',
 ///   onBackPressed: () => context.pop(),
 /// )
 /// ```
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  /// 标题文字
   final String? title;
-
-  /// 标题组件（优先级高于 title）
   final Widget? titleWidget;
-
-  /// 返回按钮图标
   final IconData? leadingIcon;
-
-  /// 返回按钮组件（优先级高于 leadingIcon）
   final Widget? leading;
-
-  /// 是否显示返回按钮，默认为 true
   final bool showLeading;
-
-  /// 返回按钮点击回调
   final VoidCallback? onBackPressed;
-
-  /// 右侧操作按钮列表
   final List<Widget>? actions;
-
-  /// 是否标题居中，默认为 true
   final bool centerTitle;
-
-  /// 背景颜色
   final Color? backgroundColor;
-
-  /// 前景色（影响文字和图标颜色）
   final Color? foregroundColor;
-
-  /// 标题文字样式
   final TextStyle? titleStyle;
-
-  /// 返回按钮图标颜色
   final Color? leadingIconColor;
-
-  /// 返回按钮图标大小
   final double? leadingIconSize;
-
-  /// 底部组件（如 TabBar）
   final PreferredSizeWidget? bottom;
-
-  /// AppBar 高度偏移
   final double? elevation;
-
-  /// 标题左侧间距
   final double? titleSpacing;
 
   const CustomAppBar({
@@ -82,16 +47,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.bottom,
     this.elevation,
     this.titleSpacing,
-  }) : assert(
-          title != null || titleWidget != null,
-          '必须提供 title 或 titleWidget',
-        );
+  }) : assert(title != null || titleWidget != null, ' title  titleWidget');
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
-    // 构建标题组件
     Widget buildTitle() {
       if (titleWidget != null) {
         return titleWidget!;
@@ -99,7 +59,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
       return Text(
         title ?? '',
-        style: titleStyle ??
+        style:
+            titleStyle ??
             theme.textTheme.titleLarge?.copyWith(
               fontSize: 18.sp,
               color: foregroundColor ?? AppColors.textPrimary(context),
@@ -107,7 +68,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       );
     }
 
-    // 构建返回按钮
     Widget? buildLeading() {
       if (!showLeading) {
         return null;
@@ -120,7 +80,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       return IconButton(
         icon: Icon(
           leadingIcon ?? Icons.arrow_back_ios,
-          color: leadingIconColor ??
+          color:
+              leadingIconColor ??
               foregroundColor ??
               AppColors.textPrimary(context),
           size: leadingIconSize ?? 20.w,
@@ -149,14 +110,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       Size.fromHeight(kToolbarHeight + (bottom?.preferredSize.height ?? 0.0));
 }
 
-/// 简单版本的 AppBar
 ///
-/// 适用于只需要标题和返回按钮的简单场景
 ///
-/// 使用示例:
 /// ```dart
 /// SimpleAppBar(
-///   title: '简单标题',
 /// )
 /// ```
 class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -184,14 +141,10 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-/// 无返回按钮的 AppBar
 ///
-/// 适用于根页面或不需要返回按钮的页面
 ///
-/// 使用示例:
 /// ```dart
 /// NoBackAppBar(
-///   title: '首页',
 ///   actions: [IconButton(...)],
 /// )
 /// ```

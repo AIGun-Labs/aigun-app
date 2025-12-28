@@ -32,7 +32,7 @@ class IntelUnreadBar extends StatelessWidget {
                 onTap ??
                 () {
                   scrollController?.animateTo(
-                    0.0, // 滚动到顶部
+                    0.0, //
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInOut,
                   );
@@ -54,7 +54,7 @@ class IntelUnreadBar extends StatelessWidget {
                     Icon(Icons.arrow_upward, size: 18.sp, color: Colors.white),
                     SizedBox(width: 2.w),
                     Text(
-                      S.of(context).newIntel(unreadList.length), // 显示过滤后的数量
+                      S.of(context).newIntel(unreadList.length), //
                       style: TextStyle(fontSize: 14.sp, color: Colors.white),
                     ),
                   ],

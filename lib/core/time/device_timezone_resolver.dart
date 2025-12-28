@@ -5,7 +5,6 @@ import '../../utils/logger.dart';
 
 Future<String?> resolveDeviceTimeZone() async {
   try {
-    // 插件获取设备时区（期望返回 IANA，如 Asia/Shanghai）
     final name = await ftz.FlutterTimezone.getLocalTimezone();
 
     Logger.info('device timezone: $name');
@@ -14,8 +13,6 @@ Future<String?> resolveDeviceTimeZone() async {
       return name.identifier;
     }
   } catch (_) {}
-
-  // 兜底：tz.local 的名称（可能已是 IANA）
   try {
     final localName = tz.local.name;
     if (tz.timeZoneDatabase.locations.containsKey(localName)) {

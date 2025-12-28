@@ -3,8 +3,8 @@ targets:
     builders:
       json_serializable:
         options:
-          explicit_to_json: true # 显式转换为 JSON
-          any_map: true # 允许任何类型的键
-          checked: false # 不检查字段
-          include_if_null: false # 不包含空字段
-          field_rename: none # 不重命名字段
+          explicit_to_json: true #  JSON
+          any_map: true #
+          checked: false #
+          include_if_null: false #
+          field_rename: none #

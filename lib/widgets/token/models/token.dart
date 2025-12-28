@@ -102,7 +102,6 @@ sealed class Token with _$Token {
       network: json['network'],
     );
   }
-  // 将 Entity 转换为 token
   factory Token.fromEntity(Entity entity) {
     try {
       final token = Token(
@@ -125,7 +124,7 @@ sealed class Token with _$Token {
       );
       return token;
     } catch (e) {
-      Logger.error('Token.fromEntity 转换失败: $e');
+      Logger.error('Token.fromEntity : $e');
       return const Token(
         isNative: false,
         chainId: '',

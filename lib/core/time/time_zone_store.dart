@@ -15,8 +15,6 @@ class TimeZoneStore {
   String get currentName => _name;
   tz.Location get location => _location;
   bool get initialized => _initialized;
-
-  /// 初始化：加载时区库，默认取设备时区（可自定义 resolver），失败兜底 UTC
   Future<void> init({
     String? timeZoneName,
     Future<String?> Function()? deviceTimeZoneResolver,
@@ -28,7 +26,7 @@ class TimeZoneStore {
     try {
       if (deviceTimeZoneResolver != null) {
         final v = await deviceTimeZoneResolver();
-        if (v != null && v.isNotEmpty) name = v; // 如 'Asia/Shanghai'
+        if (v != null && v.isNotEmpty) name = v; //  'Asia/Shanghai'
       }
       _location = tz.getLocation(name);
       _name = name;
@@ -42,7 +40,6 @@ class TimeZoneStore {
     _initialized = true;
   }
 
-  /// 切换当前展示时区（IANA 名称）
   void setTimeZone(String name) {
     try {
       _location = tz.getLocation(name);

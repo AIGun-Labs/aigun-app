@@ -15,20 +15,16 @@ class ClaimTokenCubit extends Cubit<ClaimTokenState> {
     : super(const ClaimTokenState.initial());
   final UnclaimedTokens _unclaimedTokens;
   final ClaimToken _claimToken;
-
-  ///初始化
   Future<void> init() async {
     Logger.info('ClaimTokenCubit init');
     emit(const ClaimTokenState.loading());
     await getUnclaimedTokens();
   }
 
-  ///领取代币
   Future<void> claimToken(ClaimTokenEntity token) async {
     await _claimToken.call(token.network, token.contract, token.amount);
   }
 
-  ///获取未领取的代币
   Future<void> getUnclaimedTokens() async {
     final result = await _unclaimedTokens.call();
 

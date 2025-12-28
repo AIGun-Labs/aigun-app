@@ -7,11 +7,11 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "版本号（例如：1.0.0）"
+        description: "（：1.0.0）"
         required: true
         default: "1.0.0"
       upload_provider:
-        description: "上传服务商 (s3/qiniu)"
+        description: " (s3/qiniu)"
         required: false
         default: "s3"
         type: choice

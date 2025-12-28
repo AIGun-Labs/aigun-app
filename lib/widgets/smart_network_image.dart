@@ -36,7 +36,6 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
   @override
   void initState() {
     super.initState();
-    // 在初始化时就开始判断图片类型，避免重复请求
     _isSvgFuture = _isSvgImage();
   }
 
@@ -48,7 +47,6 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
   @override
   void didUpdateWidget(SmartNetworkImage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // 如果URL改变了，重新判断
     if (oldWidget.url != widget.url) {
       _isSvgFuture = _isSvgImage();
     }
@@ -64,12 +62,9 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
   }
 
   Future<bool> _isSvgImage() async {
-    // 检查全局缓存
     if (_globalSvgCache.containsKey(widget.url)) {
       return _globalSvgCache[widget.url]!;
     }
-
-    // 通过URL后缀快速判断
     final uri = Uri.parse(widget.url);
     final path = uri.path.toLowerCase();
     if (path.endsWith('.svg')) {
@@ -83,8 +78,6 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
       _globalSvgCache[widget.url] = false;
       return false;
     }
-
-    // 如果无法通过后缀判断，则通过 content-type 判断（添加超时）
     try {
       final headers = widget.httpHeaders ?? _getDefaultHeaders();
       final response = await http
@@ -96,7 +89,6 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
       _globalSvgCache[widget.url] = isSvg;
       return isSvg;
     } catch (e) {
-      // 如果请求失败或超时，假设不是SVG
       _globalSvgCache[widget.url] = false;
       return false;
     }
@@ -121,8 +113,6 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
       future: _isSvgFuture,
       builder: (context, snapshot) {
         final errorWidget = widget.errorWidget ?? _buildDefaultErrorWidget();
-
-        // 如果正在加载，并且有loadingWidget，则显示loadingWidget
         if (snapshot.connectionState == ConnectionState.waiting &&
             widget.loadingWidget != null) {
           return widget.loadingWidget!;

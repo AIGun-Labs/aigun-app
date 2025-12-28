@@ -4,17 +4,11 @@ import '../../domain/repositories/example_repo.dart';
 import '../mappers/example_mapper.dart';
 import '../sources/example_remote_source.dart';
 
-/// 示例仓库实现
 ///
-/// 实现 Domain Layer 定义的仓库接口
-/// 负责协调数据源和映射器，将 Model 转换为 Entity
-/// 处理异常并返回 Result 类型
 class ExampleRepoImpl implements ExampleRepo {
   final ExampleRemoteSource _remoteSource;
 
-  /// 创建示例仓库实现
   ///
-  /// [remoteSource] 远程数据源实例
   ExampleRepoImpl(this._remoteSource);
 
   @override

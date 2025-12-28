@@ -22,7 +22,6 @@ sealed class CollectState with _$CollectState {
     @Default(CollectActionStatus.idle) CollectActionStatus actionStatus,
     String? errorMessage,
   }) = _CollectState;
-  // 添加私有构造函数
   const CollectState._();
 
   bool isCollected(BaseTokenEntity? token) {

@@ -6,8 +6,6 @@ import '../../../core/time/time_zone_store.dart';
 
 class TimeFormatter {
   TimeFormatter._();
-
-  /// 固定格式：默认 'MM.dd HH:mm'
   static String format(
     DateTime? dt,
     BuildContext ctx, {
@@ -24,7 +22,6 @@ class TimeFormatter {
     );
   }
 
-  /// 相对时间：刚刚/xx分钟前/昨天HH:mm/…
   static String relative(
     DateTime? dt,
     BuildContext ctx, {
@@ -39,6 +36,5 @@ class TimeFormatter {
     );
   }
 
-  /// 清理某语言环境的缓存（可选）
   static void clearLocale(String locale) => DateFormatCore.clearLocale(locale);
 }

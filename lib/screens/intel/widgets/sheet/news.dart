@@ -101,7 +101,6 @@ class NewsSheet extends StatelessWidget {
                   ),
                 ],
               ),
-              // SizedBox(height: 16.h), // 底部间距
               16.verticalSpace,
               ExternalLink(url: sourceUrl),
             ],

@@ -2,7 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'query_token_entity.freezed.dart';
 
-/// 查询代币实体 - 用于代币搜索结果
 @freezed
 sealed class QueryTokenEntity with _$QueryTokenEntity {
   const factory QueryTokenEntity({

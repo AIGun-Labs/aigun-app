@@ -16,19 +16,22 @@ import '../../../widgets/token_skeleton.dart';
 
 void showSelectTokenDialog(BuildContext context) {
   showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-          child: Container(
-            padding: const EdgeInsets.all(16.0),
-            child: SelectTokenList(
-                tokens: context.read<BalanceCubit>().state.balances?.tokens,
-                isLoading: false),
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: SelectTokenList(
+            tokens: context.read<BalanceCubit>().state.balances?.tokens,
+            isLoading: false,
           ),
-        );
-      });
+        ),
+      );
+    },
+  );
 }
 
 class SelectTokenList extends StatelessWidget {
@@ -52,25 +55,19 @@ class SelectTokenList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      // 如果有之前的数据，显示之前的数据
       if (tokens != null) {
         return _buildTokenList(context);
       }
-      // 首次加载显示骨架屏
       return const TokenSkeleton();
     }
-
-    // 显示错误状态
     if (errorMessage != null) {
       return ErrorRetryView(
-        errorMessage: errorMessage ?? '发生错误',
+        errorMessage: errorMessage ?? '',
         onRetry: () {
           context.read<BalanceCubit>().getBalanceList();
         },
       );
     }
-
-    // 显示数据
     return _buildTokenList(context);
   }
 
@@ -93,9 +90,7 @@ class SelectTokenList extends StatelessWidget {
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(S.of(context).tokens_addToken),
-                ],
+                children: [Text(S.of(context).tokens_addToken)],
               ),
             ),
           ),
@@ -110,7 +105,7 @@ class SelectTokenList extends StatelessWidget {
           showAddress: showAddress,
           onTap: () {
             getIt<SwapCubit>().updateToken(token);
-            context.pop(); // 关闭弹窗
+            context.pop(); //
           },
         );
       }).toList(),

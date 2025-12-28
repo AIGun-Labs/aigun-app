@@ -10,8 +10,6 @@ import 'swap_event.dart';
 part 'swap_state.freezed.dart';
 
 // ==================== Default Tokens ====================
-
-/// 默认目标代币（USDC on Solana）
 const TransactionEntity defaultTradeToken = TransactionEntity(
   isNative: false,
   chainId: '1151111081099710',
@@ -28,8 +26,6 @@ const TransactionEntity defaultTradeToken = TransactionEntity(
   network: 'solana',
   symbol: 'USDC',
 );
-
-/// 默认源代币（SOL on Solana）
 const TransactionEntity defaultFormTradeToken = TransactionEntity(
   isNative: true,
   chainId: '1151111081099710',
@@ -46,8 +42,6 @@ const TransactionEntity defaultFormTradeToken = TransactionEntity(
   network: 'solana',
   symbol: 'SOL',
 );
-
-/// 默认 BNB 代币
 const TransactionEntity defaultBNBTradeToken = TransactionEntity(
   isNative: true,
   chainId: '56',
@@ -63,8 +57,6 @@ const TransactionEntity defaultBNBTradeToken = TransactionEntity(
   network: 'bsc',
   symbol: 'BNB',
 );
-
-// ==================== Legacy Status Types (保持向后兼容) ====================
 
 enum TradeStatus { none, paramsInvalid }
 
@@ -104,8 +96,6 @@ sealed class TradeStatusMessage with _$TradeStatusMessage {
 }
 
 // ==================== New Status Types ====================
-
-/// Swap 整体状态
 @freezed
 sealed class SwapStatus with _$SwapStatus {
   const factory SwapStatus.initial() = _SwapStatusInitial;
@@ -117,78 +107,32 @@ sealed class SwapStatus with _$SwapStatus {
 }
 
 // ==================== Main State ====================
-
-/// SwapState - 主协调器状态
 ///
-/// 这个状态聚合了子 Cubit 的关键数据，用于 UI 渲染
 @freezed
 sealed class SwapState with _$SwapState {
   const factory SwapState({
-    // ==================== 从子 Cubit 同步的状态 ====================
-
-    /// 源代币（从 TokenSelectionCubit 同步）
     @Default(defaultFormTradeToken) TransactionEntity? fromToken,
-
-    /// 目标代币（从 TokenSelectionCubit 同步）
     @Default(defaultTradeToken) TransactionEntity? toToken,
-
-    /// 源代币余额（从 TokenSelectionCubit 同步）
     @Default(null) double? fromBalance,
-
-    /// 可用代币列表（从 TokenSelectionCubit 同步）
     @Default([]) List<BaseTokenEntity> availableTokens,
-
-    /// 原生代币列表（从 TokenSelectionCubit 同步）
     @Default([]) List<BaseTokenEntity> nativeTokens,
-
-    /// 当前报价（从 QuoteCubit 同步）
     @Default(null) QuoteEntity? quote,
-
-    /// 交易金额（从 QuoteCubit 同步）
     @Default('') String amount,
-
-    // ==================== 综合状态 ====================
-
-    /// Swap 整体状态
     @Default(SwapStatus.initial()) SwapStatus swapStatus,
-
-    /// 参数验证状态
     @Default(TradeParamsStatus.initial()) TradeParamsStatus paramsStatus,
-
-    /// 询价状态
     @Default(QuoteStatus.initial()) QuoteStatus quoteStatus,
-
-    /// 余额状态
     @Default(GetTokenBalanceStatus.initial())
     GetTokenBalanceStatus fromBalanceStatus,
-
-    // ==================== 事件（用于 UI 响应） ====================
-
-    /// 一次性事件（Toast、导航等）
     @Default(null) SwapEvent? event,
-
-    // ==================== Legacy 字段（保持向后兼容） ====================
-
-    /// @deprecated 使用 swapStatus 替代
     @Default(TradeStatusMessage.initial()) TradeStatusMessage status,
-
-    /// @deprecated 使用 amount 替代
     @Default(null) String? toAmount,
-
-    /// @deprecated 询价时间戳
     @Default(null) DateTime? lastQuoteTimestamp,
-
-    /// 滑点设置
     @Default(100) int slippage,
-
-    /// 优先费用
     @Default(0) int priorityFee,
   }) = _SwapState;
   const SwapState._();
 
   // ==================== Computed Properties ====================
-
-  /// 检查是否可以执行交易
   bool get canTrade =>
       fromToken != null &&
       toToken != null &&
@@ -196,20 +140,12 @@ sealed class SwapState with _$SwapState {
       fromBalance != null &&
       fromBalance! > 0 &&
       quote != null;
-
-  /// 检查是否正在交易中
   bool get isTrading => swapStatus is _SwapStatusTrading;
-
-  /// 检查交易是否成功
   bool get isSuccess => swapStatus is _SwapStatusSuccess;
-
-  /// 获取输出金额
   String? get outputAmount => quote?.outAmount;
 }
 
 // ==================== UI Config ====================
-
-/// 交易按钮配置
 class TradeButtonConfig {
   const TradeButtonConfig({
     required this.isEnabled,

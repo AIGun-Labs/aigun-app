@@ -26,8 +26,6 @@ class SwapCubit extends Cubit<SwapState> {
       getQuote();
     });
   }
-
-  // 取消定时器
   @override
   Future<void> close() {
     _quoteTimer?.cancel();
@@ -86,36 +84,28 @@ class SwapCubit extends Cubit<SwapState> {
   }) async {
     if (state.selectedToken == null) {
       emit(
-        state.copyWith(
-          transactionStatus: const TransactionStatus.error("请选择代币"),
-        ),
+        state.copyWith(transactionStatus: const TransactionStatus.error("")),
       );
       return;
     }
 
     if (state.amount.isEmpty) {
       emit(
-        state.copyWith(
-          transactionStatus: const TransactionStatus.error("输入金额不能为空"),
-        ),
+        state.copyWith(transactionStatus: const TransactionStatus.error("")),
       );
       return;
     }
 
     if (state.outputMint.isEmpty) {
       emit(
-        state.copyWith(
-          transactionStatus: const TransactionStatus.error("输出地址不能为空"),
-        ),
+        state.copyWith(transactionStatus: const TransactionStatus.error("")),
       );
       return;
     }
 
     if (state.fromChainId == int.tryParse(state.toChainId)) {
       emit(
-        state.copyWith(
-          transactionStatus: const TransactionStatus.error("输入和输出链不能相同"),
-        ),
+        state.copyWith(transactionStatus: const TransactionStatus.error("")),
       );
       return;
     }
@@ -123,18 +113,14 @@ class SwapCubit extends Cubit<SwapState> {
     if (state.selectedToken!.tokenAddress == state.outputMint &&
         state.selectedToken!.tokenAddress.isNotEmpty) {
       emit(
-        state.copyWith(
-          transactionStatus: const TransactionStatus.error("输入和输出代币不能相同"),
-        ),
+        state.copyWith(transactionStatus: const TransactionStatus.error("")),
       );
       return;
     }
 
     if (state.selectedToken == null) {
       emit(
-        state.copyWith(
-          transactionStatus: const TransactionStatus.error("请选择代币"),
-        ),
+        state.copyWith(transactionStatus: const TransactionStatus.error("")),
       );
       return;
     }
@@ -142,9 +128,7 @@ class SwapCubit extends Cubit<SwapState> {
     if (!AddressValidator.validationAddress(inputMint).isValid &&
         inputMint.isNotEmpty) {
       emit(
-        state.copyWith(
-          transactionStatus: const TransactionStatus.error("输入地址格式不正确"),
-        ),
+        state.copyWith(transactionStatus: const TransactionStatus.error("")),
       );
       return;
     }
@@ -161,9 +145,7 @@ class SwapCubit extends Cubit<SwapState> {
 
     if (newAmount == "0") {
       emit(
-        state.copyWith(
-          transactionStatus: const TransactionStatus.error("输入金额不能为0"),
-        ),
+        state.copyWith(transactionStatus: const TransactionStatus.error("0")),
       );
       return;
     }
@@ -172,7 +154,8 @@ class SwapCubit extends Cubit<SwapState> {
 
     try {
       emit(
-          state.copyWith(transactionStatus: const TransactionStatus.loading()));
+        state.copyWith(transactionStatus: const TransactionStatus.loading()),
+      );
 
       final response = await _walletTransactionApi.swap(
         fromChainId: state.selectedToken!.chainId.toString(),
@@ -190,18 +173,21 @@ class SwapCubit extends Cubit<SwapState> {
         state.copyWith(transactionStatus: TransactionStatus.success(response)),
       );
     } catch (e, s) {
-      await SentryService().reportError(e, s, tags: {
-        "feature": "swap"
-      }, extra: {
-        "fromChainId": state.selectedToken!.chainId.toString(),
-        "toChainId": state.toToken!.chainId!,
-        "inputMint": state.selectedToken!.tokenAddress,
-        "outputMint": state.toToken!.tokenAddress!,
-        "amount": newAmount,
-        "slippage": state.slippage.round().toInt(),
-        "walletId": _walletCubit.state.wallets.first.id!,
-        "priorityFee": newPriorityFee,
-      });
+      await SentryService().reportError(
+        e,
+        s,
+        tags: {"feature": "swap"},
+        extra: {
+          "fromChainId": state.selectedToken!.chainId.toString(),
+          "toChainId": state.toToken!.chainId!,
+          "inputMint": state.selectedToken!.tokenAddress,
+          "outputMint": state.toToken!.tokenAddress!,
+          "amount": newAmount,
+          "slippage": state.slippage.round().toInt(),
+          "walletId": _walletCubit.state.wallets.first.id!,
+          "priorityFee": newPriorityFee,
+        },
+      );
     } finally {
       emit(state.copyWith(isLoading: false));
     }
@@ -224,7 +210,8 @@ class SwapCubit extends Cubit<SwapState> {
       return;
     }
 
-    final newAmount = (Decimal.tryParse(state.amount) ?? Decimal.zero) *
+    final newAmount =
+        (Decimal.tryParse(state.amount) ?? Decimal.zero) *
         Decimal.parse(pow(10, state.selectedToken!.decimals).toString());
 
     if (newAmount == Decimal.zero) {
@@ -238,14 +225,14 @@ class SwapCubit extends Cubit<SwapState> {
       emit(state.copyWith(quoteStatus: const QuoteStatus.loading()));
 
       final quote = await _walletTransactionApi.getQuote(
-        fromChainId: state.selectedToken!.chainId.toString(), // 用户选择的链
-        toChainId: state.toToken?.chainId ?? "", // 目标链
-        inputMint: state.selectedToken!.tokenAddress, // 用户选择的代币地址
+        fromChainId: state.selectedToken!.chainId.toString(), //
+        toChainId: state.toToken?.chainId ?? "", //
+        inputMint: state.selectedToken!.tokenAddress, //
         // inputMint: state.inputMint,
-        outputMint: state.toToken?.tokenAddress ?? "", // 目标代币地址
+        outputMint: state.toToken?.tokenAddress ?? "", //
         // outputMint: "0xba2ae424d960c26247dd6c32edc70b295c744c43",
-        amount: newAmount.toBigInt().toInt(), // 输入的数量需要乘以主币decimal
-        slippage: (state.slippage.toInt() * 100).toInt(), // 滑点
+        amount: newAmount.toBigInt().toInt(), // decimal
+        slippage: (state.slippage.toInt() * 100).toInt(), //
       );
 
       emit(
@@ -253,18 +240,21 @@ class SwapCubit extends Cubit<SwapState> {
       );
     } catch (e, s) {
       emit(state.copyWith(quoteStatus: QuoteStatus.error(e.toString())));
-      await SentryService().reportError(e, s, tags: {
-        "feature": "swap"
-      }, extra: {
-        "fromChainId": state.selectedToken!.chainId.toString(), // 用户选择的链
-        "toChainId": state.toToken?.chainId ?? "", // 目标链
-        "inputMint": state.selectedToken!.tokenAddress, // 用户选择的代币地址
-        // inputMint: state.inputMint,
-        "outputMint": state.toToken?.tokenAddress ?? "", // 目标代币地址
-        // outputMint: "0xba2ae424d960c26247dd6c32edc70b295c744c43",
-        "amount": newAmount.toBigInt().toInt(), // 输入的数量需要乘以主币decimal
-        "slippage": (state.slippage.toInt() * 100).toInt(), // 滑点
-      });
+      await SentryService().reportError(
+        e,
+        s,
+        tags: {"feature": "swap"},
+        extra: {
+          "fromChainId": state.selectedToken!.chainId.toString(), //
+          "toChainId": state.toToken?.chainId ?? "", //
+          "inputMint": state.selectedToken!.tokenAddress, //
+          // inputMint: state.inputMint,
+          "outputMint": state.toToken?.tokenAddress ?? "", //
+          // outputMint: "0xba2ae424d960c26247dd6c32edc70b295c744c43",
+          "amount": newAmount.toBigInt().toInt(), // decimal
+          "slippage": (state.slippage.toInt() * 100).toInt(), //
+        },
+      );
     }
   }
 }

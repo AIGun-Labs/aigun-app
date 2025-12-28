@@ -39,18 +39,11 @@ import 'services/secure_token_storage_service.dart';
 import 'services/secure_user_storage_service.dart';
 
 final getIt = GetIt.instance;
-
-/// 核心服务初始化 - 应用启动时必须
 Future<void> setupCoreServices({required bool enableNetworkLog}) async {
-  // 等待异步服务初始化完成
   await setupLocalStorageServices();
-
-  // 初始化用户核心服务
   final userCubit = NewUserCubit(getIt(), getIt());
   await userCubit.init();
   getIt.registerSingleton(userCubit);
-
-  // 初始化网络模块
   await NetworkModule(getIt, enableNetworkLog: enableNetworkLog).init();
 
   setupApiServices();
@@ -60,27 +53,15 @@ Future<void> setupCoreServices({required bool enableNetworkLog}) async {
   await setupServiceLocator();
 }
 
-/// 非核心服务使用懒加载
 Future<void> setupServiceLocator() async {
-  // 设置语言模块
   LanguageModule(getIt).init();
-  // 设置Auth模块
   AuthModule(getIt).init();
-
-  // 设置更新模块
   UpdateModule(getIt).init();
-
-  // 设置Trending模块
   TrendingModule(getIt).init();
-
-  // 设置Invite模块
   InviteModule(getIt).init();
-
-  //设置Collect模块
   CollectModule(getIt).init();
 
   SwapModule(getIt).init();
-  //设置TokenDetail模块
   TokenDetailModule(getIt).init();
 
   ChainModule(getIt).init();
@@ -88,8 +69,6 @@ Future<void> setupServiceLocator() async {
   IntelligenceModule(getIt).init();
 
   CandlestickModule(getIt).init();
-
-  //设置DynamicTabs模块
   DynamicTabsModule(getIt).init();
 }
 
@@ -116,14 +95,9 @@ void setupApiServices() {
 }
 
 Future<void> setupLocalStorageServices() async {
-  //注册 SharedPreferences
   final sharedPreferences = await SharedPreferences.getInstance();
   getIt.registerSingleton<SharedPreferences>(sharedPreferences);
-
-  //注册 FlutterSecureStorage
   getIt.registerSingleton(const FlutterSecureStorage());
-
-  // 预先初始化 SettingsStorage，确保 BalanceCubit 依赖可用
   getIt.registerSingleton(SettingsStorage(getIt()));
 
   final secureUserStorageService = SecureUserStorageServiceImpl(getIt());

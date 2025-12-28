@@ -118,7 +118,6 @@ class SwapRemoteSource {
     if (network == Network.solana.value &&
         options.gasPrice != null &&
         tradeMode == TradeMode.custom) {
-      // 只有solana 自定义模式才需要设置优先费和贿赂费
       queryParameters['priority_fee'] = newPriorityFee;
       queryParameters['tip_fee'] = newTipFee;
       queryParameters.remove('gas_price');
@@ -135,7 +134,6 @@ class SwapRemoteSource {
     return QuoteModel.fromJson(resposne);
   }
 
-  /// 获取交易状态
   Future<TransactionStatusModel> getTransactionStatus({
     required String txHash,
     required String chainId,

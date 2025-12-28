@@ -50,7 +50,6 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
     await _loadNativeTokens();
     _startBalancePolling();
     _setupBalanceCubitListener();
-    // 立即获取一次余额，避免等待轮询
     await _refreshBalance();
   }
 

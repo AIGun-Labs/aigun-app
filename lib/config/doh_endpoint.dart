@@ -31,7 +31,7 @@ class DohEndpoint {
       headers: {'Accept': 'application/dns-json'},
     );
   }
-  final String name; // 方便日志区分，比如 "google" / "cloudflare"
-  final String baseUrl; // 如 https://dns.google/resolve
+  final String name; // ， "google" / "cloudflare"
+  final String baseUrl; //  https://dns.google/resolve
   final Map<String, String> headers;
 }

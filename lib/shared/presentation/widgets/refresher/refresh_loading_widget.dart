@@ -18,8 +18,8 @@ class RefreshLoadingWidget extends StatelessWidget {
             dotlottie.animations.values.single,
             height: 60.w,
             width: 60.w,
-            animate: isRefreshing, // ✅ 只在刷新时动
-            repeat: isRefreshing, // ✅ 刷新中循环
+            animate: isRefreshing, // ✅
+            repeat: isRefreshing, // ✅
           );
         }
         return const SizedBox.shrink();

@@ -18,22 +18,17 @@ class CandlestickModule implements InjectionModule {
 
   @override
   Future<void> init() async {
-    // 数据源
     _sl
-      // 数据源
       ..registerLazySingleton(() => CandlestickRemoteDataSource(_sl()))
-      // 仓库
       ..registerLazySingleton<CandlestickRepository>(
         () => CandlestickRepositoryImpl(_sl<CandlestickRemoteDataSource>()),
       )
-      // 用例
       ..registerLazySingleton(() => FetchHistoryCandlesticks(_sl()))
       ..registerLazySingleton(() => FetchLatestCandlesticks(_sl()))
       // Cubit
       ..registerLazySingleton(SelectionParamsCubit.new)
       ..registerLazySingleton(() => HistoryCandlestickCubit(_sl(), _sl()))
       ..registerLazySingleton(() => LatestCandlestickCubit(_sl()))
-      // 使用 factory 是因为要在 route 中使用
       ..registerFactoryParam<CandlestickCubit, TokenInfoCubit, void>(
         (tokenInfoCubit, _) => CandlestickCubit(
           selectionParamsCubit: _sl<SelectionParamsCubit>(),

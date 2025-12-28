@@ -18,8 +18,6 @@ import '../../domain/usecases/verify_checksum.dart';
 part 'update_cubit.freezed.dart';
 part 'update_state.dart';
 
-/// 应用更新管理 Cubit
-/// 负责检查更新、下载更新包、校验文件完整性等功能
 class UpdateCubit extends Cubit<UpdateState> {
   UpdateCubit(
     this._check,
@@ -30,20 +28,17 @@ class UpdateCubit extends Cubit<UpdateState> {
     this._openSettings,
   ) : super(const UpdateState.initial());
 
-  final CheckForUpdateV2 _check; // 检查更新用例
-  final DownloadUpdate _download; // 下载更新用例
-  final VerifyChecksum _verify; // 校验和验证用例
-  final InstallerApk _install; // 安装更新用例
-  final CanInstallFromUnknownSources _canInstall; // 检查是否可以安装未知来源用例
-  final OpenInstallSettings _openSettings; // 打开安装设置用例
+  final CheckForUpdateV2 _check; //
+  final DownloadUpdate _download; //
+  final VerifyChecksum _verify; //
+  final InstallerApk _install; //
+  final CanInstallFromUnknownSources _canInstall; //
+  final OpenInstallSettings _openSettings; //
 
-  StreamSubscription<double>? _progressSub; // 下载进度订阅
-  ConfigEntity? _info; // 当前更新信息
-
-  /// 检查是否有可用更新
+  StreamSubscription<double>? _progressSub; //
+  ConfigEntity? _info; //
   Future<void> checkForUpdate() async {
     if (Platform.isIOS) {
-      //ios更新不可用
       emit(const UpdateState.iosUnavailable());
       return;
     }
@@ -53,7 +48,6 @@ class UpdateCubit extends Cubit<UpdateState> {
       final latest = await _check.call();
       print('latestVersion: ${latest?.latest}');
       if (latest == null) {
-        // 已是最新版本
         emit(const UpdateState.noUpdate());
         return;
       }
@@ -66,24 +60,20 @@ class UpdateCubit extends Cubit<UpdateState> {
     }
   }
 
-  /// 开始下载更新包
   Future<void> startDownload() async {
     if (state is! UpdateAvailable || _info == null) {
       emit(const UpdateState.error(message: 'no update available'));
       return;
     }
     emit(const UpdateState.downloading(progress: 0));
-
-    // 订阅下载进度
     await _progressSub?.cancel();
 
     _progressSub = _download.progress$.listen((p) {
-      final safe = p.isNaN ? 0.0 : p; // 防止 NaN 值
+      final safe = p.isNaN ? 0.0 : p; //  NaN
       emit(UpdateState.downloading(progress: safe));
     });
 
     try {
-      // 执行下载
       final path = await _download.call(
         url: _info!.url,
         filename: _info!.filename,
@@ -99,8 +89,6 @@ class UpdateCubit extends Cubit<UpdateState> {
         );
         return;
       }
-
-      // 验证文件完整性
       await verifyChecksum(path);
     } catch (e) {
       await _progressSub?.cancel();
@@ -108,7 +96,6 @@ class UpdateCubit extends Cubit<UpdateState> {
     }
   }
 
-  //安装包校验和验证
   Future<void> verifyChecksum(String path) async {
     final ok = await _verify.call(path);
     if (!ok) {
@@ -120,7 +107,6 @@ class UpdateCubit extends Cubit<UpdateState> {
     await checkCanInstall(path);
   }
 
-  //检查是否可以安装未知来源
   Future<void> checkCanInstall(String path) async {
     final canInstall = await _canInstall.call();
     if (!canInstall) {
@@ -131,7 +117,6 @@ class UpdateCubit extends Cubit<UpdateState> {
     await installApk(path);
   }
 
-  /// 发起安装
   Future<void> installApk(String path) async {
     try {
       await _install.call(path);
@@ -148,13 +133,10 @@ class UpdateCubit extends Cubit<UpdateState> {
     }
   }
 
-  /// 引导去设置授权"允许此来源安装"
   Future<void> openInstallPermissionSettings() async {
     await _openSettings.call();
   }
 
-  /// 从设置返回后重新检查权限并继续安装
-  /// 如果当前状态是 installNeedsPermission，重新检查权限
   Future<void> resumeInstallFromSettings() async {
     final currentState = state;
     if (currentState is UpdateInstallNeedsPermission) {
@@ -163,13 +145,11 @@ class UpdateCubit extends Cubit<UpdateState> {
       final canInstall = await _canInstall.call();
 
       if (canInstall) {
-        // 有权限了，直接安装
         await installApk(path);
       } else {
         Logger.info(
           'still no permission, staying in installNeedsPermission state',
         );
-        // 没有权限，保持原状态
       }
     }
   }

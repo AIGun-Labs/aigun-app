@@ -51,9 +51,7 @@ class TokenListTileSkeleton extends StatelessWidget {
       child: Row(
         spacing: 16.w,
         children: [
-          // 左侧头像骨架
           buildAvatarWidget(context),
-          // 中间两行文字
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,7 +63,6 @@ class TokenListTileSkeleton extends StatelessWidget {
               ],
             ),
           ),
-          // 右侧两行文字
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,

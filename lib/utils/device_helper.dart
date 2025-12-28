@@ -2,9 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
-/// 设备帮助工具类
 class DeviceHelper {
-  /// 获取设备类型字符串
   static String getDeviceType() {
     if (Platform.isAndroid) {
       return 'android';
@@ -23,7 +21,6 @@ class DeviceHelper {
     }
   }
 
-  /// 获取设备类型枚举
   static DeviceType getDeviceTypeEnum() {
     if (Platform.isAndroid) {
       return DeviceType.android;
@@ -42,23 +39,19 @@ class DeviceHelper {
     }
   }
 
-  /// 检查是否为移动设备
   static bool get isMobileDevice {
     return Platform.isAndroid || Platform.isIOS;
   }
 
-  /// 检查是否为桌面设备
   static bool get isDesktopDevice {
     return Platform.isWindows || Platform.isMacOS || Platform.isLinux;
   }
 
-  /// 检查是否为 Web 平台
   static bool get isWebPlatform {
     return kIsWeb;
   }
 }
 
-/// 设备类型枚举
 enum DeviceType {
   android,
   ios,
@@ -68,7 +61,6 @@ enum DeviceType {
   web,
   unknown;
 
-  /// 获取设备类型字符串
   String get value {
     switch (this) {
       case DeviceType.android:
@@ -88,7 +80,6 @@ enum DeviceType {
     }
   }
 
-  /// 获取设备类型显示名称
   String get displayName {
     switch (this) {
       case DeviceType.android:

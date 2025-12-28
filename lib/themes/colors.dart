@@ -19,7 +19,6 @@ class LightThemeColors {
   static const Color card = Color.fromRGBO(245, 245, 245, 1);
   static const Color shimmerBaseColor = Color.fromRGBO(245, 245, 245, 1);
   static const Color shimmerHighlightColor = Color.fromRGBO(221, 227, 225, 1);
-  // 文本颜色
   static const Color textPrimary = Color.fromRGBO(0, 0, 0, 1);
   static const Color textSecondary = Color.fromRGBO(86, 86, 86, 1);
   static const Color textTertiary = Color.fromARGB(255, 144, 144, 144);
@@ -35,22 +34,16 @@ class DarkThemeColors {
   static const Color quaternary = AppColors.quaternary;
   static const Color quinary = AppColors.quinary;
   static const Color senary = AppColors.senary;
-  static const Color background = Color.fromRGBO(0, 0, 0, 1); // 修正透明度
+  static const Color background = Color.fromRGBO(0, 0, 0, 1); //
   static const Color foreground = Color.fromRGBO(255, 255, 255, 0.3);
   static const Color shimmerBaseColor = Color.fromRGBO(42, 42, 42, 1);
   static const Color shimmerHighlightColor = Color.fromRGBO(62, 62, 62, 1);
-
-  // 背景
   static const Color surface = Color.fromRGBO(42, 42, 42, 1);
-
-  // 深色模式下的边框色
   static const Color border = Color.fromRGBO(221, 227, 225, 1);
   static const Color borderSecondary = Color.fromRGBO(235, 235, 235, 1);
   static const Color borderTertiary = Color.fromRGBO(29, 171, 226, 1);
 
   static const Color card = Color.fromRGBO(42, 42, 42, 1);
-
-// 文本
   static const Color textPrimary = Color.fromRGBO(255, 255, 255, 1);
   static const Color textSecondary = Color.fromRGBO(222, 222, 222, 1);
   static const Color textTertiary = Color.fromRGBO(169, 169, 169, 1);
@@ -102,83 +95,78 @@ class AppColors {
   }
 
   static Color background(BuildContext context) => getColor(
-        context,
-        lightColor: LightThemeColors.background,
-        darkColor: DarkThemeColors.background,
-      );
+    context,
+    lightColor: LightThemeColors.background,
+    darkColor: DarkThemeColors.background,
+  );
 
   static Color foreground(BuildContext context) => getColor(
-        context,
-        lightColor: LightThemeColors.foreground,
-        darkColor: DarkThemeColors.foreground,
-      );
+    context,
+    lightColor: LightThemeColors.foreground,
+    darkColor: DarkThemeColors.foreground,
+  );
 
   static Color surface(BuildContext context) => getColor(
-        context,
-        lightColor: LightThemeColors.surface,
-        darkColor: DarkThemeColors.surface,
-      );
+    context,
+    lightColor: LightThemeColors.surface,
+    darkColor: DarkThemeColors.surface,
+  );
 
   static Color border(BuildContext context) => getColor(
-        context,
-        lightColor: LightThemeColors.border,
-        darkColor: DarkThemeColors.border,
-      );
+    context,
+    lightColor: LightThemeColors.border,
+    darkColor: DarkThemeColors.border,
+  );
 
   static Color borderSecondary(BuildContext context) => getColor(
-        context,
-        lightColor: LightThemeColors.borderSecondary,
-        darkColor: DarkThemeColors.borderSecondary,
-      );
+    context,
+    lightColor: LightThemeColors.borderSecondary,
+    darkColor: DarkThemeColors.borderSecondary,
+  );
 
-  static Color borderTertiary(BuildContext context) => getColor(context,
-      lightColor: LightThemeColors.borderTertiary,
-      darkColor: DarkThemeColors.borderTertiary);
+  static Color borderTertiary(BuildContext context) => getColor(
+    context,
+    lightColor: LightThemeColors.borderTertiary,
+    darkColor: DarkThemeColors.borderTertiary,
+  );
 
   static Color card(BuildContext context) => getColor(
-        context,
-        lightColor: LightThemeColors.card,
-        darkColor: DarkThemeColors.card,
-      );
+    context,
+    lightColor: LightThemeColors.card,
+    darkColor: DarkThemeColors.card,
+  );
 
   static Color shimmerBaseColor(BuildContext context) => getColor(
-        context,
-        lightColor: LightThemeColors.shimmerBaseColor,
-        darkColor: DarkThemeColors.shimmerBaseColor,
-      );
+    context,
+    lightColor: LightThemeColors.shimmerBaseColor,
+    darkColor: DarkThemeColors.shimmerBaseColor,
+  );
 
   static Color shimmerHighlightColor(BuildContext context) => getColor(
-        context,
-        lightColor: LightThemeColors.shimmerHighlightColor,
-        darkColor: DarkThemeColors.shimmerHighlightColor,
-      );
-// 文本主要颜色
+    context,
+    lightColor: LightThemeColors.shimmerHighlightColor,
+    darkColor: DarkThemeColors.shimmerHighlightColor,
+  );
   static Color textPrimary(BuildContext context) => getColor(
-        context,
-        lightColor: LightThemeColors.textPrimary,
-        darkColor: DarkThemeColors.textPrimary,
-      );
-
-// 文本次要颜色
+    context,
+    lightColor: LightThemeColors.textPrimary,
+    darkColor: DarkThemeColors.textPrimary,
+  );
   static Color textSecondary(BuildContext context) => getColor(
-        context,
-        lightColor: LightThemeColors.textSecondary,
-        darkColor: DarkThemeColors.textSecondary,
-      );
-
-// 文本三级颜色
+    context,
+    lightColor: LightThemeColors.textSecondary,
+    darkColor: DarkThemeColors.textSecondary,
+  );
   static Color textTertiary(BuildContext context) => getColor(
-        context,
-        lightColor: LightThemeColors.textTertiary,
-        darkColor: DarkThemeColors.textTertiary,
-      );
-
-// 文本四级颜色
+    context,
+    lightColor: LightThemeColors.textTertiary,
+    darkColor: DarkThemeColors.textTertiary,
+  );
   static Color textQuaternary(BuildContext context) => getColor(
-        context,
-        lightColor: LightThemeColors.textQuaternary,
-        darkColor: DarkThemeColors.textQuaternary,
-      );
+    context,
+    lightColor: LightThemeColors.textQuaternary,
+    darkColor: DarkThemeColors.textQuaternary,
+  );
 
   // static Color textQuinary(BuildContext context) => getColor(
   //       context,
@@ -187,20 +175,20 @@ class AppColors {
   //     );
 
   static Color buttonPrimary(BuildContext context) => getColor(
-        context,
-        lightColor: LightThemeColors.buttonPrimary,
-        darkColor: DarkThemeColors.buttonPrimary,
-      );
+    context,
+    lightColor: LightThemeColors.buttonPrimary,
+    darkColor: DarkThemeColors.buttonPrimary,
+  );
 
   static Color bgGradientStart(BuildContext context) => getColor(
-        context,
-        lightColor: AppColors.bgGradientLight,
-        darkColor: AppColors.bgGradientDark,
-      );
+    context,
+    lightColor: AppColors.bgGradientLight,
+    darkColor: AppColors.bgGradientDark,
+  );
 
   static Color bgGradientEnd(BuildContext context) => getColor(
-        context,
-        lightColor: AppColors.bgGradientLight2,
-        darkColor: AppColors.bgGradientDart2,
-      );
+    context,
+    lightColor: AppColors.bgGradientLight2,
+    darkColor: AppColors.bgGradientDart2,
+  );
 }

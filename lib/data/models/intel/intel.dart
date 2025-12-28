@@ -260,8 +260,6 @@ sealed class IntelChain with _$IntelChain {
 
 @freezed
 sealed class Entity with _$Entity {
-  // 添加私有构造函数以支持自定义 getter
-
   const factory Entity({
     String? id,
     @JsonKey(name: 'entity_id') String? entityId,

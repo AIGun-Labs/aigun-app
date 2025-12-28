@@ -43,9 +43,7 @@ class TokenSwapStorage {
   final SharedPreferences _prefs;
   static const String _fromTokenKey = 'from_token_swap';
   static const String _toTokenKey = 'to_token_swap';
-  static const String _tokenSwapKey = 'token_swap'; // 保留用于清理旧数据
-
-  // 初始化
+  static const String _tokenSwapKey = 'token_swap'; //
   Future<void> init() async {
     final fromToken = await getFromToken();
     if (fromToken == null) {
@@ -67,12 +65,10 @@ class TokenSwapStorage {
   Future<void> saveFromToken(Token fromToken) async {
     final fromTokenJson = fromToken.toJson();
     await _prefs.setString(_fromTokenKey, jsonEncode(fromTokenJson));
-    // 清理旧的错误数据
     await _prefs.remove(_tokenSwapKey);
   }
 
   Future<Token?> getFromToken() async {
-    // 优先读取新的 key
     var fromTokenString = _prefs.getString(_fromTokenKey);
 
     if (fromTokenString == null) {
@@ -80,9 +76,7 @@ class TokenSwapStorage {
     }
 
     try {
-      // 验证是否为有效的 JSON
       if (!fromTokenString.startsWith('{') || !fromTokenString.endsWith('}')) {
-        // 数据损坏，清除并返回 null
         await _prefs.remove(_fromTokenKey);
         return Token.fromTradeToken(defaultFormTradeToken);
       }
@@ -90,7 +84,6 @@ class TokenSwapStorage {
       final fromTokenJson = jsonDecode(fromTokenString);
       return Token.fromJson(fromTokenJson);
     } catch (e) {
-      // 解析失败，清除损坏的数据
       await _prefs.remove(_fromTokenKey);
       return Token.fromTradeToken(defaultFormTradeToken);
     }
@@ -108,9 +101,7 @@ class TokenSwapStorage {
     }
 
     try {
-      // 验证是否为有效的 JSON
       if (!toTokenString.startsWith('{') || !toTokenString.endsWith('}')) {
-        // 数据损坏，清除并返回 null
         await _prefs.remove(_toTokenKey);
         return Token.fromTradeToken(defaultTradeToken);
       }
@@ -118,7 +109,6 @@ class TokenSwapStorage {
       final toTokenJson = jsonDecode(toTokenString);
       return Token.fromJson(toTokenJson);
     } catch (e) {
-      // 解析失败，清除损坏的数据
       await _prefs.remove(_toTokenKey);
       return Token.fromTradeToken(defaultTradeToken);
     }

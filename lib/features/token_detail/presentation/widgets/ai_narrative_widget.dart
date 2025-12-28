@@ -63,13 +63,10 @@ class AINarrativeSectionSkeleton extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 第一行内容骨架屏
         TextSkeleton(width: double.infinity, height: 18.h),
         SizedBox(height: 8.h),
-        // 第二行内容骨架屏
         TextSkeleton(width: double.infinity, height: 18.h),
         SizedBox(height: 8.h),
-        // 第三行内容骨架屏
         TextSkeleton(width: 280.w, height: 18.h),
       ],
     );

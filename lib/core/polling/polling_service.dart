@@ -29,42 +29,30 @@ class PollingService<T> with WidgetsBindingObserver {
   final OnData<T> onData;
   final OnError? onError;
   final OnFinally? onFinally;
-
-  /// 正常轮询间隔（成功后等待）
   final Duration baseInterval;
-
-  /// 退避的最大间隔上限
   final Duration maxInterval;
-
-  /// 切到后台时是否暂停（会 cancel 当前请求）
   final bool pauseOnBackground;
-
-  /// 断网时是否暂停直到恢复
   final bool pauseOnNoNetwork;
-
-  /// 最大轮询次数限制（null 表示无限制）
   final int? maxAttempts;
-
-  /// 达到最大轮询次数时的回调
   final OnMaxAttemptsReached? onMaxAttemptsReached;
 
   bool _running = false;
-  int _attempt = 0; // 连续失败次数
-  int _totalAttempts = 0; // 总轮询次数
+  int _attempt = 0; //
+  int _totalAttempts = 0; //
   CancelToken? _cancelToken;
 
   Future<void> start() async {
     if (_running) return;
     _running = true;
     _attempt = 0;
-    _totalAttempts = 0; // 重置总尝试次数
+    _totalAttempts = 0; //
     WidgetsBinding.instance.addObserver(this);
     _loop();
   }
 
   Future<void> stop() async {
     _running = false;
-    _totalAttempts = 0; // 重置总尝试次数
+    _totalAttempts = 0; //
     _cancelToken?.cancel('polling-stopped');
     WidgetsBinding.instance.removeObserver(this);
   }
@@ -74,13 +62,11 @@ class PollingService<T> with WidgetsBindingObserver {
     if (!pauseOnBackground) return;
     if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive) {
-      // 切后台立即打断当前请求
       _cancelToken?.cancel('app-background');
     }
   }
 
   Duration _backoffDelay(int attempt) {
-    // 指数退避 + full jitter
     final factor = min(
       1 << attempt,
       maxInterval.inMilliseconds ~/ baseInterval.inMilliseconds,
@@ -96,7 +82,6 @@ class PollingService<T> with WidgetsBindingObserver {
     if (!pauseOnNoNetwork) return;
     final status = await Connectivity().checkConnectivity();
     if (status == ConnectivityResult.none) {
-      // 等到任一网络恢复
       await Connectivity().onConnectivityChanged.firstWhere(
         (s) => s != ConnectivityResult.none,
       );
@@ -105,9 +90,7 @@ class PollingService<T> with WidgetsBindingObserver {
 
   Future<void> _loop() async {
     while (_running) {
-      // 检查是否达到最大尝试次数
       if (maxAttempts != null && _totalAttempts >= maxAttempts!) {
-        // 达到最大尝试次数，调用回调并停止轮询
         onMaxAttemptsReached?.call();
         stop();
         return;
@@ -116,19 +99,16 @@ class PollingService<T> with WidgetsBindingObserver {
       try {
         await _waitForNetworkIfNeeded();
 
-        _totalAttempts++; // 增加总尝试次数
+        _totalAttempts++; //
         _cancelToken = CancelToken();
         final value = await fetcher(_cancelToken!);
         if (!_running) break;
 
         onData(value);
-        _attempt = 0; // 成功则清零失败计数
-
-        // 成功后的常规间隔
+        _attempt = 0; //
         await Future.delayed(baseInterval);
       } catch (e, s) {
         if (e is DioException && CancelToken.isCancel(e)) {
-          // 主动取消（切后台/stop），给一个极短冷却
           await Future.delayed(const Duration(milliseconds: 150));
           continue;
         }

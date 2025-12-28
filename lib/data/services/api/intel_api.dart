@@ -65,8 +65,6 @@ class IntelApi {
       queryParameters: queryParameters,
       options: options,
     );
-
-    // 如果响应直接是列表
     if (response is List) {
       return response
           .map((e) => Intel.fromJson(e as Map<String, dynamic>))

@@ -44,28 +44,31 @@ class _TokenTabSectionState extends State<TokenTabSection> {
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Colors.white,
-        border: Border(
-          bottom: BorderSide(
-            color: Color(0xFFDDE3E1),
-            width: 1,
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: Color(0xFFDDE3E1), width: 1)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          _buildTab(context, '行情', 0, leftPadding: 24.w),
-          _buildTab(context, 'AI', 1,
-              showBadge: true,
-              badgeText: '3',
-              badgeColor: const Color(0xFF1099FB),
-              leftPadding: 31.w),
-          _buildTab(context, '风险', 2,
-              showBadge: true,
-              badgeText: '2',
-              badgeColor: const Color(0xFFFE6256),
-              leftPadding: 35.w),
+          _buildTab(context, '', 0, leftPadding: 24.w),
+          _buildTab(
+            context,
+            'AI',
+            1,
+            showBadge: true,
+            badgeText: '3',
+            badgeColor: const Color(0xFF1099FB),
+            leftPadding: 31.w,
+          ),
+          _buildTab(
+            context,
+            '',
+            2,
+            showBadge: true,
+            badgeText: '2',
+            badgeColor: const Color(0xFFFE6256),
+            leftPadding: 35.w,
+          ),
         ],
       ),
     );
@@ -97,14 +100,15 @@ class _TokenTabSectionState extends State<TokenTabSection> {
         margin: EdgeInsets.symmetric(horizontal: 15.w),
         height: double.infinity,
         decoration: BoxDecoration(
-            border: Border(
-          bottom: BorderSide(
-            color: isSelected
-                ? AppColors.textPrimary(context)
-                : Colors.transparent,
-            width: 2.h,
+          border: Border(
+            bottom: BorderSide(
+              color: isSelected
+                  ? AppColors.textPrimary(context)
+                  : Colors.transparent,
+              width: 2.h,
+            ),
           ),
-        )),
+        ),
         child: Center(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: showBadge ? 2.w : 0),

@@ -20,7 +20,6 @@ class SelectNetworkScreen extends StatelessWidget {
         child: BlocBuilder<WalletCubit, WalletState>(
           builder: (context, state) {
             return BlocSelector<WalletCubit, WalletState, List<WalletAddress>?>(
-              // 注意 Null Safety
               selector: (state) => state.wallets.firstOrNull?.addresses ?? [],
               builder: (context, state) {
                 return ListView.builder(
@@ -29,9 +28,12 @@ class SelectNetworkScreen extends StatelessWidget {
                     final wallet = state?[index];
                     if (wallet == null) return const SizedBox.shrink();
                     return Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 10.w, vertical: 5.h),
-                        child: NetworkItem(wallet: wallet));
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.w,
+                        vertical: 5.h,
+                      ),
+                      child: NetworkItem(wallet: wallet),
+                    );
                   },
                 );
               },

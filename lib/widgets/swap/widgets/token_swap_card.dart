@@ -152,7 +152,6 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
     return BlocBuilder<TradeCubit, TradeState>(
       buildWhen: (previous, current) => previous.amount != current.amount,
       builder: (context, state) {
-        // // 同步 state.amount 到 _amountController
         if (widget.isSourceToken && state.amount != _amountController.text) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (mounted) {
@@ -160,8 +159,6 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                 double.tryParse(state.amount) ?? 0,
                 fixedDecimals: 4,
               );
-
-              // 如果 amount 不为空，则设置 _amountController.text
               if (amount.isNotEmptyAndZeroValue) {
                 _amountController.text = amount;
               } else {
@@ -180,7 +177,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
             readOnly: !widget.isEditable,
             keyboardType: const TextInputType.numberWithOptions(
               decimal: true,
-            ), // 设置为数字输入框并允许输入小数
+            ), //
             style: TextStyle(
               fontSize: 20.sp,
               color: AppColors.textPrimary(context),
@@ -208,8 +205,6 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
 
   Widget _buildNotEditableAmount() {
     Widget textWidget;
-
-    //  格式化不可编辑的数量，使用 缩写形式如果直接截断会导致 出现 0.0000的问题
     final amount = CurrencyFormatter.abbreviateTokenPrice(
       double.tryParse(_amountController.text) ?? 0,
     );
@@ -240,7 +235,6 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
     );
   }
 
-  // 构建输入框下面的
   Widget _buildDollarValue() {
     final dollarValue = Decimal.tryParse(widget.dollarValue);
     if (dollarValue == null || dollarValue.toDouble() == 0) {
@@ -285,7 +279,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
 
   Widget _buildTokenIcon(TradeToken token) {
     return Stack(
-      clipBehavior: Clip.none, // 不裁剪子元素
+      clipBehavior: Clip.none, //
       children: [
         ClipOval(
           child: FeatureImage(

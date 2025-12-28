@@ -6,7 +6,7 @@ import '../../../themes/themes.dart';
 
 class ExpandableMarkdown extends StatefulWidget {
   final String data;
-  final double maxCollapsedHeight; // 收起时的最大高度
+  final double maxCollapsedHeight; //
   final String expandText;
   final String collapseText;
   final Function(bool)? onTap;
@@ -14,7 +14,7 @@ class ExpandableMarkdown extends StatefulWidget {
   const ExpandableMarkdown({
     super.key,
     required this.data,
-    this.maxCollapsedHeight = 100.0, // 默认收起高度
+    this.maxCollapsedHeight = 100.0, //
     this.expandText = '',
     this.collapseText = '',
     this.onTap,
@@ -32,15 +32,11 @@ class _ExpandableMarkdownState extends State<ExpandableMarkdown> {
     h2: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
     h3: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
     a: const TextStyle(
-        color: Colors.blue, decoration: TextDecoration.underline),
-    blockquote: TextStyle(
-      color: Colors.grey[600],
-      fontStyle: FontStyle.italic,
+      color: Colors.blue,
+      decoration: TextDecoration.underline,
     ),
-    code: TextStyle(
-      backgroundColor: Colors.grey[200],
-      fontFamily: 'monospace',
-    ),
+    blockquote: TextStyle(color: Colors.grey[600], fontStyle: FontStyle.italic),
+    code: TextStyle(backgroundColor: Colors.grey[200], fontFamily: 'monospace'),
   );
 
   @override
@@ -48,13 +44,12 @@ class _ExpandableMarkdownState extends State<ExpandableMarkdown> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 使用 AnimatedSize 实现平滑的展开/收起动画
         AnimatedSize(
           duration: const Duration(milliseconds: 300),
           alignment: Alignment.topCenter,
           child: ConstrainedBox(
             constraints: widget.isExpanded
-                ? const BoxConstraints() // 展开时不限制高度
+                ? const BoxConstraints() //
                 : BoxConstraints(maxHeight: widget.maxCollapsedHeight),
             child: ClipRect(
               child: Stack(
@@ -67,17 +62,14 @@ class _ExpandableMarkdownState extends State<ExpandableMarkdown> {
                       data: widget.data,
                       styleSheet: markdownStyle,
                       shrinkWrap: true,
-                      // 这里可以添加 styleSheet 自定义样式
                     ),
                   ),
-
-                  // 可选：添加一个渐变遮罩，提示用户还有内容
                   if (!widget.isExpanded)
                     Positioned(
                       bottom: 0,
                       left: 0,
                       right: 0,
-                      height: 30, // 遮罩高度
+                      height: 30, //
                       child: Container(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -85,7 +77,7 @@ class _ExpandableMarkdownState extends State<ExpandableMarkdown> {
                             end: Alignment.bottomCenter,
                             colors: [
                               Colors.white.withValues(alpha: 0.0),
-                              Colors.white, // 适配你的背景色
+                              Colors.white, //
                             ],
                           ),
                         ),
@@ -96,8 +88,6 @@ class _ExpandableMarkdownState extends State<ExpandableMarkdown> {
             ),
           ),
         ),
-
-        // 展开/收起 按钮
         GestureDetector(
           onTap: widget.onTap != null
               ? () => widget.onTap!(widget.isExpanded)
@@ -113,13 +103,14 @@ class _ExpandableMarkdownState extends State<ExpandableMarkdown> {
                 ),
               ),
               AnimatedRotation(
-                  turns: widget.isExpanded ? 0.5 : 0,
-                  duration: const Duration(milliseconds: 200),
-                  child: Icon(
-                    Icons.expand_more,
-                    size: 20.sp,
-                    color: AppColors.textSecondary(context),
-                  )),
+                turns: widget.isExpanded ? 0.5 : 0,
+                duration: const Duration(milliseconds: 200),
+                child: Icon(
+                  Icons.expand_more,
+                  size: 20.sp,
+                  color: AppColors.textSecondary(context),
+                ),
+              ),
             ],
           ),
         ),

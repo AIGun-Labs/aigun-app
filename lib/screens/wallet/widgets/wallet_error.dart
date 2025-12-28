@@ -8,19 +8,15 @@ class WalletError extends StatelessWidget {
   final String errorMessage;
   final VoidCallback? onRetry;
 
-  const WalletError({
-    super.key,
-    required this.errorMessage,
-    this.onRetry,
-  });
+  const WalletError({super.key, required this.errorMessage, this.onRetry});
 
   @override
   Widget build(BuildContext context) {
     return ErrorRetryView(
       errorMessage: errorMessage,
-      onRetry: onRetry ??
+      onRetry:
+          onRetry ??
           () {
-            // 默认的重试逻辑是刷新钱包数据
             context.read<WalletCubit>().getChains();
           },
     );

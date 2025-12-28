@@ -29,8 +29,6 @@ class AboutGoldSheet extends StatelessWidget {
               ),
             ),
             14.verticalSpace,
-
-            // 标题
             Text(
               S.of(context).aboutGold,
               textAlign: TextAlign.center,
@@ -41,8 +39,6 @@ class AboutGoldSheet extends StatelessWidget {
               ),
             ),
             20.verticalSpace,
-
-            // 图片
             Center(
               child: Image.asset(
                 const $AssetsImagesGen().mining.path,
@@ -52,8 +48,6 @@ class AboutGoldSheet extends StatelessWidget {
             ),
 
             26.verticalSpace,
-
-            // 说明文字
             Text(
               S.of(context).goldDesc,
               style: TextStyle(
@@ -63,7 +57,6 @@ class AboutGoldSheet extends StatelessWidget {
             ),
 
             30.verticalSpace,
-            // 获取方式说明
             Text(
               S.of(context).getGoldWay,
               style: TextStyle(
@@ -96,8 +89,6 @@ class AboutGoldSheet extends StatelessWidget {
             ),
 
             32.verticalSpace,
-
-            // 知道了按钮
             SizedBox(
               height: 45.h,
               child: ElevatedButton(
@@ -114,9 +105,7 @@ class AboutGoldSheet extends StatelessWidget {
                 ),
                 child: Text(
                   S.of(context).know,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                  ),
+                  style: TextStyle(fontSize: 16.sp),
                 ),
               ),
             ),

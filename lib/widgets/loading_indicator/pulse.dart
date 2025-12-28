@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// 脉冲效果加载指示器
 class PulseLoadingIndicator extends StatefulWidget {
   final double size;
   final Color color;
@@ -47,8 +46,9 @@ class PulseLoadingIndicatorState extends State<PulseLoadingIndicator>
             color: widget.color.withAlpha((0.2 * 255).round()),
             boxShadow: [
               BoxShadow(
-                color: widget.color
-                    .withAlpha((0.3 * _controller.value * 255).round()),
+                color: widget.color.withAlpha(
+                  (0.3 * _controller.value * 255).round(),
+                ),
                 spreadRadius: widget.size * 0.5 * _controller.value,
                 blurRadius: widget.size * 0.5 * _controller.value,
               ),

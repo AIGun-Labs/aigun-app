@@ -2,13 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import '../../themes/colors.dart';
 
 class TrackingDialog {
   Future<void> show(BuildContext context) async {
     await showDialog(
         context: context,
-        barrierDismissible: false, // 用户点击遮罩层不关闭对话框
+        barrierDismissible: false, // 
         builder: (context) {
           return const TrackingDialogContent();
         });

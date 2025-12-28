@@ -24,15 +24,12 @@ class TokenInfoSkeleton extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // 价格占位符
                       TextSkeleton(
                         width: 120.w,
                         height: 24.h,
                         borderRadius: 12,
                       ),
-                      // 价格变化百分比占位符
                       TextSkeleton(width: 80.w, height: 24.h, borderRadius: 12),
-                      // 图标和数字占位符
                       Row(
                         children: [
                           Container(
@@ -77,7 +74,6 @@ class TokenInfoSkeleton extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // 市值占位符
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -93,7 +89,6 @@ class TokenInfoSkeleton extends StatelessWidget {
                           ),
                         ],
                       ),
-                      // 流动性占位符
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -109,7 +104,6 @@ class TokenInfoSkeleton extends StatelessWidget {
                           ),
                         ],
                       ),
-                      // 24小时交易量占位符
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -125,7 +119,6 @@ class TokenInfoSkeleton extends StatelessWidget {
                           ),
                         ],
                       ),
-                      // 持有人数量占位符
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

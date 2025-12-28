@@ -10,10 +10,6 @@ import '../../widgets/token/index.dart';
 import '../../widgets/token/models/token.dart';
 import '../toast/trade_status_toast.dart';
 
-/// 选择交易币种
-/// [tokens] 可用币种列表
-/// [onSelect] 选择回调函数
-/// 返回 Future<Token?> 以便调用者处理选择结果
 Future<Token?> showTokenSelectorSheet(
   BuildContext context,
   List<Token> tokens, {
@@ -61,13 +57,11 @@ Future<Token?> showTokenSelectorSheet(
                                 leading ??
                                 GestureDetector(
                                   onTap: () {
-                                    // 关闭弹窗后清空搜索结果
                                     BlocProvider.of<SearchTokenCubit>(
                                       context,
                                     ).clear();
                                     TradeStatusToastUtils.dismissToast();
                                     Navigator.pop(context);
-                                    // 执行 tradeCubit 操作
                                     // final tradeCubit = context.read<TradeCubit>();
                                   },
                                   child: Icon(
@@ -115,13 +109,11 @@ Future<Token?> showTokenSelectorSheet(
                     ),
                   ),
                   isSearch
-                      // 搜索输入框
                       ? Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
                           child: const InputSearchToken(),
                         )
                       : const SizedBox.shrink(),
-                  // 显示token列表
                   Expanded(
                     child: _buildTokenList(context, tokens, isShowRight),
                   ),
@@ -142,13 +134,9 @@ Widget _buildTokenList(
   bool isShowRight,
 ) {
   final queryTokenState = context.watch<QueryTokenCubit>().state;
-
-  // 如果正在搜索，显示加载中
   if (queryTokenState.isLoading) {
     return const TokenListSkeleton();
   }
-
-  // 如果有搜索结果且搜索成功，显示搜索结果
   if (queryTokenState.tokens.isNotEmpty &&
       queryTokenState.status == QueryTokenStatus.success) {
     return TokenList(
@@ -161,8 +149,6 @@ Widget _buildTokenList(
       },
     );
   }
-
-  // 否则显示原始tokens列表
   return TokenList(
     tokens: tokens,
     isShowRight: isShowRight,

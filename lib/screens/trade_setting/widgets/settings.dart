@@ -14,7 +14,6 @@ import '../models/network_config.dart';
 import 'mode_card.dart';
 import 'network_settings_builder.dart';
 
-/// 优化后的设置列组件
 class SettingsColumn extends StatefulWidget {
   const SettingsColumn({super.key});
 
@@ -23,14 +22,11 @@ class SettingsColumn extends StatefulWidget {
 }
 
 class _SettingsColumnState extends State<SettingsColumn> {
-  // 使用 Map 统一管理所有网络的控制器
   late final Map<Network, Map<NetworkFieldType, TextEditingController>>
-      _networkControllers;
+  _networkControllers;
   late final Map<Network, Map<NetworkFieldType, FocusNode>> _networkFocusNodes;
   late final List<NetworkConfig> _networkConfigs;
   bool _isInitialized = false;
-
-  // 防抖 Timer
   Timer? _debounceTimer;
 
   @override
@@ -43,15 +39,9 @@ class _SettingsColumnState extends State<SettingsColumn> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    // 确保只初始化一次
     if (!_isInitialized) {
       _isInitialized = true;
-
-      // 获取网络配置（需要 context 用于国际化）
       _networkConfigs = NetworkConfigs.getAllConfigs(S.of(context));
-
-      // 初始化所有控制器和焦点节点
       for (final config in _networkConfigs) {
         _networkControllers[config.network] = {};
         _networkFocusNodes[config.network] = {};
@@ -61,17 +51,12 @@ class _SettingsColumnState extends State<SettingsColumn> {
           _networkFocusNodes[config.network]![field.type] = FocusNode();
         }
       }
-
-      // 从状态初始化控制器的值
       final state = context.read<TradeSettingCubit>().state;
       _updateControllersFromState(state);
-
-      // 设置监听器
       _setupListeners();
     }
   }
 
-  /// 从状态更新所有控制器的值（只在没有焦点时更新）
   void _updateControllersFromState(TradeSettingState state) {
     for (final config in _networkConfigs) {
       final setting = state.customSettings[config.key];
@@ -79,14 +64,10 @@ class _SettingsColumnState extends State<SettingsColumn> {
 
       final controllers = _networkControllers[config.network]!;
       final focusNodes = _networkFocusNodes[config.network]!;
-
-      // 根据字段类型更新对应的控制器
       for (final field in config.fields) {
         final controller = controllers[field.type];
         final focusNode = focusNodes[field.type];
         if (controller == null || focusNode == null) continue;
-
-        // 只在没有焦点时更新，避免打断用户输入
         if (focusNode.hasFocus) continue;
 
         switch (field.type) {
@@ -115,18 +96,16 @@ class _SettingsColumnState extends State<SettingsColumn> {
             }
             break;
           case NetworkFieldType.mevProtect:
-            // Switch 不需要 TextEditingController
             break;
         }
       }
     }
   }
 
-  /// 设置所有TextField的监听器
   void _setupListeners() {
     for (final config in _networkConfigs) {
       final controllers = _networkControllers[config.network]!;
-      final networkKey = config.key; // 获取网络的 key
+      final networkKey = config.key; //  key
 
       for (final field in config.fields) {
         final controller = controllers[field.type];
@@ -182,26 +161,26 @@ class _SettingsColumnState extends State<SettingsColumn> {
             break;
 
           case NetworkFieldType.mevProtect:
-            // Switch 不需要监听器
             break;
         }
       }
     }
   }
 
-  /// 防抖更新（避免频繁更新状态）
   void _debounceUpdate(VoidCallback callback) {
     _debounceTimer?.cancel();
     _debounceTimer = Timer(const Duration(milliseconds: 500), callback);
   }
 
-  /// 为指定网络更新自定义设置的辅助方法
   void _updateCustomSettingForNetwork(
-      String networkKey, Function(dynamic) update) {
+    String networkKey,
+    Function(dynamic) update,
+  ) {
     if (!mounted) return;
 
     final cubit = context.read<TradeSettingCubit>();
-    final current = cubit.state.customSettings[networkKey.toLowerCase()] ??
+    final current =
+        cubit.state.customSettings[networkKey.toLowerCase()] ??
         const TradeCustomSetting();
 
     debugPrint('🔧 _updateCustomSettingForNetwork - networkKey: $networkKey');
@@ -212,16 +191,12 @@ class _SettingsColumnState extends State<SettingsColumn> {
     debugPrint('🔧 Updated setting: $updated');
 
     cubit.updateCustomSettingForNetwork(networkKey, updated);
-    // 切换到自定义模式
     cubit.updateTradeMode(TradeMode.custom);
   }
 
   @override
   void dispose() {
-    // 清理防抖 Timer
     _debounceTimer?.cancel();
-
-    // 清理所有控制器和焦点节点
     for (final networkControllers in _networkControllers.values) {
       for (final controller in networkControllers.values) {
         controller.dispose();
@@ -239,7 +214,6 @@ class _SettingsColumnState extends State<SettingsColumn> {
   Widget build(BuildContext context) {
     return BlocConsumer<TradeSettingCubit, TradeSettingState>(
       listener: (context, state) {
-        // 状态变化时更新控制器（只在控制器没有焦点时更新，避免打断输入）
         if (_isInitialized) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (mounted) {
@@ -271,7 +245,6 @@ class _SettingsColumnState extends State<SettingsColumn> {
     );
   }
 
-  /// 构建模式卡片
   Widget _buildModeCard(
     BuildContext context, {
     required TradeMode mode,
@@ -292,7 +265,6 @@ class _SettingsColumnState extends State<SettingsColumn> {
     );
   }
 
-  /// 获取模式信息
   Map<String, String> _getModeInfo(dynamic s, TradeMode mode) {
     switch (mode) {
       case TradeMode.fast:
@@ -304,9 +276,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
     }
   }
 
-  /// 构建自定义设置（根据当前选择的网络）
   Widget _buildCustomSettings(BuildContext context) {
-    // 如果还没初始化完成，返回空 widget
     if (!_isInitialized) {
       return const SizedBox.shrink();
     }
@@ -314,7 +284,6 @@ class _SettingsColumnState extends State<SettingsColumn> {
     return BlocSelector<TradeSettingCubit, TradeSettingState, String>(
       selector: (state) => state.network.toString(),
       builder: (context, networkString) {
-        // 找到匹配的网络配置
         final config = _networkConfigs.firstWhere(
           (config) => networkString.toLowerCase() == config.network.value,
           orElse: () => _networkConfigs.first,

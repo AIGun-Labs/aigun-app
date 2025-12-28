@@ -3,9 +3,7 @@ import '../../../../data/models/token/query_token/query_token.dart';
 import '../../../../widgets/token/models/token.dart';
 import '../../domain/entities/transaction_entity.dart';
 
-/// Token 到 TransactionEntity 的转换
 extension TokenToTransactionEntity on Token {
-  /// 将 Token 转换为 TransactionEntity
   TransactionEntity toTransactionToken() {
     return TransactionEntity(
       isNative: isNativeToken,
@@ -24,9 +22,7 @@ extension TokenToTransactionEntity on Token {
   }
 }
 
-/// TradeToken 映射器 - 集中管理所有转换逻辑
 extension TransactionTokenMapper on TransactionEntity {
-  /// 从通用 Token 模型转换
   TransactionEntity fromToken(Token token) {
     return TransactionEntity(
       isNative: token.isNativeToken,
@@ -44,7 +40,6 @@ extension TransactionTokenMapper on TransactionEntity {
     );
   }
 
-  /// 从 Intel Entity 模型转换
   TransactionEntity fromIntelEntity(Entity entity) {
     return TransactionEntity(
       isNative: entity.isNative ?? false,
@@ -62,7 +57,6 @@ extension TransactionTokenMapper on TransactionEntity {
     );
   }
 
-  /// 从 QueryToken 模型转换
   TransactionEntity fromQueryToken(QueryToken token) {
     return TransactionEntity(
       isNative: token.isNative ?? false,
@@ -79,7 +73,6 @@ extension TransactionTokenMapper on TransactionEntity {
     );
   }
 
-  /// 从 JSON 转换（用于本地存储恢复）
   TransactionEntity fromJson(Map<String, dynamic> json) {
     return TransactionEntity(
       isNative: json['is_native'] ?? json['is_navtive'] ?? false,
@@ -97,7 +90,6 @@ extension TransactionTokenMapper on TransactionEntity {
     );
   }
 
-  /// 转换为 JSON（用于本地存储）
   Map<String, dynamic> toJson(TransactionEntity entity) {
     return {
       'is_native': entity.isNative,
@@ -115,7 +107,6 @@ extension TransactionTokenMapper on TransactionEntity {
     };
   }
 
-  /// 批量转换
   List<TransactionEntity> fromTokenList(List<Token> tokens) {
     return tokens.map(fromToken).toList();
   }

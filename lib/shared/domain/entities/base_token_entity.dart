@@ -9,10 +9,7 @@ import '../mixins/base_token_mixin.dart';
 
 part 'base_token_entity.freezed.dart';
 
-/// 核心 Token 实体
 ///
-/// 这是最基础的 Token 实体，可以在整个应用中使用
-/// 其他特定功能的 Token 实体应该在各自的 feature 中定义
 @freezed
 class BaseTokenEntity
     with _$BaseTokenEntity, BaseTokenMixin
@@ -93,8 +90,6 @@ class BaseTokenEntity
     this.type,
     this.isTop,
   });
-
-  /// 创建空对象
   factory BaseTokenEntity.empty() => BaseTokenEntity(
     chainId: '',
     chainLogo: '',
@@ -120,9 +115,9 @@ class BaseTokenEntity
     chainLogo: 'assets/chain/bsc.png',
     chainName: 'bsc',
     tokenLogo: 'image/tokens/019a8721-2de3-7918-8839-ccb30af3082e.webp',
-    tokenName: '马到成功',
+    tokenName: '',
     price: '0.003892663996264399',
-    symbol: '马到成功',
+    symbol: '',
     network: 'bsc',
     address: '0xe1e93e92c0c2aff2dc4d7d4a8b250d973cad4444',
     rawBalance: '0',

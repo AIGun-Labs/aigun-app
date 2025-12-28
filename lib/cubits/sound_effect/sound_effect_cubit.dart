@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../utils/logger.dart';
 import 'sound_effect_state.dart';
 
-// TODO： 后续改成工具函数
 class SoundEffectCubit extends Cubit<SoundEffectState> {
   SoundEffectCubit()
     : _gunSoundPlayer = AudioPlayer(),

@@ -33,8 +33,9 @@ class AddTokenScreen extends StatelessWidget {
           }
         },
         child: Scaffold(
-          appBar:
-              CustomAppBar(title: S.of(context).tokens_addToken.substring(1)),
+          appBar: CustomAppBar(
+            title: S.of(context).tokens_addToken.substring(1),
+          ),
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5.h),
             child: Column(
@@ -67,7 +68,8 @@ class AddTokenScreen extends StatelessWidget {
                   text: S.of(context).common_confirm,
                   backgroundColor: AppColors.background(context),
                   textColor: AppColors.textPrimary(context),
-                  onPressed: state.addressError ||
+                  onPressed:
+                      state.addressError ||
                           state.chainError ||
                           state.tokenAddress.isEmpty
                       ? null
@@ -87,9 +89,7 @@ class AddTokenScreen extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20.r),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       builder: (BuildContext context) {
         return BottomButton(
@@ -105,15 +105,9 @@ class AddTokenScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 51.h),
-              Text(
-                "HELLO",
-                style: TextStyle(fontSize: 20.sp),
-              ),
+              Text("HELLO", style: TextStyle(fontSize: 20.sp)),
               SizedBox(height: 5.h),
-              Text(
-                "Hello Doge",
-                style: TextStyle(fontSize: 16.sp),
-              ),
+              Text("Hello Doge", style: TextStyle(fontSize: 16.sp)),
               SizedBox(height: 51.h),
               Row(
                 children: [
@@ -129,16 +123,12 @@ class AddTokenScreen extends StatelessWidget {
                       height: 50.h,
                     ),
                   ),
-                  SizedBox(
-                    width: 20.w,
-                  ),
+                  SizedBox(width: 20.w),
                   Flexible(
                     child: CustomButton(
                       onPressed: () => {
-                        context.goNamed(
-                          RouteNames.wallet,
-                        ),
-                        showAddTokenSuccessToast(context)
+                        context.goNamed(RouteNames.wallet),
+                        showAddTokenSuccessToast(context),
                       },
                       backgroundColor: const Color(0xff000000),
                       textColor: Colors.white,
@@ -156,7 +146,7 @@ class AddTokenScreen extends StatelessWidget {
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         );
@@ -177,7 +167,7 @@ class AddTokenScreen extends StatelessWidget {
             children: [
               SizedBox(height: 5.h),
               Image.asset(
-                'assets/images/question.png', // 确保图片路径正确
+                'assets/images/question.png', //
                 width: 77.w,
                 height: 77.h,
               ),

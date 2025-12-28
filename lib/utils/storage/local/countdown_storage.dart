@@ -13,8 +13,6 @@ class CountdownStorage {
 
     final elapsed = DateTime.now().millisecondsSinceEpoch - savedTimestamp;
     final adjustedCountdown = savedCountdown - (elapsed ~/ 1000);
-
-    // 确保倒计时在 0 到 60 秒之间
     return adjustedCountdown.clamp(0, 60);
   }
 

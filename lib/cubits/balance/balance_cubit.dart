@@ -3,25 +3,20 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/constant/count.dart';
 import '../../core/polling/polling_service.dart';
 import '../../core/service_locator.dart';
 import '../../data/models/index.dart';
 import '../../data/models/wallet/token/token.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/sentry_service.dart';
-import '../../utils/logger.dart';
 import '../../utils/storage/local/settings_storage.dart';
 import '../index.dart';
 
 class BalanceCubit extends Cubit<BalanceState> {
   BalanceCubit(this.walletCubit, this._settingsStorage)
     : super(const BalanceState()) {
-    // 监听钱包列表
     walletSubscription = walletCubit.stream.listen((state) {
-      // 如果不为空，则获取余额
       if (state.wallets.isNotEmpty) {
-        // 先获取一次
         getBalanceList();
         startPollingBalance();
       }
@@ -33,44 +28,12 @@ class BalanceCubit extends Cubit<BalanceState> {
   final SettingsStorage _settingsStorage;
   late final StreamSubscription walletSubscription;
   PollingService<Balance?>? _pollingService;
-
   void startPollingBalance() {
-    _pollingService?.stop();
-    _pollingService = PollingService<Balance?>(
-      baseInterval: Duration(seconds: NumericConstants.five),
-      fetcher: (cancel) async {
-        final previousBalance = state.balances;
-
-        emit(state.copyWith(isLoading: true, balances: previousBalance));
-
-        if (walletCubit.state.wallets.first.id == null) {
-          emit(
-            state.copyWith(hasError: true, errorMessage: 'Wallet ID is null'),
-          );
-          return null;
-        }
-        final balance = await getBalanceList();
-        return balance;
-      },
-      onData: (balance) async {
-        emit(
-          state.copyWith(
-            balances: balance,
-            isLoading: false,
-            hasError: false,
-            errorMessage: null,
-            // sortedTokens: getSortedTokens(balance.tokens) ?? [],
-          ),
-        );
-
-        await getIt<TradeCubit>().getBalanceSelectedToken();
-      },
-    );
-    _pollingService?.start();
+    return;
   }
 
   void stopPollingBalance() {
-    _pollingService?.stop();
+    return;
   }
 
   void clearBalance() {
@@ -85,7 +48,6 @@ class BalanceCubit extends Cubit<BalanceState> {
   }
 
   List<Token>? getSortedTokens(List<Token>? tokens) {
-    // 拷贝
     final List<Token> sortedTokens = [...tokens ?? []];
 
     if (sortedTokens.isEmpty == true) {
@@ -101,65 +63,14 @@ class BalanceCubit extends Cubit<BalanceState> {
     return sortedTokens;
   }
 
-  // 初始化隐藏小额资产
   void _initHideSmallAssets() {
-    // 从本地存储中获取是否隐藏小额资产
     final hideSmallAssets = _settingsStorage.hideSmallAssets;
     emit(state.copyWith(hideSmallAssets: hideSmallAssets));
     _updateFilteredTokens(state.balances);
   }
 
-  // 获取余额列表
   Future<Balance?> getBalanceList() async {
-    final previousBalance = state.balances;
-    Balance? balance;
-
-    emit(state.copyWith(isLoading: true, balances: previousBalance));
-
-    if (walletCubit.state.wallets.first.id == null) {
-      emit(state.copyWith(hasError: true, errorMessage: 'Wallet ID is null'));
-      return null;
-    }
-
-    // 获取钱包列表中第一个钱包的 id
-    final walletId = walletCubit.state.wallets.first.id ?? '';
-
-    try {
-      // 获取钱包余额
-      balance = await walletApi.getBalanceByWalletId(walletId);
-
-      Logger.info('balance list: $balance');
-
-      emit(
-        state.copyWith(
-          balances: balance,
-          isLoading: false,
-          hasError: false,
-          errorMessage: null,
-          // sortedTokens: getSortedTokens(balance.tokens) ?? [],
-        ),
-      );
-
-      await getIt<TradeCubit>().getBalanceSelectedToken();
-      // 更新过滤后的代币列表
-      // _updateFilteredTokens(balance);
-    } catch (e) {
-      // 如果之前有数据，保持之前的状态不更新，避免显示"暂无代币"
-      if (previousBalance != null) {
-        emit(state.copyWith(isLoading: false));
-        return previousBalance;
-      }
-
-      emit(
-        state.copyWith(
-          hasError: true,
-          errorMessage: e.toString(),
-          isLoading: false,
-        ),
-      );
-      return null;
-    }
-    return balance;
+    return null;
   }
 
   void updateSearchQuery(String query) {
@@ -187,24 +98,16 @@ class BalanceCubit extends Cubit<BalanceState> {
     }
 
     List<Token> filteredTokens = balance.tokens;
-
-    // 先应用小额资产过滤
     if (state.hideSmallAssets) {
-      // 过滤掉价值小于 1 的代币
       filteredTokens = filteredTokens.where((token) {
         final value = double.tryParse(token.balance) ?? 0;
-        return value > 1; // 过滤掉价值小于 1 的代币
+        return value > 1; //  1
       }).toList();
     }
-
-    // 再应用搜索过滤
     if (state.searchQuery.isNotEmpty) {
       final query = state.searchQuery.toLowerCase();
       filteredTokens = filteredTokens.where((token) {
-        // 按照symbol进行前缀匹配
         final symbolMatch = token.symbol.toLowerCase().startsWith(query);
-
-        // 按照地址进行精确匹配
         final addressMatch = token.tokenAddress.toLowerCase() == query;
 
         return symbolMatch || addressMatch;
@@ -289,7 +192,6 @@ class BalanceCubit extends Cubit<BalanceState> {
     }
   }
 
-  /// 根据代币地址和链 ID 获取对应的链头像
   String? getChainLogoByAddress(String tokenAddress, String chainId) {
     if (state.balances?.tokens == null || state.balances!.tokens.isEmpty) {
       return null;

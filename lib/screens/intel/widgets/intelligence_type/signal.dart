@@ -40,8 +40,6 @@ class _IntelligenceSignalState extends State<IntelligenceSignal>
   @override
   Widget build(BuildContext context) {
     final newText = _isAlphaText(widget.intel.analyzed.getByLocale(context));
-
-    // 没有数据则隐藏
     if (newText.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -57,7 +55,7 @@ class _IntelligenceSignalState extends State<IntelligenceSignal>
         author: widget.intel.author,
       ),
       tokenList: IntelTokenList(tokens: widget.intel.entities),
-     
+
       images: GridImagePreviewWrapper(
         uniquePrefix: widget.uniquePrefix,
         urls: widget.intel.mediaImageUrls.whereType<String>().toList(),
@@ -94,7 +92,6 @@ class _IntelligenceSignalState extends State<IntelligenceSignal>
     return newText;
   }
 
-  /// 打开图片预览对话框
   void _openImagePreview(List<IntelMedia> images, int initialIndex) {
     int currentIndex = initialIndex;
 
@@ -130,7 +127,6 @@ class _IntelligenceSignalState extends State<IntelligenceSignal>
                   });
                 },
               ),
-              // 关闭按钮
               Positioned(
                 top: 40.h,
                 right: 20.w,
@@ -143,7 +139,6 @@ class _IntelligenceSignalState extends State<IntelligenceSignal>
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ),
-              // 图片计数器
               Positioned(
                 bottom: 40.h,
                 left: 0,

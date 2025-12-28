@@ -120,11 +120,10 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           child: TabBar(
             isScrollable: true,
             tabAlignment: TabAlignment.start,
-            labelPadding: EdgeInsets.symmetric(horizontal: 16.w), // 调大左右间距
+            labelPadding: EdgeInsets.symmetric(horizontal: 16.w), //
             indicator: UnderlineTabIndicator(
               borderSide: BorderSide(width: 2.h, color: Colors.black),
             ),
-            // 点击tabbar时，背景颜色不变
             overlayColor: WidgetStateProperty.all(
               AppColors.background(context),
             ),

@@ -6,11 +6,8 @@ import '../models/dialog_config.dart';
 import '../models/dialog_type.dart';
 import '../widgets/base_app_dialog.dart';
 
-/// 对话框工具类
 class DialogUtils {
   DialogUtils._();
-
-  /// 显示通用对话框
   static Future<T?> show<T>(BuildContext context, DialogConfig config) {
     return showDialog<T>(
       context: context,
@@ -20,10 +17,7 @@ class DialogUtils {
     );
   }
 
-  /// 创建Builder
   static AppDialogBuilder builder() => AppDialogBuilder();
-
-  /// 快捷方法：信息对话框
   static Future<void> showInfo(
     BuildContext context, {
     String? title,
@@ -37,7 +31,6 @@ class DialogUtils {
     );
   }
 
-  /// 快捷方法：警告对话框
   static Future<void> showWarning(
     BuildContext context, {
     required String title,
@@ -51,16 +44,12 @@ class DialogUtils {
         title: title,
         message: message,
         actions: [
-          DialogAction.primary(
-            label: buttonText ?? '我知道了',
-            onPressed: onDismiss,
-          ),
+          DialogAction.primary(label: buttonText ?? '', onPressed: onDismiss),
         ],
       ),
     );
   }
 
-  /// 快捷方法：确认对话框
   static Future<bool?> showConfirm(
     BuildContext context, {
     required String title,
@@ -77,16 +66,16 @@ class DialogUtils {
         type: DialogType.confirm,
         actions: [
           DialogAction.secondary(
-            label: cancelText ?? '取消',
+            label: cancelText ?? '',
             onPressed: () => Navigator.of(context).pop(false),
           ),
           isDestructive
               ? DialogAction.destructive(
-                  label: confirmText ?? '确认',
+                  label: confirmText ?? '',
                   onPressed: () => Navigator.of(context).pop(true),
                 )
               : DialogAction.primary(
-                  label: confirmText ?? '确认',
+                  label: confirmText ?? '',
                   onPressed: () => Navigator.of(context).pop(true),
                 ),
         ],
@@ -94,7 +83,6 @@ class DialogUtils {
     );
   }
 
-  /// 快捷方法：错误对话框
   static Future<void> showError(
     BuildContext context, {
     String? title,
@@ -104,14 +92,13 @@ class DialogUtils {
     return show(
       context,
       DialogConfig.error(
-        title: title ?? '错误',
+        title: title ?? '',
         message: message,
         onDismiss: onDismiss,
       ),
     );
   }
 
-  /// 快捷方法：成功对话框
   static Future<void> showSuccess(
     BuildContext context, {
     String? title,
@@ -121,7 +108,7 @@ class DialogUtils {
     return show(
       context,
       DialogConfig.success(
-        title: title ?? '成功',
+        title: title ?? '',
         message: message,
         onDismiss: onDismiss,
       ),

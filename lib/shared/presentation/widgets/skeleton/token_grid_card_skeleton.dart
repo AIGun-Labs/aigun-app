@@ -16,7 +16,6 @@ class TokenGridCardSkeleton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Token 头像骨架
           AspectRatio(
             aspectRatio: 1,
             child: Container(
@@ -27,7 +26,6 @@ class TokenGridCardSkeleton extends StatelessWidget {
             ),
           ),
           SizedBox(height: 4.h),
-          // Token 名称骨架
           Container(
             width: double.infinity,
             height: 14.sp,
@@ -37,7 +35,6 @@ class TokenGridCardSkeleton extends StatelessWidget {
             ),
           ),
           SizedBox(height: 2.h),
-          // 市值骨架
           Container(
             width: double.infinity,
             height: 12.sp,

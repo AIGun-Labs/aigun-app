@@ -14,12 +14,7 @@ import '../../../domain/usecases/execute_swap.dart';
 import '../../../domain/usecases/get_transaction_status.dart';
 import 'transaction_state.dart';
 
-/// TransactionCubit 负责管理交易执行和状态轮询
 ///
-/// 职责：
-/// - 执行 swap 交易
-/// - 交易状态轮询（使用 PollingService）
-/// - 发出交易相关事件
 class TransactionCubit extends Cubit<TransactionState> {
   TransactionCubit({
     required ExecuteSwap executeSwap,
@@ -34,22 +29,11 @@ class TransactionCubit extends Cubit<TransactionState> {
   final WalletStorage _walletStorage;
 
   PollingService<Result<TransactionStatusEntity>>? _pollingService;
-
-  /// 交易成功回调
   void Function(SwapResultEntity result)? onTransactionSuccess;
-
-  /// 交易失败回调
   void Function(String? message, int? code)? onTransactionFailure;
 
   // ==================== Transaction Execution ====================
-
-  /// 执行 Swap 交易
   ///
-  /// [fromToken] 源代币
-  /// [toToken] 目标代币
-  /// [amount] 交易金额（原子单位）
-  /// [options] 交易设置选项
-  /// [mode] 交易模式
   Future<void> executeSwap({
     required TransactionEntity fromToken,
     required TransactionEntity toToken,
@@ -57,7 +41,6 @@ class TransactionCubit extends Cubit<TransactionState> {
     required TradeCustomSetting options,
     required TradeMode mode,
   }) async {
-    // 获取用户钱包
     final wallet = await _walletStorage.getSelectedWallet();
     if (wallet == null) {
       emit(
@@ -122,8 +105,6 @@ class TransactionCubit extends Cubit<TransactionState> {
   }
 
   // ==================== Transaction Status Polling ====================
-
-  /// 启动交易状态轮询
   void _startTransactionStatusPolling(
     SwapResultEntity transaction,
     TransactionEntity fromToken,
@@ -179,7 +160,6 @@ class TransactionCubit extends Cubit<TransactionState> {
     )..start();
   }
 
-  /// 处理交易状态
   void _handleTransactionStatus(String? status, SwapResultEntity transaction) {
     if (status == TransactionStatusEnum.success.value) {
       _stopPolling();
@@ -200,24 +180,19 @@ class TransactionCubit extends Cubit<TransactionState> {
       );
       onTransactionFailure?.call('Transaction failed', null);
     }
-    // 其他状态（pending）继续轮询
   }
 
-  /// 停止轮询
   void _stopPolling() {
     _pollingService?.stop();
     _pollingService = null;
   }
 
   // ==================== State Management ====================
-
-  /// 重置交易状态
   void reset() {
     _stopPolling();
     emit(const TransactionState());
   }
 
-  /// 取消当前交易（停止轮询）
   void cancel() {
     _stopPolling();
     emit(state.copyWith(status: const TransactionStatus.initial()));

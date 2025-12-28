@@ -2,7 +2,6 @@ import '../enums/index.dart';
 import 'logger.dart';
 
 class FormValidators {
-  // 邮箱校验
   static ValidationError? isEmailValid(String? value) {
     if (value == null || value.isEmpty) {
       return ValidationError.emailEmpty;
@@ -20,7 +19,8 @@ class FormValidators {
     }
 
     final emailRegex = RegExp(
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+    );
 
     if (!emailRegex.hasMatch(value)) {
       return ValidationError.emailInvalid;
@@ -65,8 +65,9 @@ class FormValidators {
     bool hasUpperCase = value.contains(RegExp(r'[A-Z]'));
     bool hasLowerCase = value.contains(RegExp(r'[a-z]'));
     bool hasDigits = value.contains(RegExp(r'[0-9]'));
-    bool hasSpecialCharacters =
-        value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+    bool hasSpecialCharacters = value.contains(
+      RegExp(r'[!@#$%^&*(),.?":{}|<>]'),
+    );
 
     if (!hasUpperCase || !hasLowerCase || !hasDigits || !hasSpecialCharacters) {
       return ValidationError.passwordTooSimple;

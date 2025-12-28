@@ -10,8 +10,6 @@ enum PaymentPinStatus { initial, failure, success }
 
 enum InviteCodeStatus { initial, failure, success }
 
-// signin 登录状态
-
 @freezed
 sealed class SignInState with _$SignInState {
   const factory SignInState({

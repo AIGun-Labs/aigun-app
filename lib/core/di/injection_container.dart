@@ -23,13 +23,9 @@ import 'modules/token_detail_module.dart';
 import 'modules/trending_module.dart';
 import 'modules/update_module.dart';
 
-/// TODO: 待重构，先使用 service_locator.dart 中的 getIt
 final newGetIt = GetIt.instance;
 Future<void> initCore() async {
-  // 注册 secure storage
   newGetIt.registerLazySingleton(() => const FlutterSecureStorage());
-
-  // 注册 bestUrl
   String baseUrl;
   try {
     baseUrl = await DomainService.pickFastestDomain();
@@ -41,7 +37,6 @@ Future<void> initCore() async {
   newGetIt.registerSingleton<LoggerService>(LoggerServiceImpl());
   newGetIt.registerSingleton<AntiSpiderKeyService>(AntiSpiderKeyServiceImpl());
   newGetIt.registerSingleton<AppErrorHandler>(AppErrorHandler(newGetIt()));
-  // 注册 DioClient (单例)，将选中的 URL 注入进去
   newGetIt.registerSingleton(
     DioClient(
       newGetIt(),

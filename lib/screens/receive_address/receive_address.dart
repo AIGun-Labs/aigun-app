@@ -142,7 +142,7 @@ class ReceiveTokenAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      clipBehavior: Clip.none, // 解决子组件被裁剪的问题
+      clipBehavior: Clip.none, //
       children: [
         ClipOval(
           child: FeatureImage(

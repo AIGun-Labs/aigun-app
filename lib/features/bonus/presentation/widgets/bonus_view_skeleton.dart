@@ -16,13 +16,10 @@ class BonusViewSkeleton extends StatelessWidget {
         20.verticalSpace,
         InviteHeader(),
         20.verticalSpace,
-        // InviteCard 骨架
         _buildInviteCardSkeleton(context),
         14.verticalSpace,
-        // BindInviteCard 骨架
         _buildBindInviteCardSkeleton(context),
         14.verticalSpace,
-        // 四个小卡片骨架
         Column(
           children: [
             Row(
@@ -63,13 +60,11 @@ class BonusViewSkeleton extends StatelessWidget {
           ],
         ),
         35.verticalSpace,
-        // BonusDetails 骨架
         _buildBonusDetailsSkeleton(context),
       ],
     );
   }
 
-  // InviteCard 骨架屏
   Widget _buildInviteCardSkeleton(BuildContext context) {
     return CardWidget(
       child: Shimmer.fromColors(
@@ -125,7 +120,6 @@ class BonusViewSkeleton extends StatelessWidget {
     );
   }
 
-  // BindInviteCard 骨架屏
   Widget _buildBindInviteCardSkeleton(BuildContext context) {
     return CardWidget(
       child: Shimmer.fromColors(
@@ -143,7 +137,6 @@ class BonusViewSkeleton extends StatelessWidget {
     );
   }
 
-  // 小卡片骨架屏 (GetGoldCard, GetFundsCard, InviteeCard, InviteeTradeCard)
   Widget _buildSmallCardSkeleton(BuildContext context) {
     return CardWidget(
       child: Shimmer.fromColors(
@@ -176,7 +169,6 @@ class BonusViewSkeleton extends StatelessWidget {
     );
   }
 
-  // BonusDetails 骨架屏
   Widget _buildBonusDetailsSkeleton(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

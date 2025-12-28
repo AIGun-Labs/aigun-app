@@ -83,7 +83,6 @@ class TokenList extends StatelessWidget {
                   state.actionStatus == CollectActionStatus.adding ||
                   state.actionStatus == CollectActionStatus.removing;
               return GestureDetector(
-                //收藏功能
                 onTap: isActionLoading
                     ? null
                     : () async {

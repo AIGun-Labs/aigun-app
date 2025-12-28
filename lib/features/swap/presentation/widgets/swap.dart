@@ -21,14 +21,10 @@ import 'swap_button/index.dart';
 import 'swap_converters.dart';
 import 'swap_token_pair.dart';
 
-// 导出供外部使用
 export 'setting_mode_widgets.dart';
 export 'swap_divider.dart';
 
-/// Swap Widget - 主交换界面
 ///
-/// 使用新的 SwapCubit 协调器架构
-/// 遵循单一职责原则，将子组件拆分到独立文件
 class SwapWidget extends StatefulWidget {
   const SwapWidget({super.key, this.buyToken = false});
 
@@ -96,7 +92,6 @@ class _SwapWidgetState extends State<SwapWidget> {
     );
   }
 
-  /// 选择来源代币
   Future<void> _handleSelectSourceToken(List<Token> tokens) async {
     _queryTokenCubit.reset();
 
@@ -118,7 +113,6 @@ class _SwapWidgetState extends State<SwapWidget> {
     }
   }
 
-  /// 选择目标代币
   Future<void> _handleSelectTargetToken(List<Token> tokens) async {
     final filteredTokens = TokenPurchaseService.filterTokensWithBalance(
       TokenHandler.excludeUnsupportedToken(tokens, _supportedChains),
@@ -142,9 +136,7 @@ class _SwapWidgetState extends State<SwapWidget> {
   }
 }
 
-/// 交易按钮区域
 ///
-/// 独立的 StatelessWidget，使用 BlocBuilder 监听状态变化
 class _TradeButtonSection extends StatelessWidget {
   const _TradeButtonSection({required this.swapCubit, required this.isBuyMode});
 

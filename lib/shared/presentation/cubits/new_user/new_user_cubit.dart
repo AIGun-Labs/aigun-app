@@ -61,7 +61,6 @@ class NewUserCubit extends Cubit<NewUserState> {
     emit(state.copyWith(authStatus: AuthStatus.unauthenticated, tokens: null));
   }
 
-  /// 退出登录
   Future<void> logout() async {
     try {
       await Future.wait([
@@ -98,7 +97,6 @@ class NewUserCubit extends Cubit<NewUserState> {
 
   Future<void> login(AuthResultEntity authResult) async {
     try {
-      //1.保存token和用户数据到userCubit中
       if (authResult is AuthResultExistingUser ||
           authResult is AuthResultRegistered) {
         await saveTokens(
@@ -107,13 +105,9 @@ class NewUserCubit extends Cubit<NewUserState> {
         );
         await saveUserInfo(authResult.user!);
       }
-      // 2. 并行初始化其他模块 (优化：最大化并发)
-      // 使用 Future.wait 让所有不相互依赖的初始化并行跑
       await Future.wait([
         // WebSocket
         getIt<IntelCubit>().connectWebSocket(),
-
-        // 其他 Cubit 初始化 (假设它们只依赖 Token 或 UserID)
         getIt<WalletCubit>().init().catchError(
           (e) => Logger.error('Wallet init error: $e'),
         ),

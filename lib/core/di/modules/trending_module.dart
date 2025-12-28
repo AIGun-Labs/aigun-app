@@ -8,7 +8,6 @@ import '../../../features/trending/domain/usecases/fetch_tokens_usecase.dart';
 import '../../../features/trending/presentation/cubits/tokens/tokens_cubit.dart';
 import '../module_repo.dart';
 
-/// Trending 模块依赖注入配置
 class TrendingModule implements InjectionModule {
   final GetIt _sl;
 

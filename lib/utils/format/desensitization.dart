@@ -1,17 +1,13 @@
-/// 地址脱敏处理工具函数
 ///
-/// [address] 需要脱敏的地址字符串
-/// [prefixLength] 显示前缀的长度，默认为6
-/// [suffixLength] 显示后缀的长度，默认为4
 ///
-/// 返回脱敏后的字符串，格式为：前N位...后M位
-String desensitization(String? address,
-    {int prefixLength = 6, int suffixLength = 4}) {
+String desensitization(
+  String? address, {
+  int prefixLength = 6,
+  int suffixLength = 4,
+}) {
   if (address == null || address.isEmpty) {
     return '';
   }
-
-  // 确保长度参数有效
   if (prefixLength < 0) prefixLength = 6;
   if (suffixLength < 0) suffixLength = 4;
 
@@ -25,7 +21,6 @@ String desensitization(String? address,
   return '$first...$last';
 }
 
-/// 智能地址脱敏 - 根据地址长度自动调整显示格式
 String smartdesensitization(String? address) {
   if (address == null || address.isEmpty) {
     return '';
@@ -42,9 +37,11 @@ String smartdesensitization(String? address) {
   }
 }
 
-/// 通用文本脱敏 - 适用于任何字符串
-String textdesensitization(String? text,
-    {int prefixLength = 3, int suffixLength = 2}) {
+String textdesensitization(
+  String? text, {
+  int prefixLength = 3,
+  int suffixLength = 2,
+}) {
   if (text == null || text.isEmpty) {
     return '';
   }

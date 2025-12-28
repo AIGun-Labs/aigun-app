@@ -7,7 +7,6 @@ class SentryConfig {
   static String? _dsn;
 
   static Future<void> initialize(void Function() runApp) async {
-    // 开发环境不初始化 Sentry
     if (kDebugMode) {
       return runApp();
     }

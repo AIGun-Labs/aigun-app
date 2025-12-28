@@ -8,8 +8,6 @@ class TransferApi {
   static const String _basePath = '/api/v1/wallet_tx';
 
   final DioClient _dioClient;
-
-  /// 获取转账报价
   Future<TransferQuote> getTransferQuote({
     required String inputMint,
     required String outputMint,
@@ -34,7 +32,6 @@ class TransferApi {
     return TransferQuote.fromJson(resposne);
   }
 
-  // 普通的转账接口
   Future<TransferTransaction> transferToken({
     required String chainId,
     required String walletId,
@@ -45,8 +42,6 @@ class TransferApi {
     required String network,
   }) async {
     final path = '$_basePath/$network/transfer';
-
-    // 请求接口
     final Map<String, dynamic>? response = await _dioClient
         .post<Map<String, dynamic>>(
           path,
@@ -67,7 +62,6 @@ class TransferApi {
     return TransferTransaction.fromJson(response);
   }
 
-  // 携带挑战的转账接口
   Future<TransferTransaction> transferTokenWithChallenge({
     required Challenge challenge,
   }) async {
@@ -84,7 +78,6 @@ class TransferApi {
     return TransferTransaction.fromJson(response);
   }
 
-  // 携带短信验证码的转账接口
   Future<TransferTransaction> transferTokenWithSmsChallenge({
     required String smsCode,
   }) async {
@@ -105,7 +98,6 @@ class TransferApi {
     return TransferTransaction.fromJson(response);
   }
 
-  // 携带图形点选文字验证码的转账接口
   Future<TransferTransaction> transferTokenWithCaptchaChallenge({
     required String captchaKey,
     required String captchaDots,
@@ -127,7 +119,6 @@ class TransferApi {
     return TransferTransaction.fromJson(response);
   }
 
-  /// 获取Gas费
   Future<Gas> getGasFee({
     required String chainId,
     required String address,
@@ -142,8 +133,6 @@ class TransferApi {
     if (response == null) {
       throw Exception('Response is null');
     }
-
-    // 响应拦截器已自动提取data字段，直接使用response
     return Gas.fromJson(response);
   }
 

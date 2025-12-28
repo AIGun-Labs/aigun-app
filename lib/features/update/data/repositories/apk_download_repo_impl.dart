@@ -17,15 +17,10 @@ class ApkDownloadRepoImpl implements ApkDownloadRepo {
 
   Future<void> _configure() async {
     await FileDownloader().configure(
-      globalConfig: [
-        (Config.requestTimeout, const Duration(seconds: 100)),
-      ],
+      globalConfig: [(Config.requestTimeout, const Duration(seconds: 100))],
     );
     FileDownloader().configureNotification(
-      running: const TaskNotification(
-        'AIGun',
-        '{progress}',
-      ),
+      running: const TaskNotification('AIGun', '{progress}'),
       progressBar: true,
     );
   }
@@ -34,8 +29,10 @@ class ApkDownloadRepoImpl implements ApkDownloadRepo {
   Stream<double> get progress$ => _progressC.stream;
 
   @override
-  Future<String?> download(
-      {required String url, required String filename}) async {
+  Future<String?> download({
+    required String url,
+    required String filename,
+  }) async {
     // create download task
     final task = DownloadTask(
       url: url,
@@ -56,22 +53,24 @@ class ApkDownloadRepoImpl implements ApkDownloadRepo {
     final file = File(path);
     if (await file.exists()) {
       Logger.info('file already exists: $path');
-      SentryService().reportError(Exception('文件已存在警告'), StackTrace.current);
+      SentryService().reportError(Exception(''), StackTrace.current);
       _progressC.add(1.0);
       return path;
     }
 
     Logger.info('downloading file: $path');
-    SentryService()
-        .reportError(Exception('文件下载警告'), StackTrace.current, extra: {
-      'url': url,
-      'filename': filename,
-    });
+    SentryService().reportError(
+      Exception(''),
+      StackTrace.current,
+      extra: {'url': url, 'filename': filename},
+    );
     // download file
-    final result =
-        await FileDownloader().download(task, onProgress: (progress) {
-      _progressC.add(progress);
-    });
+    final result = await FileDownloader().download(
+      task,
+      onProgress: (progress) {
+        _progressC.add(progress);
+      },
+    );
 
     if (result.status == TaskStatus.complete) {
       Logger.info('download complete: $path');

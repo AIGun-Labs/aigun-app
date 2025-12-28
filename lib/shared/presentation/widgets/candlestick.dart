@@ -77,7 +77,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         _priceXAxisController = controller;
       },
       labelStyle: const TextStyle(color: Colors.transparent, fontSize: 10),
-      enableAutoIntervalOnZooming: false, // 关闭自动刻度
+      enableAutoIntervalOnZooming: false, //
       majorGridLines: MajorGridLines(width: 0.5, color: chartTheme.gridColor),
       minorGridLines: MinorGridLines(
         width: 0.25,
@@ -141,11 +141,11 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         final minPrice = prices.reduce((a, b) => a < b ? a : b);
         final maxPrice = prices.reduce((a, b) => a > b ? a : b);
         Logger.error(
-          '📊 K线数据范围: Min=$minPrice, Max=$maxPrice, Count=${widget.data.length}',
+          '📊 K: Min=$minPrice, Max=$maxPrice, Count=${widget.data.length}',
         );
 
         if (maxPrice == 0 || (maxPrice - minPrice).abs() < 0.0000001) {
-          Logger.error('⚠️ 警告: 价格数据异常,所有价格相同或为0!');
+          Logger.error('⚠️ : ,0!');
         }
       }
     }
@@ -183,7 +183,6 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         vol: 0,
       );
     }
-    // 二分定位 <= xMs 的最近真实K
     int lo = 0, hi = data.length - 1;
     if (xMs <= (data.first.time ?? 0)) return data.first;
     if (xMs >= (data.last.time ?? 0)) return data.last;
@@ -197,7 +196,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         hi = mid - 1;
       }
     }
-    return data[lo - 1]; // 最靠近且不超过 xMs 的那个
+    return data[lo - 1]; //  xMs
   }
 
   void _initializeBehaviors(ChartTheme chartTheme) {
@@ -215,7 +214,6 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         textStyle: TextStyle(color: chartTheme.textColor, fontSize: 10),
       ),
       builder: (BuildContext context, TrackballDetails details) {
-        // 取当前 crosshair 的 X（没有就回退到最后一个真实K）
         final dt = (details.point?.x is DateTime)
             ? details.point!.x as DateTime
             : (widget.data.isNotEmpty
@@ -299,11 +297,10 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     double factor;
     double position;
     if (len <= 1) {
-      factor = 1.0; // 显示整个视图
-      position = 1.0 - factor; // 滚动到最末端
+      factor = 1.0; //
+      position = 1.0 - factor; //
       if (position < 0) position = 0;
     } else {
-      // 你的现有逻辑
       if (len <= 5) {
         factor = 0.5;
       } else {
@@ -322,36 +319,27 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   }
 
   void _scrollToDataEnd({
-    int showLastN = 30, // 初始显示多少根
-    int rightPadSteps = 3, // 右侧额外留白：几根K
+    int showLastN = 30, //
+    int rightPadSteps = 3, // ：K
   }) {
     if (widget.data.isEmpty) return;
 
     final stepMs = _getTimeframeStepMs(widget.timeframe);
-
-    // 1) 轴的全量时间范围（包含你 append 的尾部空白）
     final padded = _appendEmptyTail(widget.data, widget.timeframe);
     final int minTime = padded.first.time ?? widget.data.first.time ?? 0;
     final int maxTime = padded.last.time ?? widget.data.last.time ?? 0;
     final double totalRange = (maxTime - minTime).toDouble();
     if (totalRange <= 0) {
-      // 只有一个点的极端情况：不缩放，直接右对齐
       _priceZoom.zoomToSingleAxis(_priceXAxis, 0.0, 1.0);
       _volZoom.zoomToSingleAxis(_volXAxis, 0.0, 1.0);
       return;
     }
-
-    // 2) 右边界 = 最后真实K + 少量留白（不要对齐到全部 padding 尾巴）
     final int lastReal = widget.data.last.time ?? maxTime;
     final int rightEdge = (lastReal + rightPadSteps * stepMs).clamp(
       minTime,
       maxTime,
     );
-
-    // 3) 需要显示的时间宽度（showLastN 根K）
     final double visibleWidthTime = (showLastN * stepMs).toDouble();
-
-    // 4) 换算为缩放因子/位置（0~1）
     double factor = (visibleWidthTime / totalRange).clamp(
       _minXFactor,
       _maxXFactor,
@@ -362,8 +350,6 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
 
     _currentZoomFactor = factor;
     _currentZoomPosition = pos;
-
-    // 5) 应用到两条X轴（保持上下同步）
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _priceZoom.zoomToSingleAxis(_priceXAxis, pos, factor);
       _volZoom.zoomToSingleAxis(_volXAxis, pos, factor);
@@ -386,7 +372,6 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
 
     if (widget.data != oldWidget.data && _initialized) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        // 当数据量很少时，强制把视图对齐到数据末尾
         if (widget.data.length < 20) {
           final showCount = widget.data.length + 4;
           _scrollToDataEnd(
@@ -436,8 +421,6 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
 
     _currentZoomFactor = factor;
     _currentZoomPosition = position;
-
-    // 使用控制器同步
     _volXAxisController?.zoomFactor = factor;
     _volXAxisController?.zoomPosition = position;
 
@@ -519,7 +502,6 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     });
   }
 
-  // 在 State 类中增加：
   DateTimeAxisController? _priceXAxisController;
   DateTimeAxisController? _volXAxisController;
 
@@ -677,27 +659,20 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     NumericAxis dynamicYAxis = _priceYAxis;
     final last = widget.data.isNotEmpty ? widget.data.last : null;
     final lastPrice = last?.close;
-    // 先填充时间间隙，再添加尾部空白
     final filledData = _fillTimeGaps(widget.data, widget.timeframe);
     final paddedData = _appendEmptyTail(filledData, widget.timeframe);
 
     if (paddedData.isNotEmpty) {
-      // 使用填充后的数据计算价格范围
       final allPrices = filledData.expand((d) => [d.high, d.low]).toList();
       if (allPrices.isNotEmpty) {
         final minPrice = allPrices.reduce((a, b) => a < b ? a : b);
         final maxPrice = allPrices.reduce((a, b) => a > b ? a : b);
         final range = maxPrice - minPrice;
-        final padding = range * 0.005; // 从 0.1 减少到 0.02，减少上下留白
-
-        // 根据缩放程度计算价格标签间距
-        // 缩放越近（factor越小），显示更多标签；缩放越远（factor越大），显示更少标签
+        final padding = range * 0.005; //  0.1  0.02，
         double? interval;
         int? maximumLabels;
 
         if (range > 0) {
-          // 根据缩放因子计算应该显示的标签数量
-          // 缩放越近，标签越多（最多8个）；缩放越远，标签越少（最少4个）
           final double normalizedFactor = _currentZoomFactor.clamp(
             _minXFactor,
             _maxXFactor,
@@ -709,26 +684,19 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
             8,
           );
           maximumLabels = labelCount;
-
-          // 根据标签数量和价格范围计算间隔
           final double visibleRange = range + padding * 2;
           interval = visibleRange / (labelCount - 1);
-
-          // 将间隔调整为更合理的数值（例如，如果是价格，可以四舍五入到合适的精度）
           if (interval > 0) {
-            // 根据价格范围选择合适的精度
             final double magnitude = (interval / 10).floor() * 10;
             final double order = magnitude > 0
                 ? pow(10, (log(interval) / ln10).floor()).toDouble()
                 : 1.0;
             interval = ((interval / order).round() * order).toDouble();
-
-            // 确保 interval 始终大于 0（Syncfusion Charts 的要求）
             if (interval <= 0) {
-              interval = null; // 如果计算结果无效，让图表自动计算
+              interval = null; // ，
             }
           } else {
-            interval = null; // 如果 interval 无效，重置为 null
+            interval = null; //  interval ， null
           }
         }
 
@@ -747,10 +715,9 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
           majorTickLines: const MajorTickLines(width: 0),
           minorTickLines: const MinorTickLines(width: 0),
           labelStyle: TextStyle(color: chartTheme.textColor, fontSize: 10),
-          // 根据缩放程度设置标签间隔和最大标签数
           interval: interval,
           maximumLabels: maximumLabels?.toInt() ?? 0,
-          enableAutoIntervalOnZooming: false, // 手动控制间隔
+          enableAutoIntervalOnZooming: false, //
           plotBands: <PlotBand>[
             if (lastPrice != null)
               PlotBand(
@@ -914,7 +881,6 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   }
 
   Widget _buildVolumeChart(ChartTheme chartTheme) {
-    // 先填充时间间隙
     final filledData = _fillTimeGaps(widget.data, widget.timeframe);
 
     final Set<int> timeHasVolume = {
@@ -993,7 +959,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         axisLine: AxisLine(width: 0),
         majorTickLines: MajorTickLines(width: 0, size: 0),
         minorTickLines: MinorTickLines(width: 0, size: 0),
-        rangePadding: ChartRangePadding.none, // 去掉留白，放大成交量显示
+        rangePadding: ChartRangePadding.none, // ，
       ),
       series: <CartesianSeries>[
         ColumnSeries<KLineEntity, DateTime>(
@@ -1024,7 +990,6 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         d.vol == 0);
   }
 
-  /// 填充时间间隙，避免K线图中间出现断层
   List<KLineEntity> _fillTimeGaps(List<KLineEntity> data, Timeframe tf) {
     if (data.isEmpty || data.length == 1) return data;
 
@@ -1033,19 +998,13 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
 
     for (int i = 0; i < data.length; i++) {
       filled.add(data[i]);
-
-      // 如果不是最后一个元素，检查与下一个元素的时间间隔
       if (i < data.length - 1) {
         final currentTime = data[i].time ?? 0;
         final nextTime = data[i + 1].time ?? 0;
         final gap = nextTime - currentTime;
-
-        // 如果间隔大于一个时间周期，需要填充
         if (gap > stepMs * 1.5) {
           final gapCount = (gap / stepMs).floor() - 1;
           final lastClose = data[i].close;
-
-          // 用前一根K线的收盘价填充缺失的时间点
           for (int j = 1; j <= gapCount && j <= 100; j++) {
             final fillTime = currentTime + stepMs * j;
             filled.add(
@@ -1055,7 +1014,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
                 high: lastClose,
                 low: lastClose,
                 close: lastClose,
-                vol: 0, // 成交量为0表示没有交易
+                vol: 0, // 0
               ),
             );
           }

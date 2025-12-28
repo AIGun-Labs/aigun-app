@@ -1,8 +1,8 @@
 import 'package:flutter/services.dart';
+
 import '../../../core/enums/network.dart';
 import '../../../utils/format/input_formatters.dart';
 
-/// 网络交易配置模型
 class NetworkConfig {
   final Network network;
   final String displayName;
@@ -13,24 +13,14 @@ class NetworkConfig {
     required this.displayName,
     required this.fields,
   });
-
-  /// 获取网络配置的键（用于访问state中的customSettings）
   String get key => network.value;
 }
 
-/// 网络配置字段类型
-enum NetworkFieldType {
-  slippage,
-  mevProtect,
-  priorityFee,
-  tipFee,
-  gasPrice,
-}
+enum NetworkFieldType { slippage, mevProtect, priorityFee, tipFee, gasPrice }
 
-/// 网络配置字段模型
 class NetworkField {
   final NetworkFieldType type;
-  final String Function(dynamic context) titleBuilder; // 使用函数而不是直接字符串，支持国际化
+  final String Function(dynamic context) titleBuilder; // ，
   final String? suffix;
   final List<TextInputFormatter> formatters;
   final bool showLiveData;
@@ -44,16 +34,15 @@ class NetworkField {
   });
 }
 
-/// 预定义的网络配置
 class NetworkConfigs {
   NetworkConfigs._();
 
-  static final decimalFormatter =
-      FilteringTextInputFormatter.allow(RegExp("[0-9.]"));
+  static final decimalFormatter = FilteringTextInputFormatter.allow(
+    RegExp("[0-9.]"),
+  );
   static final integerFormatter = InputFormatters.numberInputFormatters();
 
   static List<NetworkConfig> getAllConfigs(dynamic context) {
-    // 从 context 获取 S (国际化)
     final s = _getS(context);
 
     return [
@@ -163,10 +152,7 @@ class NetworkConfigs {
     ];
   }
 
-  /// 辅助方法：从 context 获取国际化对象
   static dynamic _getS(dynamic context) {
-    // 这里需要导入 l10n，但为了避免循环依赖，我们在使用时传入
-    // 在实际使用中，调用方会传入 S.of(context)
     return context;
   }
 }

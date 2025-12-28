@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../themes/colors.dart';
 
-/// 通用错误重试视图组件
 ///
-/// 在网络错误或其他需要重试操作的场景下使用
 ///
-/// [errorMessage] 错误提示文本
-/// [onRetry] 重试按钮点击回调
-/// [retryButtonText] 重试按钮文字，默认为"重试"
-/// [buttonWidth] 按钮宽度，默认为200.w
-/// [buttonHeight] 按钮高度，默认为40.w
-/// [textColor] 错误文本颜色，默认为AppColors.grey3
-/// [buttonColor] 按钮背景色，默认为AppColors.pirmary
-/// [textSize] 错误文本字体大小，默认为14.sp
 class ErrorRetryView extends StatelessWidget {
   final String errorMessage;
   final VoidCallback onRetry;
@@ -28,7 +19,7 @@ class ErrorRetryView extends StatelessWidget {
     super.key,
     required this.errorMessage,
     required this.onRetry,
-    this.retryButtonText = '重试',
+    this.retryButtonText = '',
     this.buttonWidth,
     this.buttonHeight,
     this.textColor = Colors.grey,
@@ -44,10 +35,7 @@ class ErrorRetryView extends StatelessWidget {
         children: [
           Text(
             errorMessage,
-            style: TextStyle(
-              color: textColor,
-              fontSize: textSize.sp,
-            ),
+            style: TextStyle(color: textColor, fontSize: textSize.sp),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 16.h),
@@ -62,14 +50,11 @@ class ErrorRetryView extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.r),
                 ),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 24.w,
-                  vertical: 8.h,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
               ),
               child: Text(retryButtonText),
             ),
-          )
+          ),
         ],
       ),
     );

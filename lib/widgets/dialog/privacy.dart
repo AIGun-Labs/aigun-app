@@ -14,9 +14,10 @@ import '../../themes/colors.dart';
 class PrivacyDialog {
   Future<bool?> show(BuildContext context) async {
     return await showDialog<bool>(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const PrivacyDialogContent());
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const PrivacyDialogContent(),
+    );
   }
 }
 
@@ -32,52 +33,63 @@ class PrivacyDialogContent extends StatelessWidget {
           child: Text(S.of(context).tips),
         ),
         content: RichText(
-            text: TextSpan(children: [
-          TextSpan(
-            text: S.of(context).ben,
-            style: TextStyle(color: AppColors.textPrimary(context)),
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: S.of(context).ben,
+                style: TextStyle(color: AppColors.textPrimary(context)),
+              ),
+              TextSpan(
+                text: ' ${S.of(context).userAgreement} ',
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    context.pushNamed(
+                      RouteNames.webviewPreview,
+                      queryParameters: {
+                        "url": UrlConfig.userAgreement,
+                        "title": S.of(context).userAgreement,
+                      },
+                    );
+                  },
+                style: const TextStyle(
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColors.quaternary,
+                  color: AppColors.quaternary,
+                ),
+              ),
+              TextSpan(
+                text: ' ${S.of(context).and} ', //
+                style: TextStyle(color: AppColors.textPrimary(context)),
+              ),
+              TextSpan(
+                text: ' ${S.of(context).privacyPolicy} ',
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    context.pushNamed(
+                      RouteNames.webviewPreview,
+                      queryParameters: {
+                        "url": UrlConfig.privacyPolicy,
+                        "title": S.of(context).privacyPolicyTitle,
+                      },
+                    );
+                  },
+                style: const TextStyle(
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColors.quaternary,
+                  color: AppColors.quaternary,
+                ),
+              ),
+              TextSpan(
+                text: S.of(context).privacyPolicyDesc,
+                style: TextStyle(color: AppColors.textPrimary(context)),
+              ),
+              TextSpan(
+                text: S.of(context).privacyPolicyStartUse,
+                style: TextStyle(color: AppColors.textPrimary(context)),
+              ),
+            ],
           ),
-          TextSpan(
-            text: ' ${S.of(context).userAgreement} ',
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                context.pushNamed(RouteNames.webviewPreview, queryParameters: {
-                  "url": UrlConfig.userAgreement,
-                  "title": S.of(context).userAgreement,
-                });
-              },
-            style: const TextStyle(
-              decoration: TextDecoration.underline,
-              decorationColor: AppColors.quaternary,
-              color: AppColors.quaternary,
-            ),
-          ),
-          TextSpan(
-            text: ' ${S.of(context).and} ', // 添加连接词
-            style: TextStyle(color: AppColors.textPrimary(context)),
-          ),
-          TextSpan(
-            text: ' ${S.of(context).privacyPolicy} ',
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                context.pushNamed(RouteNames.webviewPreview, queryParameters: {
-                  "url": UrlConfig.privacyPolicy,
-                  "title": S.of(context).privacyPolicyTitle,
-                });
-              },
-            style: const TextStyle(
-              decoration: TextDecoration.underline,
-              decorationColor: AppColors.quaternary,
-              color: AppColors.quaternary,
-            ),
-          ),
-          TextSpan(
-              text: S.of(context).privacyPolicyDesc,
-              style: TextStyle(color: AppColors.textPrimary(context))),
-          TextSpan(
-              text: S.of(context).privacyPolicyStartUse,
-              style: TextStyle(color: AppColors.textPrimary(context))),
-        ])),
+        ),
         actions: [
           CupertinoDialogAction(
             child: Text(
@@ -107,52 +119,63 @@ class PrivacyDialogContent extends StatelessWidget {
           child: Text(S.of(context).tips),
         ),
         content: RichText(
-            text: TextSpan(children: [
-          TextSpan(
-            text: S.of(context).ben,
-            style: TextStyle(color: AppColors.textPrimary(context)),
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: S.of(context).ben,
+                style: TextStyle(color: AppColors.textPrimary(context)),
+              ),
+              TextSpan(
+                text: ' ${S.of(context).userAgreement} ',
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    context.pushNamed(
+                      RouteNames.webviewPreview,
+                      queryParameters: {
+                        "url": UrlConfig.userAgreement,
+                        "title": S.of(context).userAgreement,
+                      },
+                    );
+                  },
+                style: const TextStyle(
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColors.quaternary,
+                  color: AppColors.quaternary,
+                ),
+              ),
+              TextSpan(
+                text: ' ${S.of(context).and} ', //
+                style: TextStyle(color: AppColors.textPrimary(context)),
+              ),
+              TextSpan(
+                text: S.of(context).privacyPolicy,
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    context.pushNamed(
+                      RouteNames.webviewPreview,
+                      queryParameters: {
+                        "url": UrlConfig.privacyPolicy,
+                        "title": S.of(context).privacyPolicyTitle,
+                      },
+                    );
+                  },
+                style: const TextStyle(
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColors.quaternary,
+                  color: AppColors.quaternary,
+                ),
+              ),
+              TextSpan(
+                text: " ${S.of(context).privacyPolicyDesc}",
+                style: TextStyle(color: AppColors.textPrimary(context)),
+              ),
+              TextSpan(
+                text: S.of(context).privacyPolicyStartUse,
+                style: TextStyle(color: AppColors.textPrimary(context)),
+              ),
+            ],
           ),
-          TextSpan(
-            text: ' ${S.of(context).userAgreement} ',
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                context.pushNamed(RouteNames.webviewPreview, queryParameters: {
-                  "url": UrlConfig.userAgreement,
-                  "title": S.of(context).userAgreement,
-                });
-              },
-            style: const TextStyle(
-              decoration: TextDecoration.underline,
-              decorationColor: AppColors.quaternary,
-              color: AppColors.quaternary,
-            ),
-          ),
-          TextSpan(
-            text: ' ${S.of(context).and} ', // 添加连接词
-            style: TextStyle(color: AppColors.textPrimary(context)),
-          ),
-          TextSpan(
-            text: S.of(context).privacyPolicy,
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                context.pushNamed(RouteNames.webviewPreview, queryParameters: {
-                  "url": UrlConfig.privacyPolicy,
-                  "title": S.of(context).privacyPolicyTitle,
-                });
-              },
-            style: const TextStyle(
-              decoration: TextDecoration.underline,
-              decorationColor: AppColors.quaternary,
-              color: AppColors.quaternary,
-            ),
-          ),
-          TextSpan(
-              text: " ${S.of(context).privacyPolicyDesc}",
-              style: TextStyle(color: AppColors.textPrimary(context))),
-          TextSpan(
-              text: S.of(context).privacyPolicyStartUse,
-              style: TextStyle(color: AppColors.textPrimary(context))),
-        ])),
+        ),
         actions: [
           TextButton(
             onPressed: () {

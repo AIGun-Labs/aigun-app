@@ -18,7 +18,6 @@ class WalletList extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 15.w),
       child: BlocBuilder<BalanceCubit, BalanceState>(
         buildWhen: (previous, current) {
-          // 检查多个字段的变化
           return previous.balances != current.balances ||
               previous.isLoading != current.isLoading ||
               previous.hasError != current.hasError;

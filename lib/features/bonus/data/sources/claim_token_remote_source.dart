@@ -9,8 +9,6 @@ class ClaimTokenRemoteSource {
   static const String _tokensPath = '$_basePath/tokens/unclaimed';
 
   static const String _claimTokenPath = '$_basePath/token/claim';
-
-  /// 获取未领取的代币列表
   Future<List<ClaimTokenModel>> fetchUnclaimedTokens() async {
     try {
       final data = await _dioClient.get(_tokensPath);
@@ -22,7 +20,6 @@ class ClaimTokenRemoteSource {
     }
   }
 
-  /// 领取代币
   Future<bool> fetchClaimToken(
     String network,
     String contractAddress,

@@ -24,7 +24,6 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
     _params = params;
     _cancelToken?.cancel('update params');
     _cancelToken = CancelToken();
-    // 先暂停在进行轮询
     stopPolling();
     startPolling();
   }

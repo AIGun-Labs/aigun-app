@@ -6,7 +6,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'l10n_en.dart';
-import 'l10n_zh.dart';
 
 // ignore_for_file: type=lint
 
@@ -92,10 +91,7 @@ abstract class S {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[
-    Locale('en'),
-    Locale('zh'),
-  ];
+  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
 
   /// No description provided for @app_title.
   ///
@@ -3432,7 +3428,7 @@ class _SDelegate extends LocalizationsDelegate<S> {
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'zh'].contains(locale.languageCode);
+      <String>['en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_SDelegate old) => false;
@@ -3443,8 +3439,6 @@ S lookupS(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return SEn();
-    case 'zh':
-      return SZh();
   }
 
   throw FlutterError(

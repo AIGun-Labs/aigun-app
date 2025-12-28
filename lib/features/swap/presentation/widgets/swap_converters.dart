@@ -3,11 +3,8 @@ import '../../../../widgets/token/models/token.dart';
 import '../../domain/entities/transaction_entity.dart';
 import 'token_card/index.dart';
 
-/// Token 转换扩展方法
 ///
-/// 提供 Token、TransactionEntity、BaseTokenEntity 之间的转换
 extension TokenConversions on Token {
-  /// 将 Token 转换为 TransactionEntity
   TransactionEntity toTransactionEntity() {
     return TransactionEntity(
       isNative: isNativeToken,
@@ -26,9 +23,7 @@ extension TokenConversions on Token {
   }
 }
 
-/// BaseTokenEntity 转换扩展
 extension BaseTokenEntityConversions on BaseTokenEntity {
-  /// 将 BaseTokenEntity 转换为 Token (用于选择器)
   Token toToken() {
     return Token(
       isNative: isNative,
@@ -50,13 +45,8 @@ extension BaseTokenEntityConversions on BaseTokenEntity {
   }
 }
 
-/// TransactionEntity 转换扩展
 extension TransactionEntityConversions on TransactionEntity? {
-  /// 将 TransactionEntity 转换为 TokenCardConfig
-  TokenCardConfig toTokenCardConfig({
-    String? amount,
-    String? dollarValue,
-  }) {
+  TokenCardConfig toTokenCardConfig({String? amount, String? dollarValue}) {
     if (this == null) {
       return TokenCardConfig(
         symbol: '',

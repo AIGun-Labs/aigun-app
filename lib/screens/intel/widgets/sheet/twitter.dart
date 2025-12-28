@@ -49,8 +49,6 @@ class _TwitterSheetState extends State<TwitterSheet> with ImagePreviewMixin {
     super.initState();
   }
 
-  /// 根据选中的语言获取内容
-  /// 如果有转发内容(repostContent)，原文显示转发内容
   String _getContentByLanguage() {
     switch (_selectedLanguage) {
       case ContentLanguage.zh:
@@ -62,7 +60,6 @@ class _TwitterSheetState extends State<TwitterSheet> with ImagePreviewMixin {
     }
   }
 
-  /// 是否显示语言切换器（至少有2种语言有内容才显示）
   bool _shouldShowLanguageSwitcher() {
     int count = 0;
     if (widget.content.zh?.isNotEmpty == true) count++;

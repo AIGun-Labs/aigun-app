@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../cubits/user/user_cubit.dart';
 import '../../../features/auth/presentation/cubits/auth/auth_cubit.dart';
 import '../../../features/auth/presentation/pages/login_page.dart';
 import '../../../features/bonus/domain/usecases/claim_token.dart';
@@ -66,7 +65,6 @@ part 'trade_confirm_route.dart';
 part 'trade_setting_route.dart';
 part 'webview_preview_route.dart';
 
-// 水平过渡(从右到左)
 CustomTransitionPage<T> slideH<T>(
   Widget child, {
   required BuildContext context,
@@ -86,14 +84,10 @@ CustomTransitionPage<T> slideH<T>(
     );
   },
 );
-
-// 淡入淡出过渡(淡入淡出)
 CustomTransitionPage<T> fade<T>(Widget child) => CustomTransitionPage<T>(
   child: child,
   transitionsBuilder: (c, a, _, ch) => FadeTransition(opacity: a, child: ch),
 );
-
-// 垂直过渡(从上到下)
 CustomTransitionPage<T> slideV<T>(Widget child) => CustomTransitionPage<T>(
   child: child,
   transitionsBuilder: (c, a, _, ch) {
@@ -113,16 +107,9 @@ abstract class SlideHRouteData extends GoRouteData {
   Page<void> buildPage(BuildContext c, GoRouterState s) =>
       slideH(buildPageChild(c, s), context: c);
 }
-
-// // 1. 直接跳转（替换当前页面栈）：
 // const SendConfirmAgainRoute().go(context);
-
-// // 2. 压栈（从当前页面 push 一个新页面，可以返回）：
 // const SendConfirmAgainRoute().push(context);
-
-// // 3. push 并拿返回值：
 // final result = await const SendConfirmAgainRoute().push<bool>(context);
-// // 根据 result 做处理...
 
 // @TypedGoRoute<TokenDetailRoute>(
 //   path: '/token/:id',

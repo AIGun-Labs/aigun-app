@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../utils/url.dart';
 
-/// 使用 ExpansionTile 风格的 Markdown 展开收起组件
 class IntelMarkdownExpansionTile extends StatefulWidget {
   const IntelMarkdownExpansionTile({
     super.key,
@@ -58,7 +57,9 @@ class _IntelMarkdownExpansionTileState
       h2: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       h3: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
       a: const TextStyle(
-          color: Colors.blue, decoration: TextDecoration.underline),
+        color: Colors.blue,
+        decoration: TextDecoration.underline,
+      ),
       blockquote: TextStyle(
         color: Colors.grey[600],
         fontStyle: FontStyle.italic,

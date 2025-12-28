@@ -31,13 +31,7 @@ import '../transaction/transaction_state.dart';
 import 'swap_event.dart';
 import 'swap_state.dart';
 
-/// SwapCubit - 主协调器
 ///
-/// 职责：
-/// - 协调 TokenSelectionCubit、QuoteCubit、TransactionCubit
-/// - 同步子 Cubit 状态到主状态
-/// - 处理跨 Cubit 的业务逻辑
-/// - 发出 UI 事件（Toast、导航）
 class SwapCubit extends Cubit<SwapState> {
   // ==================== Constructor ====================
 
@@ -129,14 +123,10 @@ class SwapCubit extends Cubit<SwapState> {
         fromBalanceStatus: _mapBalanceStatus(tokenState.balanceStatus),
       ),
     );
-
-    // 通知 QuoteCubit tokens 变化
     _quoteCubit.updateTokens(
       fromToken: tokenState.fromToken,
       toToken: tokenState.toToken,
     );
-
-    // 更新 TradeSettingCubit 网络
     _tradeSettingCubit.updateNetwork(tokenState.fromToken?.network ?? '');
   }
 
@@ -186,8 +176,6 @@ class SwapCubit extends Cubit<SwapState> {
         ),
       ),
     );
-
-    // 刷新余额
     _tokenSelectionCubit.refreshBalance();
   }
 
@@ -270,10 +258,7 @@ class SwapCubit extends Cubit<SwapState> {
     maxAmount = maxAmount.removeTrailingZeros(
       maxDecimals: NumericConstants.twelve,
     );
-
-    // 立即更新 SwapCubit 的状态，确保 UI 能够立即响应
     emit(state.copyWith(amount: maxAmount));
-    // 然后更新 QuoteCubit，触发后续的询价流程
     _quoteCubit.updateAmount(maxAmount);
   }
 
@@ -289,24 +274,16 @@ class SwapCubit extends Cubit<SwapState> {
     await _quoteCubit.getQuote();
   }
 
-  /// 检查 Solana 最小余额（0.01 SOL）
   ///
-  /// 返回 true 表示检查通过或应跳过检查
-  /// 返回 false 表示余额不足，已发出警告事件
   bool _checkSolanaMinimumBalance() {
-    // 只检查 Solana 网络
     if (state.fromToken?.network?.toLowerCase() !=
         BlockchainConstants.networkSolana) {
       return true;
     }
-
-    // 获取 SOL 余额
     final solToken = _getNativeToken(BlockchainConstants.networkSolana);
     if (solToken == null) {
-      return true; // 无法验证时允许交易（后端会验证）
+      return true; // （）
     }
-
-    // 计算剩余余额（原子单位）
     final solBalance = NumericUtils.multiplyByDecimalPower(
       solToken.balance,
       solToken.decimals,
@@ -316,7 +293,6 @@ class SwapCubit extends Cubit<SwapState> {
 
     BigInt remaining;
     if (state.fromToken?.isNative ?? false) {
-      // 场景：卖出 SOL，扣除输入金额 + 手续费
       final atomicAmount = NumericUtils.multiplyByDecimalPower(
         state.amount,
         state.fromToken!.decimals,
@@ -326,11 +302,8 @@ class SwapCubit extends Cubit<SwapState> {
           BigInt.parse(atomicAmount) -
           BigInt.from(fee);
     } else {
-      // 场景：卖出 Token，只扣除手续费
       remaining = BigInt.parse(solBalance) - BigInt.from(fee);
     }
-
-    // 检查最小余额（10,000,000 lamports = 0.01 SOL）
     if (remaining < BigInt.from(BlockchainConstants.minSolanaBalanceLamports)) {
       emit(state.copyWith(event: const SwapEvent.showSolMinimumWarning()));
       return false;
@@ -340,7 +313,6 @@ class SwapCubit extends Cubit<SwapState> {
   }
 
   Future<void> swap(BuildContext context) async {
-    // 验证参数
     final validation = _validateSwapParams.call(
       fromToken: state.fromToken,
       toToken: state.toToken,
@@ -357,21 +329,15 @@ class SwapCubit extends Cubit<SwapState> {
       );
       return;
     }
-
-    // 检查 Solana 最小余额
     if (!_checkSolanaMinimumBalance()) {
-      return; // 对话框将通过事件监听器显示
+      return; //
     }
-
-    // 显示加载中
     emit(
       state.copyWith(
         swapStatus: const SwapStatus.trading(),
         event: const SwapEvent.showLoading(),
       ),
     );
-
-    // 计算原子单位金额
     final atomicAmount = NumericUtils.multiplyByDecimalPower(
       state.amount,
       state.fromToken!.decimals,
@@ -386,11 +352,7 @@ class SwapCubit extends Cubit<SwapState> {
       );
       return;
     }
-
-    // 获取交易设置
     final settingOptions = _tradeSettingCubit.getCurrentTradeCustomSetting();
-
-    // 执行交易
     await _transactionCubit.executeSwap(
       fromToken: state.fromToken!,
       toToken: state.toToken!,

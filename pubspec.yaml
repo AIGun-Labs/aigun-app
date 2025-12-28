@@ -125,13 +125,10 @@ flutter_launcher_icons:
 #   ios: true
 #   image_path: "assets/images/logo/aigun-logo.png"
 #   min_sdk_android: 21
-#   adaptive_icon_background: "#FE6256"  # 背景色
-#   adaptive_icon_foreground: "assets/images/logo/app-logo-foreground.png"  # 前景图
 
 flutter:
   generate: true
   uses-material-design: true
-  # 禁用 Swift Package Manager（实验性功能，避免编译错误）
   # disable-swift-package-manager: true
 
   assets:

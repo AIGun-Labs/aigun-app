@@ -14,12 +14,10 @@ class NaiveToUtcDateTimeConverter implements JsonConverter<DateTime, Object?> {
       final hasZone =
           s.endsWith('Z') ||
           RegExp(r'([+-]\d{2}:\d{2}|[+-]\d{4})$').hasMatch(s);
-      // 无时区则按 UTC 解析（补 Z）
       final parsed = DateTime.parse(hasZone ? s : '${s}Z');
       return parsed.toUtc();
     }
     if (json is num) {
-      // 数字时间戳：>1e10 视为毫秒，否则视为秒
       final ms = json > 1e10 ? json.toInt() : (json * 1000).toInt();
       return DateTime.fromMillisecondsSinceEpoch(ms, isUtc: true);
     }

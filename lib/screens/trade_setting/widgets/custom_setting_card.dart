@@ -6,13 +6,14 @@ import 'package:lottie/lottie.dart';
 import '../../../themes/themes.dart';
 
 class CustomSettingCard extends StatelessWidget {
-  const CustomSettingCard(
-      {super.key,
-      required this.children,
-      this.title,
-      this.subtitle,
-      this.isSelected = false,
-      this.onTap});
+  const CustomSettingCard({
+    super.key,
+    required this.children,
+    this.title,
+    this.subtitle,
+    this.isSelected = false,
+    this.onTap,
+  });
 
   final List<Widget> children;
   final String? title;
@@ -27,12 +28,14 @@ class CustomSettingCard extends StatelessWidget {
         elevation: 0,
         color: AppColors.background(context),
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5.r),
-            side: BorderSide(
-                color: isSelected
-                    ? AppColors.foreground(context)
-                    : AppColors.border(context),
-                width: isSelected ? 2.r : 1.r)),
+          borderRadius: BorderRadius.circular(5.r),
+          side: BorderSide(
+            color: isSelected
+                ? AppColors.foreground(context)
+                : AppColors.border(context),
+            width: isSelected ? 2.r : 1.r,
+          ),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -51,37 +54,38 @@ class CustomSettingCard extends StatelessWidget {
                       Text(
                         title ?? "Custom Solana Trade",
                         style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textPrimary(context)),
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textPrimary(context),
+                        ),
                       ),
                       SizedBox(height: 4.h),
                       Text(
                         subtitle ?? "Suitable for experienced veterans",
                         style: TextStyle(
-                            fontSize: 12.sp,
-                            color: AppColors.textSecondary(context)),
-                      )
+                          fontSize: 12.sp,
+                          color: AppColors.textSecondary(context),
+                        ),
+                      ),
                     ],
-                  )
+                  ),
                 ],
               ),
               SizedBox(height: 16.h),
               LayoutBuilder(
                 builder: (context, constraints) {
-                  final itemWidth = (constraints.maxWidth - 60) / 2; // 动态计算宽度
+                  final itemWidth = (constraints.maxWidth - 60) / 2; //
                   return Wrap(
-                    spacing: 60.0, // 水平间距
-                    runSpacing: 28.0, // 垂直间距
+                    spacing: 60.0, //
+                    runSpacing: 28.0, //
                     children: children
-                        .map((child) => SizedBox(
-                              width: itemWidth,
-                              child: child,
-                            ))
+                        .map(
+                          (child) => SizedBox(width: itemWidth, child: child),
+                        )
                         .toList(),
                   );
                 },
-              )
+              ),
             ],
           ),
         ),
@@ -95,13 +99,18 @@ class CustomSettingCardIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DotLottieLoader.fromAsset("assets/lottie/cowboy-hat.lottie",
-        frameBuilder: (context, dotlottie) {
-      if (dotlottie != null) {
-        return Lottie.memory(dotlottie.animations.values.single,
-            height: 50.w, width: 50.w);
-      }
-      return const SizedBox.shrink();
-    });
+    return DotLottieLoader.fromAsset(
+      "assets/lottie/cowboy-hat.lottie",
+      frameBuilder: (context, dotlottie) {
+        if (dotlottie != null) {
+          return Lottie.memory(
+            dotlottie.animations.values.single,
+            height: 50.w,
+            width: 50.w,
+          );
+        }
+        return const SizedBox.shrink();
+      },
+    );
   }
 }

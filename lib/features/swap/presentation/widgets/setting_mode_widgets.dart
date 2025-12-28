@@ -9,9 +9,7 @@ import '../../../../enums/trade_mode.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/themes.dart';
 
-/// 交易模式图标
 ///
-/// 根据当前交易模式显示对应图标
 class SettingModeIcon extends StatelessWidget {
   const SettingModeIcon({super.key});
 
@@ -46,9 +44,7 @@ class SettingModeIcon extends StatelessWidget {
   }
 }
 
-/// 交易模式文本
 ///
-/// 根据当前交易模式显示对应文本
 class SettingModeText extends StatelessWidget {
   const SettingModeText({super.key});
 

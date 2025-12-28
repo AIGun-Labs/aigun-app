@@ -141,9 +141,7 @@ class MyHoldingsWidget extends StatelessWidget {
                     const Color(0xFF000000),
                     Colors.white,
                     Assets.images.icons.shareOutline,
-                    () {
-                      // 分享功能
-                    },
+                    () {},
                   ),
                   _buildActionButton(
                     context,
@@ -331,16 +329,12 @@ class MyHoldingsSectionSkeleton extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 标签骨架屏
               TextSkeleton(width: 60.w, height: 14.h),
               SizedBox(height: 4.h),
-              // 数值骨架屏
               TextSkeleton(width: 100.w, height: 24.h),
               SizedBox(height: 15.h),
-              // 标签骨架屏
               TextSkeleton(width: 80.w, height: 14.h),
               SizedBox(height: 4.h),
-              // 数值骨架屏
               TextSkeleton(width: 120.w, height: 24.h),
             ],
           ),
@@ -350,16 +344,12 @@ class MyHoldingsSectionSkeleton extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 标签骨架屏
               TextSkeleton(width: 70.w, height: 14.h),
               SizedBox(height: 4.h),
-              // 数值骨架屏
               TextSkeleton(width: 110.w, height: 24.h),
               SizedBox(height: 15.h),
-              // 标签骨架屏
               TextSkeleton(width: 90.w, height: 14.h),
               SizedBox(height: 4.h),
-              // 数值骨架屏
               TextSkeleton(width: 80.w, height: 24.h),
             ],
           ),

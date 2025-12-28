@@ -51,7 +51,6 @@ class OriginalNews extends StatelessWidget {
               height: 48.w,
             ),
             SizedBox(width: 12.w),
-            // 使用Expanded包裹文字区域，确保文字不会被压缩
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,8 +59,8 @@ class OriginalNews extends StatelessWidget {
                     Text(
                       summaryText,
                       softWrap: true,
-                      maxLines: 2, // 最多显示2行
-                      overflow: TextOverflow.ellipsis, // 超出2行时显示省略号(...)
+                      maxLines: 2, // 2
+                      overflow: TextOverflow.ellipsis, // 2(...)
                       style: TextStyle(
                         fontSize: 14.sp,
                         color: AppColors.textSecondary(context),

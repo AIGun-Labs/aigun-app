@@ -8,7 +8,6 @@ import '../toast/trade_status_toast.dart';
 
 class ShowSheet {
   static void trade(BuildContext context) {
-    // 在打开 trade sheet 之前清除状态
     context.read<QuickTradeCubit>().clear();
 
     showModalBottomSheet(
@@ -22,7 +21,6 @@ class ShowSheet {
       ),
       builder: (context) => const TradeSheet(),
     ).whenComplete(() {
-      // 弹窗关闭时关闭 toast
       TradeStatusToastUtils.dismissToast();
     });
   }
@@ -31,14 +29,15 @@ class ShowSheet {
     context.read<TradeCubit>().clear();
 
     showModalBottomSheet(
-        context: context,
-        useRootNavigator: true,
-        isScrollControlled: true,
-        backgroundColor: AppColors.background(context),
-        constraints: const BoxConstraints(
-          minWidth: double.infinity,
-          maxWidth: double.infinity,
-        ),
-        builder: (context) => widget);
+      context: context,
+      useRootNavigator: true,
+      isScrollControlled: true,
+      backgroundColor: AppColors.background(context),
+      constraints: const BoxConstraints(
+        minWidth: double.infinity,
+        maxWidth: double.infinity,
+      ),
+      builder: (context) => widget,
+    );
   }
 }

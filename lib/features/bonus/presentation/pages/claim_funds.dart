@@ -36,7 +36,6 @@ class _ClaimFundsScreenState extends State<ClaimFundsScreen> {
     super.dispose();
   }
 
-  /// 下拉刷新处理
   Future<void> _handleRefresh() async {
     try {
       await _claimTokenCubit.getUnclaimedTokens();

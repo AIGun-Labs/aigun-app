@@ -27,7 +27,6 @@ class TradeSwap extends StatefulWidget {
 }
 
 class _TradeSwapState extends State<TradeSwap> {
-  // 缓存 cubit 引用，用于 dispose 时访问
   TradeCubit? _tradeCubit;
 
   @override
@@ -35,26 +34,20 @@ class _TradeSwapState extends State<TradeSwap> {
     super.initState();
   }
 
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // 在 didChangeDependencies 中安全地获取 cubit 引用
     _tradeCubit ??= context.read<TradeCubit>();
   }
 
   @override
   void dispose() {
-    // 使用缓存的引用暂停定时器，防止内存泄漏
     _tradeCubit?.pauseTimers();
     super.dispose();
   }
 
-  /// 选择来源代币
   Future<void> _handleSelectSourceToken(List<Token> availableTokens) async {
     context.read<QueryTokenCubit>().reset();
-
-    //  选择来源代币
     final selectedToken = await showTokenSelectorSheet(
       context,
       TokenPurchaseService.filterTokensWithBalance(availableTokens),
@@ -71,7 +64,6 @@ class _TradeSwapState extends State<TradeSwap> {
     }
   }
 
-  /// 选择目标代币
   Future<void> _handleSelectTargetToken(List<Token> targetTokens) async {
     final tradeCubit = context.read<TradeCubit>();
 
@@ -227,9 +219,8 @@ class _TradeSwapState extends State<TradeSwap> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TokenSwapCard(
-                  onSelectToken: () => _handleSelectSourceToken(
-                    state.availableTokens,
-                  ), // 需要卖出的代币
+                  onSelectToken: () =>
+                      _handleSelectSourceToken(state.availableTokens), //
 
                   dollarValue: state.quote?.inUsdValue?.toString() ?? inAmount,
                   isEditable: true,
@@ -253,9 +244,8 @@ class _TradeSwapState extends State<TradeSwap> {
                 ),
                 const SwapTokenDivider(),
                 TokenSwapCard(
-                  onSelectToken: () => _handleSelectTargetToken(
-                    state.availableTokens,
-                  ), // 需要买进的代币
+                  onSelectToken: () =>
+                      _handleSelectTargetToken(state.availableTokens), //
                   amount: outAmount,
 
                   dollarValue: state.quote?.outUsdValue?.toString() ?? '',

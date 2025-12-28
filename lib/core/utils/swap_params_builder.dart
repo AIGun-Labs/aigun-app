@@ -1,7 +1,4 @@
-/// Swap API 参数构建器
 ///
-/// 用于封装和构建 swap API 调用所需的参数
-/// 遵循 Builder 模式,提供清晰的参数构建接口
 class SwapParamsBuilder {
   final String network;
   final String fromChainId;
@@ -27,13 +24,7 @@ class SwapParamsBuilder {
     required this.decimals,
   });
 
-  /// 从 QuickTradeState 和 TradeSetting 构建 Buy 模式参数
   ///
-  /// [state] - QuickTradeState 包含交易状态
-  /// [settingOptions] - 交易设置选项
-  /// [settingMode] - 交易模式
-  /// [amount] - 已转换为原子单位的金额
-  /// [walletId] - 钱包 ID
   static SwapParamsBuilder fromBuyState({
     required dynamic state, // QuickTradeState
     required Map<String, dynamic> settingOptions,
@@ -55,14 +46,7 @@ class SwapParamsBuilder {
     );
   }
 
-  /// 从 QuickTradeState 和 TradeSetting 构建 Sell 模式参数
   ///
-  /// [state] - QuickTradeState 包含交易状态
-  /// [settingOptions] - 交易设置选项
-  /// [settingMode] - 交易模式
-  /// [amount] - 已转换为原子单位的金额
-  /// [walletId] - 钱包 ID
-  /// [outputMint] - 输出代币地址 (通过 getOutputMint 获取)
   static SwapParamsBuilder fromSellState({
     required dynamic state, // QuickTradeState
     required Map<String, dynamic> settingOptions,
@@ -85,7 +69,6 @@ class SwapParamsBuilder {
     );
   }
 
-  /// 将参数转换为 Map,便于直接传递给 API
   Map<String, dynamic> toMap() {
     return {
       'network': network,
@@ -101,7 +84,6 @@ class SwapParamsBuilder {
     };
   }
 
-  /// 验证参数是否有效
   bool isValid() {
     return network.isNotEmpty &&
         fromChainId.isNotEmpty &&
@@ -119,4 +101,4 @@ class SwapParamsBuilder {
         'outputMint: $outputMint, amount: $amount, walletId: $walletId, '
         'mode: $mode, decimals: $decimals)';
   }
-} 
+}

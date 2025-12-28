@@ -2,8 +2,7 @@ name: "Setup Flutter Build Environment"
 description: "Create environment files for Flutter build"
 author: "AIGun Team"
 
-inputs: 
-  #环境变量
+inputs:
   base-api-url:
     description: "Base API URL"
     required: true
@@ -30,9 +29,8 @@ inputs:
     required: true
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
-    # 创建环境配置文件
     - name: Create environment files
       shell: bash
       env:
@@ -46,8 +44,6 @@ runs:
         BASE_TEST_WS_URL: ${{ inputs.base-test-ws-url }}
       run: |
         set -euo pipefail
-
-        # 验证必需的环境变量
         required_vars=("BASE_API_URL" "BASE_WS_URL" "BASE_CDN_URL" "PRIVATE_KEY" "SENTRY_DSN" "CANDLESTICK_URL")
         for var in "${required_vars[@]}"; do
           if [ -z "${!var:-}" ]; then
@@ -60,8 +56,6 @@ runs:
           local file="$1"; shift
           printf '%s\n' "$@" > "$file"
         }
-
-        # .env.production（用于 Release）
         write_env ".env.production" \
           "BASE_API_URL=${BASE_API_URL}" \
           "BASE_WS_URL=${BASE_WS_URL}" \
@@ -69,8 +63,6 @@ runs:
           "BASE_CDN_URL=${BASE_CDN_URL}" \
           "PRIVATE_KEY=${PRIVATE_KEY}" \
           "CANDLESTICK_URL=${CANDLESTICK_URL}"
-
-        # .env.development（默认开发）
         write_env ".env.development" \
           "BASE_API_URL=${BASE_TEST_API_URL}" \
           "BASE_WS_URL=${BASE_TEST_WS_URL}" \
@@ -78,8 +70,6 @@ runs:
           "BASE_CDN_URL=${BASE_CDN_URL}" \
           "PRIVATE_KEY=${PRIVATE_KEY}" \
           "CANDLESTICK_URL=${CANDLESTICK_URL}"
-
-        # 快速校验必需键是否存在
         for f in .env.production .env.development; do
           for k in BASE_API_URL BASE_WS_URL BASE_CDN_URL PRIVATE_KEY CANDLESTICK_URL; do
             if ! grep -q "^$k=" "$f"; then

@@ -61,7 +61,6 @@ class VerifyCodeStepWidget extends StatelessWidget {
                 }
               },
               failure: (failure, errorCode) => switch (failure) {
-                // 验证码校验失败通过文本的形式展示
                 VerifyStepFailure.codeFail => null,
                 VerifyStepFailure.codeInvalidFormat => null,
                 // _ => authCubit.handleBusinessException(

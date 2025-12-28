@@ -5,7 +5,6 @@ import 'i_app_env.dart';
 
 part 'app_env_prod.g.dart';
 
-// 指向 .env.dev 文件
 @Envied(path: '.env.production', obfuscate: true)
 class EnvProd implements IAppEnv {
   @override

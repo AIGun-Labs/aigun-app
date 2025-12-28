@@ -22,10 +22,7 @@ import '../../cubit/swap/swap_cubit.dart';
 import '../../cubit/swap/swap_state.dart';
 import 'token_card_config.dart';
 
-/// Token 卡片组件
 ///
-/// 显示代币信息和金额输入/展示
-/// 使用配置模式管理状态，遵循单一职责原则
 class TokenCard extends StatefulWidget {
   const TokenCard({super.key, required this.config, required this.interaction});
 
@@ -125,7 +122,6 @@ class _TokenCardState extends State<TokenCard> {
   }
 }
 
-/// Token 选择器部分
 class _TokenSelector extends StatelessWidget {
   const _TokenSelector({required this.config, this.onTap});
 
@@ -157,7 +153,6 @@ class _TokenSelector extends StatelessWidget {
   }
 }
 
-/// Token 图标组件
 class _TokenIcon extends StatelessWidget {
   const _TokenIcon({
     required this.tokenAvatar,
@@ -216,7 +211,6 @@ class _TokenIcon extends StatelessWidget {
   }
 }
 
-/// Token 占位符组件
 class _TokenPlaceholder extends StatelessWidget {
   const _TokenPlaceholder({
     required this.size,
@@ -248,7 +242,6 @@ class _TokenPlaceholder extends StatelessWidget {
   }
 }
 
-/// Token 名称组件
 class _TokenName extends StatelessWidget {
   const _TokenName({required this.tokenName, required this.hasSelectedToken});
 
@@ -274,7 +267,6 @@ class _TokenName extends StatelessWidget {
   }
 }
 
-/// 金额部分组件
 class _AmountSection extends StatelessWidget {
   const _AmountSection({
     required this.config,
@@ -318,7 +310,6 @@ class _AmountSection extends StatelessWidget {
   }
 }
 
-/// 可编辑金额输入框
 class _EditableAmount extends StatefulWidget {
   const _EditableAmount({
     required this.controller,
@@ -403,15 +394,15 @@ class _EditableAmountState extends State<_EditableAmount> {
 
   void _syncControllerWithState(SwapState state) {
     if (!widget.isSourceToken || state.amount == widget.controller.text) return;
-
-    // 截断到指定小数位并去除尾随零
-    final truncated = Calculator.truncate(state.amount, NumericConstants.sixteen);
+    final truncated = Calculator.truncate(
+      state.amount,
+      NumericConstants.sixteen,
+    );
     final amount = double.tryParse(truncated)?.toString() ?? truncated;
     widget.controller.text = amount.isNotEmptyAndZeroValue ? amount : '';
   }
 }
 
-/// 只读金额显示
 class _DisplayAmount extends StatelessWidget {
   const _DisplayAmount({required this.amountController});
 
@@ -420,8 +411,6 @@ class _DisplayAmount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hasValue = amountController.text.isNotEmptyAndZeroValue;
-
-    /// 截断小数位数 6 位
     final formattedAmount = CurrencyFormatter.abbreviateTokenPrice(
       double.tryParse(amountController.text) ?? 0,
       fixedDecimals: NumericConstants.six,
@@ -441,7 +430,6 @@ class _DisplayAmount extends StatelessWidget {
   }
 }
 
-/// 美元价值显示
 class _DollarValue extends StatelessWidget {
   const _DollarValue({required this.dollarValue});
 
@@ -465,7 +453,6 @@ class _DollarValue extends StatelessWidget {
             success: (_) => SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Text(
-                // 使用传进来的 dollar 而不是 quote
                 CurrencyFormatter.abbreviateTokenPriceWithSymbol(
                   double.tryParse(dollarValue) ?? 0,
                 ),

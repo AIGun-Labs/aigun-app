@@ -10,9 +10,7 @@ import '../../../l10n/l10n.dart';
 import '../../../themes/colors.dart';
 
 class SendTokenStateContent extends StatelessWidget {
-  const SendTokenStateContent({
-    super.key,
-  });
+  const SendTokenStateContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +29,7 @@ class SendTokenStateContent extends StatelessWidget {
   List<Widget> _buildChildren(BuildContext context, TransferState state) {
     if (state.isSending) {
       return _buildSending(context);
-    }
-    // 发送成功
-    else if (state.isSent) {
+    } else if (state.isSent) {
       return _buildSent(context, state);
     } else {
       return _buildFailed(context);
@@ -72,7 +68,10 @@ class SendTokenStateContent extends StatelessWidget {
       ),
       SizedBox(height: 26.h),
       _buildAmountText(
-          context, state.amount, state.selectedToken?.symbol ?? ''),
+        context,
+        state.amount,
+        state.selectedToken?.symbol ?? '',
+      ),
       SizedBox(height: 15.h),
       GestureDetector(
         onTap: () async {
@@ -105,12 +104,19 @@ class SendTokenStateContent extends StatelessWidget {
       SizedBox(height: 26.h),
       _buildText(context, S.of(context).transfer_failedToSendToken, 20.sp),
       SizedBox(height: 15.h),
-      _buildText(context, S.of(context).transfer_failedToSendTokenReason, 14.sp,
-          color: AppColors.secondary),
+      _buildText(
+        context,
+        S.of(context).transfer_failedToSendTokenReason,
+        14.sp,
+        color: AppColors.secondary,
+      ),
       SizedBox(height: 5.h),
       _buildText(
-          context, S.of(context).transfer_failedToSendTokenReason2, 14.sp,
-          color: AppColors.secondary),
+        context,
+        S.of(context).transfer_failedToSendTokenReason2,
+        14.sp,
+        color: AppColors.secondary,
+      ),
       SizedBox(height: 100.h),
     ];
   }
@@ -119,19 +125,19 @@ class SendTokenStateContent extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildText(
-          context,
-          amount,
-          20.sp,
-        ),
+        _buildText(context, amount, 20.sp),
         SizedBox(width: 5.w),
         _buildText(context, symbol, 20.sp),
       ],
     );
   }
 
-  Widget _buildText(BuildContext context, String text, double fontSize,
-      {Color? color}) {
+  Widget _buildText(
+    BuildContext context,
+    String text,
+    double fontSize, {
+    Color? color,
+  }) {
     return Text(
       text,
       style: TextStyle(

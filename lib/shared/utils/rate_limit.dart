@@ -2,10 +2,7 @@
 import 'dart:async';
 
 /// ===============================
-/// Debounce（防抖 - 尾触发 + 可选 maxWait）
 /// ===============================
-
-/// 无参 Debounce：重复触发后，仅在最后一次触发后的 [delay] 执行。
 class Debounce {
   Debounce({required this.delay, this.maxWait});
   final Duration delay;
@@ -14,8 +11,6 @@ class Debounce {
   Timer? _timer;
   Timer? _maxTimer;
   Completer<void>? _pending;
-
-  /// 触发一次（若在 delay 内再次触发，会重置计时）。
   Future<void> run(FutureOr<void> Function() action) {
     _pending ??= Completer<void>();
 
@@ -34,14 +29,12 @@ class Debounce {
     return _pending!.future;
   }
 
-  /// 立即执行待处理的动作（如果有），并清空计时。
   Future<void> flush(FutureOr<void> Function() action) async {
     _timer?.cancel();
     _clearMaxTimer();
     await _invoke(action);
   }
 
-  /// 取消待执行动作。
   void cancel() {
     _timer?.cancel();
     _timer = null;
@@ -67,7 +60,6 @@ class Debounce {
   }
 }
 
-/// 单参数 Debounce：保存“最后一次参数”，在静默 [delay] 后执行。
 class DebounceValue<T> {
   DebounceValue({required this.delay, this.maxWait});
   final Duration delay;
@@ -131,20 +123,13 @@ class DebounceValue<T> {
 }
 
 /// ===============================
-/// Throttle（节流 - 时间窗内限频，支持 leading/trailing）
 /// ===============================
-
-/// 无参 Throttle：在 [period] 时间窗内限制执行频率。
 class Throttle {
-  Throttle({
-    required this.period,
-    this.leading = true,
-    this.trailing = true,
-  });
+  Throttle({required this.period, this.leading = true, this.trailing = true});
 
   final Duration period;
-  final bool leading; // 是否在时间窗开始时立刻执行
-  final bool trailing; // 是否在时间窗结束时再执行一次（取最后一次触发）
+  final bool leading; //
+  final bool trailing; // （）
 
   DateTime? _lastInvoke;
   Timer? _trailingTimer;
@@ -159,7 +144,6 @@ class Throttle {
       _pending = null;
     }
 
-    // 首次触发
     if (_lastInvoke == null) {
       if (leading) {
         _lastInvoke = now;
@@ -177,8 +161,6 @@ class Throttle {
       }
       return _pending!.future;
     }
-
-    // 非首次
     final elapsed = now.difference(_lastInvoke!);
     if (elapsed >= period) {
       _trailingTimer?.cancel();
@@ -207,7 +189,6 @@ class Throttle {
   void dispose() => cancelTrailing();
 }
 
-/// 单参数 Throttle：记录最后一次参数用于 trailing。
 class ThrottleValue<T> {
   ThrottleValue({
     required this.period,
@@ -283,37 +264,28 @@ class ThrottleValue<T> {
 }
 
 /// ===============================
-/// Cooldown（冷却门 - 适合”按钮冷却“）
 /// ===============================
-
-/// 冷却门：在冷却期内拒绝执行；支持从“开始”或“完成”计时。
 class CooldownGate {
   CooldownGate(this.cooldown, {this.fromCompletion = false});
 
   final Duration cooldown;
-
-  /// true：冷却从“动作完成”开始；false：从“动作开始”开始。
   final bool fromCompletion;
 
   DateTime? _nextAllowedAt;
 
   bool get isCooling =>
       _nextAllowedAt != null && DateTime.now().isBefore(_nextAllowedAt!);
-
-  /// 返回剩余秒数（UI 可用于显示倒计时）。
   int secondsLeft() {
     if (_nextAllowedAt == null) return 0;
     final s = _nextAllowedAt!.difference(DateTime.now()).inSeconds;
     return s > 0 ? s : 0;
   }
 
-  /// 尝试执行；处于冷却期则返回 false，不执行 action。
   Future<bool> tryRun(FutureOr<void> Function() action) async {
     final now = DateTime.now();
     if (_nextAllowedAt != null && now.isBefore(_nextAllowedAt!)) {
       return false;
     }
-    // 先设置冷却，防止并发穿透
     _nextAllowedAt = now.add(cooldown);
 
     if (fromCompletion) {
@@ -328,6 +300,5 @@ class CooldownGate {
     return true;
   }
 
-  /// 立即解除冷却（例如用户取消了操作）
   void reset() => _nextAllowedAt = null;
 }

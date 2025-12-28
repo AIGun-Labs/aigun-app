@@ -13,7 +13,6 @@ import '../../widgets/token_list.dart';
 import 'cubit/send_select_token_cubit.dart';
 import 'cubit/send_select_token_state.dart';
 
-/// 转出-选币
 class SendSelectTokenScreen extends StatelessWidget {
   const SendSelectTokenScreen({super.key});
 
@@ -30,56 +29,58 @@ class SendSelectTokenScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppBar(
-          title: S.of(context).transfer_sendToken,
-          onPressed: () {
-            context.pop();
-          }),
+        title: S.of(context).transfer_sendToken,
+        onPressed: () {
+          context.pop();
+        },
+      ),
       body: SafeArea(
-          child: BlocProvider(
-        create: (context) => SendSelectTokenCubit(),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Column(
-              children: [
-                BlocBuilder<SendSelectTokenCubit, SendSelectTokenState>(
-                  builder: (context, state) {
-                    final balanceState = context.watch<BalanceCubit>().state;
-                    final tokens = balanceState.balances?.tokens
-                        .where((token) =>
-                            (double.tryParse(token.tokenPrice) ?? 0.0) > 0)
-                        .toList();
-                    final filterToken = context
-                        .read<SendSelectTokenCubit>()
-                        .getTokens(tokens)
-                        ?.map((token) => Token.fromBalance(token))
-                        .toList();
+        child: BlocProvider(
+          create: (context) => SendSelectTokenCubit(),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Column(
+                children: [
+                  BlocBuilder<SendSelectTokenCubit, SendSelectTokenState>(
+                    builder: (context, state) {
+                      final balanceState = context.watch<BalanceCubit>().state;
+                      final tokens = balanceState.balances?.tokens
+                          .where(
+                            (token) =>
+                                (double.tryParse(token.tokenPrice) ?? 0.0) > 0,
+                          )
+                          .toList();
+                      final filterToken = context
+                          .read<SendSelectTokenCubit>()
+                          .getTokens(tokens)
+                          ?.map((token) => Token.fromBalance(token))
+                          .toList();
 
-                    return Column(
-                      children: [
-                        TokenList(
-                          onTap: (token) {
-                            // 更新选中的 token
-
-                            context.read<TransferCubit>().resetAll();
-                            context.read<TransferCubit>().updateToken(token);
-                            context.pushNamed(RouteNames.sendTokenDetail);
-                          },
-                          showAddress: showAddress,
-                          replace: replace,
-                          tokens: filterToken,
-                          isLoading: balanceState.isLoading,
-                        ),
-                        const AddTokenButton()
-                      ],
-                    );
-                  },
-                ),
-              ],
+                      return Column(
+                        children: [
+                          TokenList(
+                            onTap: (token) {
+                              context.read<TransferCubit>().resetAll();
+                              context.read<TransferCubit>().updateToken(token);
+                              context.pushNamed(RouteNames.sendTokenDetail);
+                            },
+                            showAddress: showAddress,
+                            replace: replace,
+                            tokens: filterToken,
+                            isLoading: balanceState.isLoading,
+                          ),
+                          const AddTokenButton(),
+                        ],
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      )),
+      ),
     );
   }
 }

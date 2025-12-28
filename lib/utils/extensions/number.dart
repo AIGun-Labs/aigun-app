@@ -11,7 +11,6 @@ extension NumberExtensions on num {
     return toDouble() * numOther;
   }
 
-  /// 使用 Decimal 进行精确乘法运算，避免浮点数精度损失
   String preciseMultiply(String? other) {
     if (other == null || other.isEmpty) return "0";
 

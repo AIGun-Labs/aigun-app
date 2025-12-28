@@ -1,4 +1,3 @@
-// 图表主题配置
 import 'package:flutter/material.dart';
 
 class ChartTheme {
@@ -33,8 +32,6 @@ class ChartTheme {
     required this.chipSelectedBackground,
     required this.dividerColor,
   });
-
-  // 暗色图表主题
   static const ChartTheme dark = ChartTheme(
     backgroundColor: Color(0xFF0D0D0D),
     textColor: Colors.white,
@@ -51,16 +48,14 @@ class ChartTheme {
     chipSelectedBackground: Color(0xFF26A69A),
     dividerColor: Color(0x33FFFFFF),
   );
-
-  // 亮色图表主题
   static const ChartTheme light = ChartTheme(
     backgroundColor: Colors.white,
     textColor: Color(0xFF1A1A1A),
-    gridColor: Color(0x1A000000), // 黑色，不透明度 0.1 (0x1A ≈ 26/255 ≈ 0.1)
+    gridColor: Color(0x1A000000), // ， 0.1 (0x1A ≈ 26/255 ≈ 0.1)
     borderColor: Color(0x33000000),
     bullColor: Color(0xFF26A69A),
     bearColor: Color(0xFFEF5350),
-    crosshairColor: Color(0x33000000), // 黑色，不透明度 0.2
+    crosshairColor: Color(0x33000000), // ， 0.2
     tooltipBackground: Color(0xFFF5F5F5),
     tooltipBorder: Color(0xFF666666),
     cardBackground: Color(0xFFFAFAFA),
@@ -69,8 +64,6 @@ class ChartTheme {
     chipSelectedBackground: Color(0xFF26A69A),
     dividerColor: Color(0x33000000),
   );
-
-  // 根据 Brightness 获取对应的图表主题
   static ChartTheme fromBrightness(Brightness brightness) {
     return brightness == Brightness.dark ? dark : light;
   }

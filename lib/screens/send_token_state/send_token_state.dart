@@ -20,11 +20,9 @@ class SendTokenStateScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         title: S.of(context).transfer_sendToken,
-        onPressed: () => {
-          context.goNamed(RouteNames.intel),
-        },
+        onPressed: () => {context.goNamed(RouteNames.intel)},
       ),
-      body: const SendTokenStateContent(), // 提交发送 token 之后显示状态
+      body: const SendTokenStateContent(), //  token
       bottomNavigationBar: BlocBuilder<TransferCubit, TransferState>(
         builder: (context, state) {
           return BottomButton(
@@ -34,10 +32,13 @@ class SendTokenStateScreen extends StatelessWidget {
                   : S.of(context).common_back,
               onPressed: () {
                 if (state.isSent) {
-                  context.goNamed(RouteNames.wallet, extra: {
-                    'index': NavIndex.wallet,
-                    'toast': S.of(context).transfer_sendToken,
-                  });
+                  context.goNamed(
+                    RouteNames.wallet,
+                    extra: {
+                      'index': NavIndex.wallet,
+                      'toast': S.of(context).transfer_sendToken,
+                    },
+                  );
 
                   showTransferSuccessToast(
                     context,

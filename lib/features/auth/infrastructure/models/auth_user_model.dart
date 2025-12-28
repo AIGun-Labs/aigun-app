@@ -9,12 +9,12 @@ class StringOrIntConverter implements JsonConverter<String, Object?> {
   @override
   String fromJson(Object? json) {
     if (json == null) return '';
-    return json.toString(); // 无论是 int 还是 String 都转成 String
+    return json.toString(); //  int  String  String
   }
 
   @override
   Object? toJson(String object) {
-    return object; // 保持为 String 输出
+    return object; //  String
   }
 }
 
@@ -35,7 +35,8 @@ sealed class AuthUserModel with _$AuthUserModel {
     @JsonKey(name: 'superior_id') String? superiorId,
     @JsonKey(name: 'ancestor_id') String? ancestorId,
     @StringOrIntConverter()
-    @JsonKey(name: 'invite_amount') required String? inviteAmount,
+    @JsonKey(name: 'invite_amount')
+    required String? inviteAmount,
     @StringOrIntConverter()
     @JsonKey(name: 'indirect_invite_amount')
     required String? indirectInviteAmount,

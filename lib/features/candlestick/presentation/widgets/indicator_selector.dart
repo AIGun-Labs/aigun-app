@@ -23,7 +23,6 @@ class IndicatorSelector extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                // 主图指标，先把 SAR 指标去掉
                 ...MainState.values
                     .take(MainState.values.length - 1)
                     .map(
@@ -33,15 +32,12 @@ class IndicatorSelector extends StatelessWidget {
                         onPressed: () => cubit.toggleMainState(indicator),
                       ),
                     ),
-                // 分隔符
                 _buildDivider(context),
-                // // VOL 按钮
                 IndicatorButton(
                   label: 'VOL',
                   isSelected: !state.volHidden,
                   onPressed: () => cubit.toggleVolHidden(),
                 ),
-                // 副图指标
                 ...SecondaryState.values.map(
                   (indicator) => IndicatorButton(
                     label: indicator.name,

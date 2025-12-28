@@ -9,8 +9,8 @@ class ExpandableScrollableWrap extends StatefulWidget {
 
   final double spacing;
   final double runSpacing;
-  final Widget? expandButton; // 可选，默认在使用时提供
-  final Widget? collapseButton; // 可选，默认在使用时提供
+  final Widget? expandButton; // ，
+  final Widget? collapseButton; // ，
   final String? selectedValue;
   final void Function(String)? onSelected;
 
@@ -81,8 +81,6 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
   @override
   void didUpdateWidget(ExpandableScrollableWrap oldWidget) {
     super.didUpdateWidget(oldWidget);
-
-    // 如果选项数量变化，重新生成 keys
     if (widget.items.length != oldWidget.items.length) {
       _itemKeys = List.generate(widget.items.length, (index) => GlobalKey());
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -204,7 +202,6 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
   void _removeExpandedOverlay() {
     _expandedOverlayEntry?.remove();
     _expandedOverlayEntry = null;
-    // 只有在未 dispose 时才重置 controller
     if (!_isDisposed) {
       _animationController.reset();
     }
@@ -231,7 +228,6 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
     });
 
     if (_isExpanded) {
-      // 改为检查是否处于展开状态
       _closeExpanded();
     }
 
@@ -245,8 +241,6 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
 
   void _scrollToSelectedItem() {
     if (!mounted || !_scrollController.hasClients) return;
-
-    // 找到选中项的索引
     final selectedIndex = widget.items.indexWhere(
       (item) => item.value == _currentSelectedValue,
     );
@@ -257,50 +251,29 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
     final itemContext = itemKey.currentContext;
 
     if (itemContext == null) return;
-
-    // 获取选中项的 RenderBox
     final RenderBox itemBox = itemContext.findRenderObject() as RenderBox;
     final itemPosition = itemBox.localToGlobal(Offset.zero);
     final itemWidth = itemBox.size.width;
-
-    // 获取滚动容器的信息
     final scrollPosition = _scrollController.position;
     final viewportWidth = scrollPosition.viewportDimension;
     final currentOffset = scrollPosition.pixels;
-
-    // 计算选中项相对于滚动容器的位置
     final collapsedContext = _collapsedKey.currentContext;
     if (collapsedContext == null) return;
 
     final RenderBox collapsedBox =
         collapsedContext.findRenderObject() as RenderBox;
     final collapsedPosition = collapsedBox.localToGlobal(Offset.zero);
-
-    // 计算选中项在滚动内容中的偏移
     final itemOffsetInScroll =
         itemPosition.dx - collapsedPosition.dx + currentOffset;
-
-    // 计算目标滚动位置（让选中项居中或可见）
     double targetOffset;
-
-    // 如果选项在视口右侧之外
     if (itemOffsetInScroll + itemWidth > currentOffset + viewportWidth) {
-      targetOffset =
-          itemOffsetInScroll + itemWidth - viewportWidth + 20; // 20 为右侧边距
-    }
-    // 如果选项在视口左侧之外
-    else if (itemOffsetInScroll < currentOffset) {
-      targetOffset = itemOffsetInScroll - 20; // 20 为左侧边距
-    }
-    // 选项已在可见范围内
-    else {
+      targetOffset = itemOffsetInScroll + itemWidth - viewportWidth + 20; // 20
+    } else if (itemOffsetInScroll < currentOffset) {
+      targetOffset = itemOffsetInScroll - 20; // 20
+    } else {
       return;
     }
-
-    // 确保目标偏移在有效范围内
     targetOffset = targetOffset.clamp(0.0, scrollPosition.maxScrollExtent);
-
-    // 平滑滚动到目标位置
     _scrollController.animateTo(
       targetOffset,
       duration: const Duration(milliseconds: 300),
@@ -332,11 +305,11 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                   colors: [
-                    Colors.white, // 左边不透明
-                    Colors.white, // 中间不透明
-                    Colors.transparent, // 右边缘透明（产生遮挡效果）
+                    Colors.white, //
+                    Colors.white, //
+                    Colors.transparent, // （）
                   ],
-                  stops: [0.0, 0.95, 1.0], // 右侧15%区域渐变
+                  stops: [0.0, 0.95, 1.0], // 15%
                 ).createShader(bounds);
               },
               blendMode: BlendMode.dstIn,

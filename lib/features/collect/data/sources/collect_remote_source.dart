@@ -14,7 +14,6 @@ class CollectRemoteSource {
     return network == 'Ethereum' ? 'eth' : network;
   }
 
-  /// 添加收藏的代币
   Future<void> fetchAdd({
     required String network,
     required String address,
@@ -31,7 +30,6 @@ class CollectRemoteSource {
     }
   }
 
-  /// 删除收藏的代币
   Future<void> fetchDelete({
     required String network,
     required String address,
@@ -48,7 +46,6 @@ class CollectRemoteSource {
     }
   }
 
-  /// 置顶收藏的代币
   Future<void> fetchPin({
     required String network,
     required String address,

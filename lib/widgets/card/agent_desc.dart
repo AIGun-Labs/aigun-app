@@ -43,9 +43,11 @@ class _CardAgentDescState extends State<CardAgentDesc> {
         children: [
           ClipOval(
             child: CachedImage(
-                imageUrl: widget.avatarPath, width: 65.w, height: 65.w),
+              imageUrl: widget.avatarPath,
+              width: 65.w,
+              height: 65.w,
+            ),
           ),
-          // 名称
           Text(
             widget.name,
             textAlign: TextAlign.center,
@@ -57,20 +59,21 @@ class _CardAgentDescState extends State<CardAgentDesc> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          // 描述
           Expanded(
             child: Text(
               widget.desc ?? '',
               style: TextStyle(
-                  fontSize: 12.sp, color: AppColors.textSecondary(context)),
+                fontSize: 12.sp,
+                color: AppColors.textSecondary(context),
+              ),
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          // 关注按钮
           ButtonFollow(
-              isFollowed: widget.isFollowed,
-              onFollowTap: widget.onFollowTap ?? () {}),
+            isFollowed: widget.isFollowed,
+            onFollowTap: widget.onFollowTap ?? () {},
+          ),
         ],
       ),
     );

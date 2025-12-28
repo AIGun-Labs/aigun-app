@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'colors.dart';
 
 class CustomButtonTheme {
@@ -16,7 +17,6 @@ class CustomButtonTheme {
     ButtonType type = ButtonType.filled,
     Color? disabledBackgroundColor,
   }) {
-    // 默认样式
     Color defaultBgColor;
     Color defaultTextColor;
     BorderSide? defaultBorderSide;
@@ -36,14 +36,10 @@ class CustomButtonTheme {
         );
         break;
     }
-
-    // 确定波纹颜色
     Color rippleColor;
     if (backgroundColor == Colors.black) {
-      // 黑色按钮使用白色波纹
       rippleColor = Colors.white.withValues(alpha: .3);
     } else {
-      // 其他颜色按钮使用深色波纹
       rippleColor = Colors.black.withValues(alpha: .1);
     }
 
@@ -51,31 +47,25 @@ class CustomButtonTheme {
       padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
         padding ?? EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
       ),
-      backgroundColor: WidgetStateProperty.resolveWith<Color>(
-        (states) {
-          if (states.contains(WidgetState.disabled)) {
-            return disabledBackgroundColor ?? AppColors.textTertiary(context);
-          }
-          return backgroundColor ?? defaultBgColor;
-        },
-      ),
-      foregroundColor: WidgetStateProperty.resolveWith<Color>(
-        (states) {
-          // if (states.contains(WidgetState.disabled)) {
-          //   return AppColors.textTertiary(context);
-          // }
-          // return textColor ?? defaultTextColor;
-          return textColor ?? defaultTextColor;
-        },
-      ),
-      overlayColor: WidgetStateProperty.resolveWith<Color>(
-        (states) {
-          if (states.contains(WidgetState.pressed)) {
-            return rippleColor;
-          }
-          return Colors.transparent;
-        },
-      ),
+      backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.disabled)) {
+          return disabledBackgroundColor ?? AppColors.textTertiary(context);
+        }
+        return backgroundColor ?? defaultBgColor;
+      }),
+      foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+        // if (states.contains(WidgetState.disabled)) {
+        //   return AppColors.textTertiary(context);
+        // }
+        // return textColor ?? defaultTextColor;
+        return textColor ?? defaultTextColor;
+      }),
+      overlayColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.pressed)) {
+          return rippleColor;
+        }
+        return Colors.transparent;
+      }),
       textStyle: WidgetStateProperty.all<TextStyle>(
         TextStyle(
           fontSize: isBottomButton ? 16.sp : fontSize.sp,
@@ -87,8 +77,9 @@ class CustomButtonTheme {
             ? 0.0
             : (hasShadow ? 2.0 : 0.0),
       ),
-      side:
-          WidgetStateProperty.all<BorderSide?>(borderSide ?? defaultBorderSide),
+      side: WidgetStateProperty.all<BorderSide?>(
+        borderSide ?? defaultBorderSide,
+      ),
       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
           borderRadius: borderRadius ?? BorderRadius.circular(100.r),
@@ -98,7 +89,4 @@ class CustomButtonTheme {
   }
 }
 
-enum ButtonType {
-  filled,
-  outlined,
-}
+enum ButtonType { filled, outlined }

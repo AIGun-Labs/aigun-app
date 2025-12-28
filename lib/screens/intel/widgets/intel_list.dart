@@ -165,8 +165,6 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                         child: RefreshHeaderWidget(info),
                       );
                     }),
-
-                    // 只有在不加载且确实没有数据时，才显示空状态
                     if ((widget.intelligences?.isEmpty ?? true) &&
                         !widget.isLoading)
                       SliverFillRemaining(
@@ -181,8 +179,6 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-
-                    // 如果正在加载且没有数据，显示骨架屏
                     if (widget.isLoading &&
                         (widget.intelligences?.isEmpty ?? true))
                       SliverToBoxAdapter(
@@ -202,8 +198,6 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
                           final actualIndex = index ~/ 2;
-
-                          // 奇数索引显示分隔符
                           if (index.isOdd) {
                             return Divider(
                               color: AppColors.card(context),
@@ -211,8 +205,6 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                               height: 10,
                             );
                           }
-
-                          // 偶数索引显示列表项
                           final message = widget.intelligences?[actualIndex];
                           if (message?.id == null) {
                             return const SizedBox.shrink();
@@ -258,7 +250,6 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                         childCount: (widget.intelligences?.length ?? 0) * 2 - 1,
                       ),
                     ),
-                    // 添加底部加载指示器
                     SliverToBoxAdapter(child: _buildLoadingFooter()),
                   ],
                 ),

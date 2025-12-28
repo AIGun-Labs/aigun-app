@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../entity/macd_entity.dart';
+
 import '../candlestick_widget.dart' show SecondaryState, PriceFormatter;
+import '../entity/macd_entity.dart';
 import 'base_chart_renderer.dart';
 
 class SecondaryRenderer extends BaseChartRenderer<MACDEntity> {
@@ -32,23 +33,14 @@ class SecondaryRenderer extends BaseChartRenderer<MACDEntity> {
         ) {
     mMACDWidth = this.chartStyle.macdWidth;
   }
-
-  /// 计算副图技术指标的动态线宽
-  /// 算法与主图类似，但使用副图独立配置
   double _calculateSecondaryIndicatorWidth() {
     if (!this.chartStyle.enableDynamicSecondaryIndicatorWidth) {
       return this.chartStyle.secondaryIndicatorBaseWidth;
     }
-
-    // 基础宽度 / scaleX，补偿缩放
     final baseWidth = this.chartStyle.secondaryIndicatorBaseWidth / scaleX;
-
-    // 最大宽度 = min(固定上限, MACD 柱宽度)
     final maxWidth = this.chartStyle.secondaryIndicatorMaxWidth < mMACDWidth
         ? this.chartStyle.secondaryIndicatorMaxWidth
         : mMACDWidth;
-
-    // 限制最大宽度
     return baseWidth > maxWidth ? maxWidth : baseWidth;
   }
 
@@ -208,7 +200,6 @@ class SecondaryRenderer extends BaseChartRenderer<MACDEntity> {
         Offset(chartRect.width, chartRect.bottom), gridPaint);
     double columnSpace = chartRect.width / gridColumns;
     for (int i = 0; i <= columnSpace; i++) {
-      //mSecondaryRect垂直线
       canvas.drawLine(Offset(columnSpace * i, chartRect.top - topPadding),
           Offset(columnSpace * i, chartRect.bottom), gridPaint);
     }

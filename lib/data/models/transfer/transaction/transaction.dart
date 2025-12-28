@@ -5,7 +5,6 @@ import '../index.dart';
 part 'transaction.freezed.dart';
 part 'transaction.g.dart';
 
-// 交易响应的数据类型
 @freezed
 sealed class TransferTransaction with _$TransferTransaction {
   const factory TransferTransaction({

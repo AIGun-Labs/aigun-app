@@ -1,22 +1,22 @@
-@Deprecated('请使用 NumericConstants')
+@Deprecated(' NumericConstants')
 const int ONE = 1;
-@Deprecated('请使用 NumericConstants')
+@Deprecated(' NumericConstants')
 const int TWO = 2;
-@Deprecated('请使用 NumericConstants')
+@Deprecated(' NumericConstants')
 const int THREE = 3;
-@Deprecated('请使用 NumericConstants')
+@Deprecated(' NumericConstants')
 const int FOUR = 4;
-@Deprecated('请使用 NumericConstants')
+@Deprecated(' NumericConstants')
 const int FIVE = 5;
-@Deprecated('请使用 NumericConstants')
+@Deprecated(' NumericConstants')
 const int SIX = 6;
-@Deprecated('请使用 NumericConstants')
+@Deprecated(' NumericConstants')
 const int SEVEN = 7;
-@Deprecated('请使用 NumericConstants')
+@Deprecated(' NumericConstants')
 const int EIGHT = 8;
-@Deprecated('请使用 NumericConstants')
+@Deprecated(' NumericConstants')
 const int NINE = 9;
-@Deprecated('请使用 NumericConstants')
+@Deprecated(' NumericConstants')
 const int TEN = 10;
 
 const int TWENTY = 20;

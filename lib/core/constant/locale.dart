@@ -15,7 +15,7 @@ const Locale localeEs = Locale('es', 'ES');
 
 List<SupportedLocalesEntity> supportedlocales = [
   SupportedLocalesEntity(name: 'English', locale: localeEn),
-  SupportedLocalesEntity(name: '简体中文', locale: localeZh),
+  SupportedLocalesEntity(name: '', locale: localeZh),
 ];
 
 class SupportedLocalesEntity {

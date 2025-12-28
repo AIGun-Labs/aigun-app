@@ -4,8 +4,12 @@ import 'package:decimal/decimal.dart';
 /// Support String, double, int and other types as input
 /// [decimals] Specify the number of decimal places to keep, default is 2
 /// [removeTrailingZeros] Whether to remove trailing zeros, default is true
-String formatDecimal(dynamic value,
-    {int decimals = 2, bool removeTrailingZeros = true, String? symbol}) {
+String formatDecimal(
+  dynamic value, {
+  int decimals = 2,
+  bool removeTrailingZeros = true,
+  String? symbol,
+}) {
   if (value == null) return '0.00';
 
   // Convert to double
@@ -128,8 +132,10 @@ String formatPrice(dynamic price, {int maxDecimals = 4}) {
   }
 
   // Take the first maxDecimals significant digits
-  final trimmedSignificant =
-      tail.substring(0, maxDecimals > tail.length ? tail.length : maxDecimals);
+  final trimmedSignificant = tail.substring(
+    0,
+    maxDecimals > tail.length ? tail.length : maxDecimals,
+  );
   // Remove trailing zeros
   final cleanSignificant = trimmedSignificant.replaceAll(RegExp(r'0+$'), '');
 
@@ -166,7 +172,6 @@ String _formatLargeNumber(double number, int decimals) {
 }
 
 /// Format price with support for billion, ten million, million, thousand
-// @Deprecated('请使用值.marketCap(context) 或 NumberFormatter.marketCap(value, ctx)')
 // String formatPriceAdvanced(num price,
 //     {int decimals = 2, String currencySymbol = ''}) {
 //   if (price < 10000) {
@@ -191,7 +196,6 @@ String _formatLargeNumber(double number, int decimals) {
 //       factor *= 10;
 //     }
 //     num = (num * factor).floor() / factor;
-//     return '$currencySymbol${num.toStringAsFixed(decimals)}千W'; // Ten million
 //   } else if (price >= 1000000) {
 //     // Support for million level
 //     double num = price / 1000000;
@@ -246,9 +250,8 @@ String _formatLargeNumber(double number, int decimals) {
 //   return result;
 // }
 
-@Deprecated('请使用值.marketCap(context) 或 NumberFormatter.marketCap(value, ctx)')
+@Deprecated('.marketCap(context)  NumberFormatter.marketCap(value, ctx)')
 String formatPriceEnglish(dynamic value) {
-  // 支持 double, int, String 类型
   Decimal? decimalValue;
 
   if (value is num) {
@@ -259,8 +262,6 @@ String formatPriceEnglish(dynamic value) {
   } else {
     return '\$0';
   }
-
-  // (1) 极小值判断
   if (decimalValue < Decimal.parse('0.001')) {
     return '\$0';
   }
@@ -272,8 +273,6 @@ String formatPriceEnglish(dynamic value) {
   final billion = Decimal.parse('1000000000');
   final million = Decimal.parse('1000000');
   final thousand = Decimal.parse('1000');
-
-  // (2) 数值后加符号
   if (decimalValue >= trillion) {
     suffix = 'T';
     divisor = trillion;
@@ -290,8 +289,6 @@ String formatPriceEnglish(dynamic value) {
 
   final formattedDecimal = decimalValue / divisor;
   double formattedValue = formattedDecimal.toDouble();
-
-  // (3) 优化小数点展示
   String result;
   if (formattedValue < 1 && formattedValue >= 0.001) {
     result = formattedValue.toStringAsFixed(3);
@@ -308,8 +305,6 @@ String formatPriceEnglish(dynamic value) {
       result = result.substring(0, result.length - 2);
     }
   }
-
-  // 移除不必要的小数点后的0
   if (result.contains('.')) {
     result = result.replaceAll(RegExp(r'0*$'), '');
     if (result.endsWith('.')) {

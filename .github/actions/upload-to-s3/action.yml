@@ -60,7 +60,7 @@ outputs:
     value: ${{ steps.checksum.outputs.apk_sha }}
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Generate checksums
       id: checksum
@@ -68,22 +68,20 @@ runs:
       run: |
         set -euo pipefail
         mkdir -p dist
-        
+
         APK_FILE=${{ inputs.apk-path }}
-        
+
         if [ -z "$APK_FILE" ]; then
           echo "❌ APK file not found: ${{ inputs.apk-name }}"
           exit 1
         fi
-        
+
         echo "✅ Found APK at: $APK_FILE"
-        
+
         APK_SHA=$(sha256sum "$APK_FILE" | awk '{print $1}')
         echo -n "$APK_SHA" > "dist/${{ inputs.apk-name }}.sha256"
-        
-        # 复制 APK 到 dist
         cp "$APK_FILE" "dist/${{ inputs.apk-name }}"
-        
+
         echo "apk_sha=$APK_SHA" >> $GITHUB_OUTPUT
         echo "✅ SHA-256: $APK_SHA"
 
@@ -101,28 +99,24 @@ runs:
         APP_NAME: "aigun"
       run: |
         set -euo pipefail
-        
+
         KEY_BASE="${{ inputs.s3-prefix }}/${APP_NAME}-v${{ inputs.version-name }}"
         APK_KEY="$KEY_BASE/${{ inputs.apk-name }}"
         SHA_KEY="$KEY_BASE/${{ inputs.apk-name }}.sha256"
-        
+
         echo "📤 Uploading to S3..."
-        
-        # 上传 APK
         aws s3 cp "dist/${{ inputs.apk-name }}" "s3://${{ inputs.s3-bucket }}/$APK_KEY" \
           --content-type "application/vnd.android.package-archive" \
           --metadata "app=${APP_NAME},version=${{ inputs.version-name }},build=${{ inputs.version-code }},environment=${{ inputs.environment }}"
-        
-        # 上传校验文件
         aws s3 cp "dist/${{ inputs.apk-name }}.sha256" "s3://${{ inputs.s3-bucket }}/$SHA_KEY" \
           --content-type "text/plain" 
-        
+
         APK_URL="${{ inputs.s3-download-url }}/${APK_KEY}"
         SHA_URL="${{ inputs.s3-download-url }}/${SHA_KEY}"
-        
+
         echo "apk_url=$APK_URL" >> $GITHUB_OUTPUT
         echo "sha256_url=$SHA_URL" >> $GITHUB_OUTPUT
-        
+
         echo "✅ Files uploaded"
         echo "  APK: $APK_URL"
         echo "  SHA: $SHA_URL"
@@ -133,7 +127,7 @@ runs:
         APP_NAME: "aigun"
       run: |
         set -euo pipefail
-        
+
         APK_FILE="dist/${{ inputs.apk-name }}"
         SIZE=$(stat -c%s "$APK_FILE" 2>/dev/null || stat -f%z "$APK_FILE")
         export SIZE
@@ -146,7 +140,7 @@ runs:
         export NOTES_ZH="${{ inputs.changelog-zh }}"
         export NOTES_EN="${{ inputs.changelog-en }}"
         export MIN_VERSION="${{ inputs.min-version }}"
-        
+
         python3 - <<'PY' > dist/latest.json
         import json, os, time
 
@@ -182,7 +176,7 @@ runs:
         }
         print(json.dumps(payload, ensure_ascii=False, indent=2))
         PY
-        
+
         echo "✅ latest.json generated"
         cat dist/latest.json
 
@@ -193,19 +187,15 @@ runs:
         APP_NAME: "aigun"
       run: |
         set -euo pipefail
-        
-        # 主路径
         JSON_KEY="${{ inputs.s3-prefix }}/latest.json"
-        
+
         echo "📤 Uploading latest.json..."
-        
-        # 上传到新路径（主要）
         aws s3 cp dist/latest.json "s3://${{ inputs.s3-bucket }}/$JSON_KEY" \
           --content-type "application/json" 
-        
+
         JSON_URL="${{ inputs.s3-download-url }}/${JSON_KEY}"
-        
+
         echo "latest_json_url=$JSON_URL" >> $GITHUB_OUTPUT
-        
+
         echo "✅ latest.json uploaded"
         echo "  Main: $JSON_URL"

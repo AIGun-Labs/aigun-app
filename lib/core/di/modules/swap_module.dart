@@ -26,7 +26,6 @@ import '../../../utils/storage/local/token_swap_storage.dart';
 import '../../../utils/storage/local/wallet_storage.dart';
 import '../module_repo.dart';
 
-/// Swap 模块依赖注入配置
 class SwapModule implements InjectionModule {
   SwapModule(this._sl);
   final GetIt _sl;
@@ -55,8 +54,6 @@ class SwapModule implements InjectionModule {
     _sl.registerLazySingleton(() => GetNativeTokens(_sl<TokenRepository>()));
     _sl.registerLazySingleton(() => SearchTokens(_sl<TokenRepository>()));
     _sl.registerLazySingleton(ValidateSwapParams.new);
-
-    // TokenSelectionCubit - 管理 Token 选择和余额轮询
     _sl.registerFactory(
       () => TokenSelectionCubit(
         balanceCubit: _sl<BalanceCubit>(),
@@ -65,8 +62,6 @@ class SwapModule implements InjectionModule {
         searchTokens: _sl<SearchTokens>(),
       ),
     );
-
-    // QuoteCubit - 管理询价逻辑
     _sl.registerFactory(
       () => QuoteCubit(
         getQuote: _sl<GetQuote>(),
@@ -74,8 +69,6 @@ class SwapModule implements InjectionModule {
         validateSwapParams: _sl<ValidateSwapParams>(),
       ),
     );
-
-    // TransactionCubit - 管理交易执行和状态轮询
     _sl.registerFactory(
       () => TransactionCubit(
         executeSwap: _sl<ExecuteSwap>(),
@@ -83,8 +76,6 @@ class SwapModule implements InjectionModule {
         walletStorage: _sl<WalletStorage>(),
       ),
     );
-
-    // SwapCubit - 协调器模式，整合所有子 Cubit
     _sl.registerFactory(
       () => SwapCubit(
         tokenSelectionCubit: _sl<TokenSelectionCubit>(),

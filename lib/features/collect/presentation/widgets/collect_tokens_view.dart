@@ -1,4 +1,3 @@
-//收藏列表
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
@@ -44,7 +43,6 @@ class _CollectTokensViewState extends State<CollectTokensView>
   void _onTokenTap(BaseTokenEntity token) {
     final newToken = token.toToken();
     BlocProvider.of<QuickTradeCubit>(context).updateSelectedToken(newToken);
-    // 跳转到代币详情页面
     TokenDetailRoute(token).push(context);
   }
 

@@ -31,7 +31,6 @@ class RoundTokenAvatar extends StatelessWidget {
     );
   }
 
-  // 构建头像占位符
   Widget _buildAvatarPlaceholder(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8.r),

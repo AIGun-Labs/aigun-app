@@ -1,9 +1,3 @@
-///semver 版本号比较
-///a 和 b 都是 semver 版本号
-///返回值：
-///-1：a 小于 b
-///0：a 等于 b
-///1：a 大于 b
 int compareSemver(String a, String b) {
   List<int> pa = a
       .split('-')

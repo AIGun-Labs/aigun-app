@@ -97,7 +97,6 @@ class TokenInfoWidget extends StatelessWidget {
                                         TextSpan(
                                           children: [
                                             TextSpan(
-                                              /// 最新的一条情报的时间
                                               text:
                                                   state.latestIntel?.publishedAt
                                                       .fmt(

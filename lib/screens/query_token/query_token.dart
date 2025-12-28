@@ -27,20 +27,18 @@ class QueryTokenScreen extends StatefulWidget {
 class _QueryTokenScreenState extends State<QueryTokenScreen> {
   late final QueryTokenCubit _queryTokenCubit;
   late final String _initialKeyword;
-  bool _isInitialized = false; //标志位，是否已经初始化
+  bool _isInitialized = false; //，
 
   @override
   void initState() {
     super.initState();
     _queryTokenCubit = getIt<QueryTokenCubit>();
-    // reset上一次的状态
     _queryTokenCubit.reset();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // 只在首次进入时初始化
     if (!_isInitialized) {
       _isInitialized = true;
       final routeKeyword = GoRouterState.of(context).extra?.toString() ?? '';
@@ -59,9 +57,7 @@ class _QueryTokenScreenState extends State<QueryTokenScreen> {
         titleSpacing: 20.w,
         automaticallyImplyLeading: false,
         toolbarHeight: max(kToolbarHeight, 56.w),
-        title: SearchInternalSearchBar(
-          initialText: _initialKeyword,
-        ),
+        title: SearchInternalSearchBar(initialText: _initialKeyword),
         backgroundColor: AppColors.background(context),
       ),
       body: SafeArea(
@@ -74,14 +70,10 @@ class _QueryTokenScreenState extends State<QueryTokenScreen> {
             if (state.noData) {
               return const QueryTokenNoData();
             }
-
-            // 小于 4
             if (state.tokens.length < 4) {
               return ListView.separated(
                 separatorBuilder: (context, index) {
-                  return SizedBox(
-                    height: 16.h,
-                  );
+                  return SizedBox(height: 16.h);
                 },
                 padding: EdgeInsets.only(top: 11.h),
                 itemBuilder: (context, index) {
@@ -97,9 +89,7 @@ class _QueryTokenScreenState extends State<QueryTokenScreen> {
 
             return ListView.separated(
               separatorBuilder: (context, index) {
-                return SizedBox(
-                  height: 16.h,
-                );
+                return SizedBox(height: 16.h);
               },
               padding: EdgeInsets.only(top: 16.h),
               itemBuilder: (context, index) {
@@ -124,22 +114,25 @@ class QueryTokenNoData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Column(
-      children: [
-        SizedBox(height: 120.h),
-        CachedImage(
-          imageUrl: $AssetsImagesGen().notMoreSearch.path,
-          width: 189.w,
-          height: 197.h,
-        ),
-        SizedBox(height: 16.h),
-        Text(
-          S.of(context).noTokenFound,
-          style: TextStyle(
-              fontSize: 16.sp, color: AppColors.textSecondary(context)),
-          textAlign: TextAlign.center,
-        )
-      ],
-    ));
+      child: Column(
+        children: [
+          SizedBox(height: 120.h),
+          CachedImage(
+            imageUrl: $AssetsImagesGen().notMoreSearch.path,
+            width: 189.w,
+            height: 197.h,
+          ),
+          SizedBox(height: 16.h),
+          Text(
+            S.of(context).noTokenFound,
+            style: TextStyle(
+              fontSize: 16.sp,
+              color: AppColors.textSecondary(context),
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
   }
 }

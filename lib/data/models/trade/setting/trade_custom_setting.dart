@@ -5,7 +5,6 @@ import '../../../../enums/trade_mode.dart';
 part 'trade_custom_setting.freezed.dart';
 part 'trade_custom_setting.g.dart';
 
-// 转换函数
 int _slippageFromJson(dynamic value) {
   if (value is int) return value;
   if (value is String) return int.tryParse(value) ?? 0;
@@ -18,10 +17,8 @@ sealed class TradeCustomSetting with _$TradeCustomSetting {
     @JsonKey(name: 'mode') TradeMode? mode,
     @Default(0)
     @JsonKey(name: 'slippage', fromJson: _slippageFromJson)
-    int slippage, // 滑点
-    @Default(false)
-    @JsonKey(name: 'mev_protect')
-    bool mevProtect, // 是否启用MEV保护(防夹功能)
+    int slippage, //
+    @Default(false) @JsonKey(name: 'mev_protect') bool mevProtect, // MEV()
     @Default('')
     @JsonKey(name: 'priority_fee')
     String? priorityFee, // for solana

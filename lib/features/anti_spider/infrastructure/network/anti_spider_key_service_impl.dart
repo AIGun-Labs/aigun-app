@@ -57,7 +57,6 @@ class AntiSpiderKeyServiceImpl implements AntiSpiderKeyService {
     return AntiSpiderKey(finalKey);
   }
 
-  // 构建 key
   String _buildBaseKeyInput({
     required String seed,
     required String timeUnit,
@@ -65,10 +64,7 @@ class AntiSpiderKeyServiceImpl implements AntiSpiderKeyService {
     // required String clientIp,
     Map<String, dynamic>? additionalParams,
   }) {
-    // 组合
     final components = <String>[seed, timeUnit, fingerprint];
-
-    // 添加额外的参数
     if (additionalParams != null && additionalParams.isNotEmpty) {
       final sortedKeys = additionalParams.keys.toList()..sort();
 

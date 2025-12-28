@@ -14,9 +14,7 @@ import '../cubit/swap/swap_state.dart';
 import '../widgets/sol_insufficient_dialog.dart';
 import '../widgets/swap.dart';
 
-/// Swap 页面
 ///
-/// 使用新的 SwapCubit 协调器架构
 class SwapScreen extends StatefulWidget {
   const SwapScreen({super.key});
 
@@ -25,7 +23,6 @@ class SwapScreen extends StatefulWidget {
 }
 
 class _SwapScreenState extends State<SwapScreen> {
-  // 缓存 cubit 引用，用于 dispose 时访问
   SwapCubit? _swapCubit;
 
   @override
@@ -36,14 +33,11 @@ class _SwapScreenState extends State<SwapScreen> {
 
   @override
   void dispose() {
-    // 在页面销毁时关闭 toast
     TradeStatusToastUtils.dismissToast();
-    // 使用缓存的引用暂停定时器
     _swapCubit?.pauseTimers();
     super.dispose();
   }
 
-  /// 处理可见性变化
   void _handleVisibilityChanged(bool isVisible) {
     if (!mounted) return;
 
@@ -51,13 +45,10 @@ class _SwapScreenState extends State<SwapScreen> {
     final balanceCubit = context.read<BalanceCubit>();
 
     if (isVisible) {
-      // 页面可见时恢复定时器和轮询
       swapCubit.resumeTimers();
       balanceCubit.startPollingBalance();
-      // 立即刷新余额，避免等待轮询
       swapCubit.getBalanceSelectedToken();
     } else {
-      // 页面不可见时清理资源
       TradeStatusToastUtils.dismissToast();
       swapCubit
         ..resetAll()
@@ -66,18 +57,12 @@ class _SwapScreenState extends State<SwapScreen> {
     }
   }
 
-  /// 处理 SwapEvent 事件
   void _handleSwapEvent(BuildContext context, SwapState state) {
     final event = state.event;
     if (event == null) return;
-
-    // 立即清除事件，防止重复
     context.read<SwapCubit>().clearEvent();
-
-    // 使用 switch 模式匹配处理事件
     switch (event) {
       case SwapEventShowLoading():
-        // 显示加载中（可选：可以显示 loading indicator）
         TradeStatusToastUtils.showTrainingToast();
         break;
       case SwapEventDismissLoading():
@@ -102,12 +87,11 @@ class _SwapScreenState extends State<SwapScreen> {
         );
         break;
       case SwapEventNavigateToReceive():
-        // 导航到接收地址页面（由 SwapCubit 内部处理）
         break;
       case SwapEventShowSolMinimumWarning():
         SOLInsufficientDialog.show(
           context,
-          onDismiss: () {}, // 必须为空，因为 DialogAction 已经处理了关闭
+          onDismiss: () {}, // ， DialogAction
           // onCheckboxChanged: (checked) async {
           //   if (checked) {
           //     await getIt<SettingsStorage>().setHideSolMinimumWarning(true);
@@ -120,7 +104,6 @@ class _SwapScreenState extends State<SwapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // 非调试模式下检查登录状态
     if (!kDebugMode) {
       final isLoggedIn = context.select(
         (NewUserCubit cubit) =>

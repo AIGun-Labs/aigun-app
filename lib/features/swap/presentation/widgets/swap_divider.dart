@@ -6,9 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../themes/themes.dart';
 import '../cubit/swap/swap_cubit.dart';
 
-/// 交换分隔符组件
 ///
-/// 显示在来源代币和目标代币之间，包含交换按钮
 class SwapTokenDivider extends StatelessWidget {
   const SwapTokenDivider({super.key});
 
@@ -32,7 +30,6 @@ class SwapTokenDivider extends StatelessWidget {
   }
 }
 
-/// 交换按钮
 class _SwapButton extends StatelessWidget {
   const _SwapButton({required this.onPressed});
 
@@ -46,10 +43,7 @@ class _SwapButton extends StatelessWidget {
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: LinearGradient(
-          colors: [
-            AppColors.buttonGradientStart,
-            AppColors.buttonGradientEnd,
-          ],
+          colors: [AppColors.buttonGradientStart, AppColors.buttonGradientEnd],
         ),
       ),
       child: IconButton(
@@ -58,10 +52,7 @@ class _SwapButton extends StatelessWidget {
           'assets/images/icons/swap-outline.svg',
           height: 16.w,
           width: 16.w,
-          colorFilter: const ColorFilter.mode(
-            Colors.white,
-            BlendMode.srcIn,
-          ),
+          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
       ),
     );

@@ -36,7 +36,7 @@ sealed class TransferState with _$TransferState {
     @Default(null) Gas? gas,
     @Default(18) int decimals,
     @Default(false) bool gasError,
-    @Default(true) bool addressError, // 一开始就显示 address 和 amount 是错误的
+    @Default(true) bool addressError, //  address  amount
     @Default(true) bool amountError,
     @Default(false) bool loadingGas,
     @Default(false) bool isSending,
@@ -45,16 +45,13 @@ sealed class TransferState with _$TransferState {
     @Default('') String failedReason,
     @Default(false) bool isSuccess,
     @Default(null) Token? selectedToken,
-    @Default(TransferStatus.initial()) TransferStatus transferStatus, // 转出的发送状态
+    @Default(TransferStatus.initial()) TransferStatus transferStatus, //
     @Default(RiskChallenge.initial()) RiskChallenge riskChallenge,
     @Default('') String paymentPin,
     TransferTransaction? transaction,
-    // 不要直接在这里初始化 TextEditingController
     required TextEditingController toAddressController,
     required TextEditingController amountController,
   }) = _TransferState;
-
-  // 使用工厂构造函数来正确初始化 TextEditingController
   factory TransferState.initial() => TransferState(
     toAddressController: TextEditingController(),
     amountController: TextEditingController(),

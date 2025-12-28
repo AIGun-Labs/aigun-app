@@ -31,10 +31,12 @@ extension StringExtensions on String {
   String toTitleCase() {
     if (isEmpty) return this;
 
-    return split(RegExp(r"\s+")).map((word) {
-      if (word.isEmpty) return "";
-      return word.capitelize();
-    }).join(" ");
+    return split(RegExp(r"\s+"))
+        .map((word) {
+          if (word.isEmpty) return "";
+          return word.capitelize();
+        })
+        .join(" ");
   }
 
   String toPercentage() {
@@ -53,7 +55,6 @@ extension StringExtensions on String {
     if (isEmpty) {
       return "0";
     }
-    // 使用 BigInt 和字符串拼接，避免 double 科学计数法与精度丢失
     final trimmed = trim();
     if (trimmed.isEmpty) return "0";
 
@@ -64,7 +65,6 @@ extension StringExtensions on String {
     try {
       numerator = BigInt.parse(positiveStr);
     } catch (_) {
-      // 兜底处理：无法解析时返回 0
       return "0";
     }
 
@@ -74,19 +74,13 @@ extension StringExtensions on String {
     }
 
     final divisor = BigInt.from(10).pow(decimals);
-    final quotient = numerator ~/ divisor; // 整数部分
-    final remainder = numerator % divisor; // 小数部分
-
-    // 格式化小数部分，左侧补零至 decimals 位
+    final quotient = numerator ~/ divisor; //
+    final remainder = numerator % divisor; //
     String remainderStr = remainder.toString().padLeft(decimals, '0');
-
-    // 如果小数部分全为 0，直接返回整数部分
     if (RegExp(r'^0+$').hasMatch(remainderStr)) {
       final result = quotient.toString();
       return isNegative && result != '0' ? '-$result' : result;
     }
-
-    // 去除小数部分末尾多余的 0
     while (remainderStr.endsWith('0')) {
       remainderStr = remainderStr.substring(0, remainderStr.length - 1);
     }

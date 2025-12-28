@@ -11,7 +11,6 @@ class Unfocus extends StatelessWidget {
       behavior: HitTestBehavior.translucent,
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
-        // 如果不是点击的TextField，则取消焦点
         if (!currentFocus.hasPrimaryFocus &&
             currentFocus.focusedChild != null) {
           FocusManager.instance.primaryFocus?.unfocus();

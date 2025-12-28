@@ -58,7 +58,6 @@ class WalletTransactionApi {
     return SwapTransaction.fromJson(response);
   }
 
-  /// 获取交易状态
   Future<WalletTransactionStatus> getTrasactionStatus({
     required String txHash,
     required String chainId,

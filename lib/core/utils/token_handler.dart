@@ -36,7 +36,6 @@ class TokenHandler {
     return supportedChains.contains(network);
   }
 
-  /// 是否不支持这条链进行交易
   static bool isUnsupportedChain({
     required String network,
     required String address,

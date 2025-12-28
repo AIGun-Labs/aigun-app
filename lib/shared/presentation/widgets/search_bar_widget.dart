@@ -99,7 +99,6 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
             height: 35.w,
             child: TextField(
               readOnly: widget.isRead ?? false,
-              // 点击之后跳转到代币查询界面
               onTap: widget.isRead == true
                   ? () =>
                         context.pushNamed(RouteNames.searchInternal, extra: '')
@@ -108,7 +107,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
               decoration: InputDecoration(
                 filled: widget.backgroundColor != null,
                 fillColor: widget.backgroundColor ?? Colors.transparent,
-                contentPadding: EdgeInsets.zero, // 去掉内边距 才能让文本居中
+                contentPadding: EdgeInsets.zero, //
                 hintText: S.of(context).searchNameOrCA,
                 hintStyle:
                     widget.hintStyle ??

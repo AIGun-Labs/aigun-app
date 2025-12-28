@@ -8,8 +8,6 @@ class DateFormatCore {
   DateFormatCore._();
 
   static final Map<String, DateFormat> _cache = {};
-
-  /// 固定格式展示
   static String format(
     DateTime? dt, {
     String pattern = 'MM.dd HH:mm',
@@ -30,8 +28,6 @@ class DateFormatCore {
     return '$base ${_utcOffsetLabel(zoned.timeZoneOffset)}';
   }
 
-  // TODO: 中文需要国际化
-  /// 相对时间（中文）：刚刚 / X分钟前 / X小时前 / 昨天HH:mm / MM-dd HH:mm / yyyy-MM-dd HH:mm
   static String relative(
     DateTime? dt, {
     DateTime? nowUtc,
@@ -48,11 +44,9 @@ class DateFormatCore {
     final when = tz.TZDateTime.from(_toUtc(dt), loc);
     final diff = now.difference(when);
 
-    if (diff.inSeconds < 60) return '刚刚';
-    if (diff.inMinutes < 60) return '${diff.inMinutes} 分钟前';
-    if (diff.inHours < 24) return '${diff.inHours} 小时前';
-
-    // 天维度
+    if (diff.inSeconds < 60) return '';
+    if (diff.inMinutes < 60) return '${diff.inMinutes} ';
+    if (diff.inHours < 24) return '${diff.inHours} ';
     final isYesterday =
         DateTime(
           now.year,
@@ -68,7 +62,7 @@ class DateFormatCore {
         timeZoneName: timeZoneName,
       );
 
-      return '昨天 $t';
+      return ' $t';
     }
 
     final isSameYear = now.year == when.year;
@@ -81,12 +75,10 @@ class DateFormatCore {
     );
   }
 
-  /// 清除某个语言环境的缓存
   static void clearLocale(String locale) {
     _cache.removeWhere((key, _) => key.startsWith('$locale|'));
   }
 
-  // —— 私有方法 ——
   static tz.Location _resolveLocation(String? name) {
     if (name != null && name.isNotEmpty) {
       return tz.getLocation(name);

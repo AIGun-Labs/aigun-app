@@ -1,9 +1,9 @@
 // file: websocket_service.dart
 
 import 'dart:async';
-import 'dart:convert'; // 用于json编解码示例
+import 'dart:convert'; // json
 
-import 'package:flutter/foundation.dart'; // 用于 kDebugMode
+import 'package:flutter/foundation.dart'; //  kDebugMode
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -12,11 +12,9 @@ import '../../../core/service_locator.dart';
 import '../../../core/services/secure_token_storage_service.dart';
 import '../../../utils/logger.dart';
 
-/// 连接状态枚举
 enum ConnectionStatus { disconnected, connecting, connected, error }
 
 class WebSocketService {
-  /// 单例实例
   // static final WebSocketService _instance = WebSocketService._internal();
 
   // factory WebSocketService() {
@@ -26,34 +24,23 @@ class WebSocketService {
   WebSocketService(this._endpoint);
 
   final String _endpoint;
-
-  // --- 私有变量 ---
   WebSocketChannel? _channel;
   String? _url;
   Timer? _reconnectTimer;
-  Timer? _pingTimer; // 心跳定时器
+  Timer? _pingTimer; //
   bool _isManualDisconnect = false;
-
-  // --- 可配置项 ---
-  final Duration reconnectDelay = const Duration(seconds: 5); // 重连延迟
-  final Duration pingInterval = const Duration(seconds: 90); // 心跳间隔
-
-  // --- 流控制器 (StreamControllers) ---
+  final Duration reconnectDelay = const Duration(seconds: 5); //
+  final Duration pingInterval = const Duration(seconds: 90); //
   final messageController = StreamController<dynamic>.broadcast();
   final statusController = StreamController<ConnectionStatus>.broadcast();
-
-  // --- 公共 Getters ---
   Stream<dynamic> get messages => messageController.stream;
   Stream<ConnectionStatus> get connectionStatus => statusController.stream;
   ConnectionStatus _currentStatus = ConnectionStatus.disconnected;
   ConnectionStatus get currentStatus => _currentStatus;
-
-  /// 初始化服务
   void init() {
     statusController.add(ConnectionStatus.disconnected);
   }
 
-  /// 连接到WebSocket服务器 (简化版)
   void connect() async {
     if (_currentStatus == ConnectionStatus.connected ||
         _currentStatus == ConnectionStatus.connecting) {
@@ -68,7 +55,7 @@ class WebSocketService {
 
     try {
       final String wsUrl = '${AppConfig().env.wsUrl}/$_endpoint';
-      _url = wsUrl; // 保存 URL 用于重连
+      _url = wsUrl; //  URL
 
       final String? token = await getIt<SecureTokenStorageService>()
           .readAccessToken();
@@ -79,8 +66,6 @@ class WebSocketService {
       if (kDebugMode) Logger.info('WebSocketService: Connected successfully!');
 
       _reconnectTimer?.cancel();
-
-      // 连接成功后，不立即开始心跳，等待订阅
       _startFirstHeartbeat();
 
       _channel!.stream.listen(
@@ -103,7 +88,6 @@ class WebSocketService {
     return IOWebSocketChannel.connect(Uri.parse(url), headers: headers);
   }
 
-  /// 断开连接
   void disconnect() {
     if (kDebugMode) Logger.error('WebSocketService: Manually disconnecting...');
     _isManualDisconnect = true;
@@ -112,7 +96,6 @@ class WebSocketService {
     _updateStatus(ConnectionStatus.disconnected);
   }
 
-  /// 发送消息 (通用方法)
   void sendMessage(dynamic message) {
     if (_currentStatus != ConnectionStatus.connected || _channel == null) {
       if (kDebugMode) {
@@ -130,9 +113,7 @@ class WebSocketService {
     _channel!.sink.add(message);
   }
 
-  /// 订阅频道/主题
   ///
-  /// [payload] - 订阅所需的数据，需要根据你的后端API来确定
   void subscribe(Map<String, dynamic> payload) {
     if (_currentStatus != ConnectionStatus.connected) {
       if (kDebugMode) {
@@ -140,16 +121,11 @@ class WebSocketService {
       }
       return;
     }
-    // 实际的订阅消息格式需要根据你的后端来确定
-    // 在你之前的代码中，似乎是 {"type": "init", "data": ...}
     final subMessage = {'type': 'init', 'data': payload};
     sendMessage(subMessage);
-
-    // 订阅后，再开始心跳来保持连接
     _startFirstHeartbeat();
   }
 
-  /// 释放资源
   void dispose() {
     if (kDebugMode) Logger.debug('WebSocketService: Disposing...');
     _clearTimers();
@@ -157,8 +133,6 @@ class WebSocketService {
     messageController.close();
     statusController.close();
   }
-
-  // --- 私有方法 ---
 
   void _startFirstHeartbeat() {
     _pingTimer?.cancel();
@@ -183,26 +157,22 @@ class WebSocketService {
   }
 
   void _onMessageReceived(dynamic message) {
-    if (kDebugMode) Logger.debug('收到WebSocket消息: $message');
+    if (kDebugMode) Logger.debug('WebSocket: $message');
 
     try {
-      // 尝试解析JSON消息
       if (message is String) {
         try {
-          // 尝试解析为JSON
           final jsonData = jsonDecode(message);
           messageController.add(jsonData);
         } catch (jsonError) {
-          // 如果不是有效的JSON，直接传递原始字符串
-          Logger.debug('收到非JSON格式消息: $message');
-          messageController.add(message); // 启用非JSON消息传递
+          Logger.debug('JSON: $message');
+          messageController.add(message); // JSON
         }
       } else {
-        // 直接传递非字符串消息
         messageController.add(message);
       }
     } catch (e) {
-      Logger.debug('WebSocket消息处理失败: $e');
+      Logger.debug('WebSocket: $e');
     }
   }
 
@@ -225,7 +195,6 @@ class WebSocketService {
     }
 
     if (!_isManualDisconnect && _url != null) {
-      // 自动重连（生产环境和调试环境都启用）
       Logger.info(
         'WebSocketService: Scheduling reconnect in ${reconnectDelay.inSeconds}s',
       );
@@ -238,7 +207,6 @@ class WebSocketService {
     statusController.add(status);
   }
 
-  /// 统一清除所有定时器
   void _clearTimers() {
     _pingTimer?.cancel();
     _reconnectTimer?.cancel();

@@ -1,20 +1,10 @@
-# arb文件所在目录
 arb-dir: lib/l10n
-# 模板arb文件名
 template-arb-file: intl_en.arb
-# 生成的本地化文件名
 output-localization-file: l10n.dart
-# 生成的本地化类名
 output-class: S
-
-# getter是否可空
 nullable-getter: false
-# 是否使用延迟加载
 use-deferred-loading: false
-# 首选支持的语言环境
 preferred-supported-locales: ["en"]
-# 是否使用转义字符
 use-escaping: false
 #
-# 将未翻译的条目输出到文件（JSON）
 untranslated-messages-file: lib/l10n/untranslated.json

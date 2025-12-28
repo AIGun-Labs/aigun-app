@@ -36,11 +36,7 @@ Future<void> bootstrap(
   required bool enableNetworkLog,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  //初始化配置
   AppConfig().init(environment: environment);
-
-  //初始化时区数据
   await TimeZoneStore.instance.init(
     deviceTimeZoneResolver: resolveDeviceTimeZone,
   );
@@ -52,10 +48,8 @@ Future<void> bootstrap(
       await AnalyticsManager().init(isInChina: isInChina);
     }
   } catch (e) {
-    debugPrint('统计分析初始化失败: $e');
+    debugPrint(': $e');
   }
-
-  //异步初始化所有核心服务（包括 SettingsStorage 和其他异步依赖）
   await setupCoreServices(enableNetworkLog: enableNetworkLog);
 
   await SystemChrome.setPreferredOrientations([
@@ -68,8 +62,6 @@ Future<void> bootstrap(
   };
 
   Bloc.observer = AppBlocObserver();
-
-  // 确保所有异步初始化完成后再运行应用
   SentryService.init(
     () async => runApp(SentryWidget(child: await builder())),
     dsn:

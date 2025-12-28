@@ -43,10 +43,12 @@ class _CardAgentState extends State<CardAgent> {
         children: [
           ClipOval(
             child: CachedImage(
-                imageUrl: widget.avatarPath, width: 50.w, height: 50.w),
+              imageUrl: widget.avatarPath,
+              width: 50.w,
+              height: 50.w,
+            ),
           ),
           SizedBox(height: 4.h),
-          // 名称
           Text(
             widget.name,
             textAlign: TextAlign.center,
@@ -59,10 +61,10 @@ class _CardAgentState extends State<CardAgent> {
             overflow: TextOverflow.fade,
           ),
           SizedBox(height: 16.h),
-          // 关注按钮
           ButtonFollow(
-              isFollowed: widget.isFollowed,
-              onFollowTap: widget.onFollowTap ?? () {}),
+            isFollowed: widget.isFollowed,
+            onFollowTap: widget.onFollowTap ?? () {},
+          ),
         ],
       ),
     );

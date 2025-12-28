@@ -8,8 +8,6 @@ class UpdateRemoteSource {
   UpdateRemoteSource(this._dio);
 
   final Dio _dio;
-
-  //根据环境判断版本信息文件的下载地址
   static final Environment _env = AppConfig().environment;
 
   final String _s3DownloadUrl = 'https://cdn.route.aigun.ai';
@@ -50,7 +48,6 @@ class UpdateRemoteSource {
   }
 
   Future<ConfigModel> fetchLatestInfoV2(String host) async {
-    //host 去除最后的.
     final hostWithoutDot = host.endsWith('.')
         ? host.substring(0, host.length - 1)
         : host;

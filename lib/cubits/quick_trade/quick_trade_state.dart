@@ -72,18 +72,14 @@ extension QuickTradeStateExtension on QuickTradeState {
     late bool isBalanceEnough;
 
     if (mode == QuickTradeMode.buy) {
-      // 直接比较余额和购买金额：余额 >= 购买金额
       isBalanceEnough = NumericUtils.greaterThanOrEqual(
         fromToken?.balance ?? '0',
         buyAmount,
       );
     } else {
-      // 如果代币余额为空，则返回 false
       if (!(selectedToken?.balance.isNotEmptyAndZeroValue ?? false)) {
         return false;
       }
-
-      // 如果卖出百分比为空，则返回 false
       final sellPercentValue = sellPercent.isEmpty ? '0' : sellPercent;
       if (sellPercentValue == '100' || sellPercentValue == 'all') {
         return NumericUtils.isGreaterThanZero(selectedToken?.balance ?? '0');
@@ -95,8 +91,6 @@ extension QuickTradeStateExtension on QuickTradeState {
         selectedToken?.balance ?? '0',
       );
       final balance = selectedToken?.balance ?? '0';
-
-      // 当前的代币余额是否大于 卖出数量的
       isBalanceEnough = NumericUtils.greaterThanOrEqual(balance, sellAmount);
     }
 

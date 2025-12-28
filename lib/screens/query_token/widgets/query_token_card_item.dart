@@ -273,9 +273,6 @@ class QueryTokenCardButton extends StatelessWidget {
           context.pushNamed(RouteNames.login);
           return;
         }
-
-        // 如果标的是 SOL，上面用 BNB（BNB 链）
-        // 如果标的是 SOL 之外的主币，上方用 SOL （SOL链）
         if (token.isNative ?? false) {
           if (token.symbol?.toLowerCase() == 'sol') {
             ShowSheet.common(

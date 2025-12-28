@@ -34,8 +34,6 @@ class FeatureImage extends StatelessWidget {
       'Accept-Language': 'en-US,en;q=0.9',
     };
   }
-
-  /// 判断是否有图片路径后缀
   // bool _hasImageExtension() {
   //   return RegExp(r'\.(jpe?g|png|gif|webp|bmp|svg)$', caseSensitive: false)
   //       .hasMatch(url.toLowerCase());
@@ -44,8 +42,6 @@ class FeatureImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isSvg = url.toLowerCase().endsWith('.svg');
-
-    // 如果不是以 http 开头的则证明是本地图片，直接返回 CachedNetworkImage
     if (!url.startsWith('http')) {
       if (isSvg) {
         return SvgPicture.asset(

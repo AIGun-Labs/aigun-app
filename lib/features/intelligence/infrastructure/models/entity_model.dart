@@ -34,7 +34,7 @@ DateTime? _dateTimeFromDynamic(dynamic value) {
 
 @freezed
 sealed class IntelligenceEntityModel with _$IntelligenceEntityModel {
-  const IntelligenceEntityModel._(); // 添加私有构造函数以支持自定义 getter
+  const IntelligenceEntityModel._(); //  getter
 
   const factory IntelligenceEntityModel({
     String? id,

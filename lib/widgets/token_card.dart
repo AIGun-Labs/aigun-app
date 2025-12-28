@@ -37,18 +37,17 @@ class TokenCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AvatarToken(
-                    //  使用自定义组件
-                    // chainLogoWidget: DynamicImage(imageUrl: chainLogo),
-                    // tokenAvatarWidget: DynamicImage(imageUrl: tokenAvatar),
-                    chainLogoWidth: 20.w,
-                    chainLogoHeight: 20.h,
-                    width: 50.w,
-                    height: 50.w,
-                    avatar: token.tokenAvatar,
-                    tokenName: token.symbol.isNotEmpty ? token.symbol : '?',
-                    chainName:
-                        token.chainName.isNotEmpty ? token.chainName : '?',
-                    chainLogo: token.chainLogo),
+                  // chainLogoWidget: DynamicImage(imageUrl: chainLogo),
+                  // tokenAvatarWidget: DynamicImage(imageUrl: tokenAvatar),
+                  chainLogoWidth: 20.w,
+                  chainLogoHeight: 20.h,
+                  width: 50.w,
+                  height: 50.w,
+                  avatar: token.tokenAvatar,
+                  tokenName: token.symbol.isNotEmpty ? token.symbol : '?',
+                  chainName: token.chainName.isNotEmpty ? token.chainName : '?',
+                  chainLogo: token.chainLogo,
+                ),
                 SizedBox(width: 16.w),
                 Flexible(
                   child: SizedBox(
@@ -71,9 +70,13 @@ class TokenCard extends StatelessWidget {
                             ),
                             Text(
                               CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                                  double.tryParse(token.tokenPrice
-                                          .safeMultiply(token.balance)) ??
-                                      0.0),
+                                double.tryParse(
+                                      token.tokenPrice.safeMultiply(
+                                        token.balance,
+                                      ),
+                                    ) ??
+                                    0.0,
+                              ),
                               style: TextStyle(
                                 fontSize: 18.sp,
                                 height: 1.2,
@@ -91,11 +94,11 @@ class TokenCard extends StatelessWidget {
                                 Text(
                                   showAddress
                                       ? token.address.isNotEmpty
-                                          ? AddressFormatter.formatAddress(
-                                              token.address)
-                                          : token.address
-                                      : CurrencyFormatter
-                                          .abbreviateTokenPriceWithSymbol(
+                                            ? AddressFormatter.formatAddress(
+                                                token.address,
+                                              )
+                                            : token.address
+                                      : CurrencyFormatter.abbreviateTokenPriceWithSymbol(
                                           double.tryParse(token.tokenPrice) ??
                                               0.0,
                                         ),

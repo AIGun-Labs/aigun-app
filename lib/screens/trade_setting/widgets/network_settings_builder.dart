@@ -14,7 +14,6 @@ import '../../../widgets/skeleton/widgets/text.dart';
 import '../models/network_config.dart';
 import 'custom_setting_card.dart';
 
-/// 通用网络设置构建器
 class NetworkSettingsBuilder extends StatelessWidget {
   const NetworkSettingsBuilder({
     super.key,
@@ -37,9 +36,11 @@ class NetworkSettingsBuilder extends StatelessWidget {
         final isCustomMode = state.mode == TradeMode.custom;
 
         debugPrint(
-            '🎨 NetworkSettingsBuilder build - network: ${state.network}, liveData: $liveData');
+          '🎨 NetworkSettingsBuilder build - network: ${state.network}, liveData: $liveData',
+        );
         debugPrint(
-            '🎨 priorityFee: ${liveData.priorityFee}, tipFee: ${liveData.tipFee}, gasPrice: ${liveData.gasPrice}');
+          '🎨 priorityFee: ${liveData.priorityFee}, tipFee: ${liveData.tipFee}, gasPrice: ${liveData.gasPrice}',
+        );
 
         return CustomSettingCard(
           onTap: () {
@@ -88,11 +89,11 @@ class NetworkSettingsBuilder extends StatelessWidget {
                 child: Switch(
                   value: setting?.mevProtect ?? false,
                   onChanged: (value) {
-                    // 使用当前网络的设置
                     final currentSetting =
                         setting ?? const TradeCustomSetting();
-                    final updatedSetting =
-                        currentSetting.copyWith(mevProtect: value);
+                    final updatedSetting = currentSetting.copyWith(
+                      mevProtect: value,
+                    );
 
                     context
                         .read<TradeSettingCubit>()
@@ -100,10 +101,9 @@ class NetworkSettingsBuilder extends StatelessWidget {
                           config.key,
                           updatedSetting,
                         );
-                    // 切换到自定义模式
-                    context
-                        .read<TradeSettingCubit>()
-                        .updateTradeMode(TradeMode.custom);
+                    context.read<TradeSettingCubit>().updateTradeMode(
+                      TradeMode.custom,
+                    );
                   },
                 ),
               );
@@ -160,7 +160,6 @@ class NetworkSettingsBuilder extends StatelessWidget {
           title: _buildTitle(
             context: context,
             title: field.titleBuilder(s),
-            // title  的
             // subtitle: field.showLiveData ? s.liveAverage : null,
           ),
         );
@@ -179,7 +178,9 @@ class NetworkSettingsBuilder extends StatelessWidget {
             Text(
               s.liveAverage,
               style: TextStyle(
-                  fontSize: 12.sp, color: AppColors.textSecondary(context)),
+                fontSize: 12.sp,
+                color: AppColors.textSecondary(context),
+              ),
             ),
             state.liveDataStatus.maybeWhen(
               orElse: () => TextSkeleton(width: 20.w, height: 12.h),
@@ -188,10 +189,13 @@ class NetworkSettingsBuilder extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Text(
                     CurrencyFormatter.abbreviateTokenPrice(
-                        double.tryParse(value ?? "0") ?? 0),
+                      double.tryParse(value ?? "0") ?? 0,
+                    ),
                     maxLines: 1,
-                    style:
-                        TextStyle(fontSize: 12.sp, color: AppColors.quaternary),
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      color: AppColors.quaternary,
+                    ),
                   ),
                 ),
               ),
@@ -212,11 +216,7 @@ class NetworkSettingsBuilder extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       spacing: 6.h,
-      children: [
-        if (title != null) title,
-        control,
-        if (bottom != null) bottom,
-      ],
+      children: [if (title != null) title, control, if (bottom != null) bottom],
     );
   }
 
@@ -233,14 +233,18 @@ class NetworkSettingsBuilder extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-                fontSize: 14.sp, color: AppColors.textPrimary(context)),
+              fontSize: 14.sp,
+              color: AppColors.textPrimary(context),
+            ),
           ),
           if (subtitle != null && subtitle.isNotEmpty) ...[
             SizedBox(width: 4.w),
             Text(
               subtitle,
               style: TextStyle(
-                  fontSize: 12.sp, color: AppColors.textSecondary(context)),
+                fontSize: 12.sp,
+                color: AppColors.textSecondary(context),
+              ),
             ),
           ],
         ],
@@ -285,14 +289,13 @@ class NetworkSettingsBuilder extends StatelessWidget {
                 overflow: TextOverflow.visible,
                 maxLines: 1,
                 style: TextStyle(
-                    fontSize: 16.sp, color: AppColors.textPrimary(context)),
+                  fontSize: 16.sp,
+                  color: AppColors.textPrimary(context),
+                ),
               ),
             ),
           ),
-          suffixIconConstraints: BoxConstraints(
-            minWidth: 10.w,
-            maxWidth: 40.w,
-          ),
+          suffixIconConstraints: BoxConstraints(minWidth: 10.w, maxWidth: 40.w),
           hintStyle: TextStyle(
             fontSize: 16.sp,
             color: AppColors.textQuaternary(context),
@@ -305,7 +308,9 @@ class NetworkSettingsBuilder extends StatelessWidget {
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
             borderSide: BorderSide(
-                color: AppColors.textQuaternary(context), width: 1.0),
+              color: AppColors.textQuaternary(context),
+              width: 1.0,
+            ),
           ),
         ),
       ),

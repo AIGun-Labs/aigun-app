@@ -50,7 +50,6 @@ class IntelTokenItem extends StatelessWidget {
     if (router.state.name == RouteNames.tokenDetail) {
       final tokenInfoCubit = BlocProvider.of<TokenInfoCubit>(context);
       if (tokenInfoCubit.state.tokenInfo?.base.uniqueId == baseToken.uniqueId) {
-        // 相同代币：使用 refreshKey 强制完全刷新页面
         final refreshKey = DateTime.now().millisecondsSinceEpoch.toString();
         TokenDetailRoute(
           baseToken,
@@ -82,13 +81,11 @@ class IntelTokenItem extends StatelessWidget {
         children: [
           Row(
             children: [
-              // 币种图标
               GestureDetector(
                 onTap: () => _handleTokenTap(context),
                 child: TokenIcon(token: token),
               ),
               SizedBox(width: 16.w),
-              // TokenInfo 可压缩，填充中间空间
               Expanded(
                 child: GestureDetector(
                   onTap: () => _handleTokenTap(context),
@@ -128,7 +125,6 @@ class TokenPurchaseButtons extends StatelessWidget {
   }
 }
 
-// 币种图标组件
 class TokenIcon extends StatelessWidget {
   const TokenIcon({super.key, required this.token});
 
@@ -199,7 +195,6 @@ class TokenIcon extends StatelessWidget {
   }
 }
 
-// 币种信息组件
 class TokenInfo extends StatelessWidget {
   const TokenInfo({super.key, required this.token});
 
@@ -224,7 +219,6 @@ class TokenInfo extends StatelessWidget {
             ),
           ),
         ),
-        // 币种地址 复制地址
         if (token.shouldShowAddress)
           AutoScale(
             alignment: Alignment.centerLeft,
@@ -245,7 +239,6 @@ class TokenInfo extends StatelessWidget {
   }
 }
 
-// 买入按钮组件
 class TokenBuyButton extends StatelessWidget {
   const TokenBuyButton({super.key, required this.token, required this.mode});
 
@@ -283,7 +276,6 @@ class TokenBuyButton extends StatelessWidget {
   }
 }
 
-// 统计数据行组件
 class TokenStatsRow extends StatelessWidget {
   const TokenStatsRow({super.key, required this.token});
 
@@ -355,7 +347,6 @@ class TokenStatsRow extends StatelessWidget {
   }
 }
 
-// 统计数据项组件
 class TokenStatsItem extends StatelessWidget {
   const TokenStatsItem({
     super.key,

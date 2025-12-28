@@ -81,7 +81,6 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
     return BlocListener<QueryTokenCubit, QueryTokenState>(
       listenWhen: (previous, current) => previous.keyword != current.keyword,
       listener: (context, state) {
-        // 同步 cubit state 的 keyword 到 searchController
         if (state.keyword != null && state.keyword != _searchController.text) {
           _searchController.text = state.keyword!;
         } else if (state.keyword == null && _searchController.text.isNotEmpty) {

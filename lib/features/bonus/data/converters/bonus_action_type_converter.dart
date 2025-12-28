@@ -23,7 +23,6 @@ class BonusActionTypeConverter
 
   @override
   Object toJson(BonusActionType object) {
-    // 反向映射（用于落地缓存或回传）
     return _map.entries
         .firstWhere(
           (e) => e.value == object,

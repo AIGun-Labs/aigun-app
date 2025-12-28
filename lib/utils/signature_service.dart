@@ -77,7 +77,6 @@ class SignatureService {
         'Private key must be at least 32 bytes (64 hex characters)',
       );
     }
-    // get seed 获取种子
     final seed = keyBytes.sublist(0, 32);
     // create private key
     final privateKey = SigningKey.fromSeed(seed);

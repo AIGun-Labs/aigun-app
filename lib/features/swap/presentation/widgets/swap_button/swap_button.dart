@@ -8,12 +8,8 @@ import '../../../../../widgets/button/primary.dart';
 import '../../../../../widgets/lotties/index.dart';
 import 'swap_button_config.dart';
 
-/// 通用交易按钮组件
 ///
-/// 纯 UI 组件，不依赖任何特定的 Cubit
-/// 通过 [TradeButtonConfig] 配置所有状态和行为
 ///
-/// 使用示例：
 /// ```dart
 /// TradeButton(
 ///   config: TradeButtonConfig(
@@ -79,9 +75,7 @@ class TradeButton extends StatelessWidget {
   }
 }
 
-/// 按钮样式计算
 ///
-/// 封装按钮状态相关的样式计算逻辑
 class _TradeButtonStyle {
   const _TradeButtonStyle({
     required this.backgroundColor,
@@ -97,7 +91,8 @@ class _TradeButtonStyle {
     BuildContext context,
   ) {
     final isDisabled = config.shouldShowDisabled;
-    final defaultDisabledBg = config.disabledBackgroundColor ?? AppColors.quinary;
+    final defaultDisabledBg =
+        config.disabledBackgroundColor ?? AppColors.quinary;
 
     return _TradeButtonStyle(
       backgroundColor: isDisabled
@@ -110,7 +105,8 @@ class _TradeButtonStyle {
       iconColor: isDisabled
           ? (config.iconColor ?? AppColors.textTertiary(context))
           : (config.iconColor ?? Colors.black),
-      borderRadius: config.borderRadius ??
+      borderRadius:
+          config.borderRadius ??
           (config.isBuyMode ? BorderRadius.circular(50) : BorderRadius.zero),
       cutSize: config.isBuyMode ? 0.0 : config.cutSize,
     );
@@ -124,7 +120,6 @@ class _TradeButtonStyle {
   final double cutSize;
 }
 
-/// 加载动画组件
 class _LoadingAnimation extends StatelessWidget {
   const _LoadingAnimation();
 
@@ -142,9 +137,7 @@ class _LoadingAnimation extends StatelessWidget {
   }
 }
 
-/// 便捷构造器扩展
 extension TradeButtonConfigExtension on TradeButtonConfig {
-  /// 从状态构建器创建配置
   static TradeButtonConfig fromStateBuilder({
     required TradeButtonStateBuilder stateBuilder,
     required String defaultText,

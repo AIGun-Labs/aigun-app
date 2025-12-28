@@ -133,7 +133,8 @@ class _PopupContent extends StatelessWidget {
             bottom: arrowDirection == _ArrowDirection.top ? 0 : null,
           ),
           constraints: const BoxConstraints(minWidth: 50),
-          decoration: contentDecoration ??
+          decoration:
+              contentDecoration ??
               BoxDecoration(
                 color: backgroundColor ?? Colors.white,
                 borderRadius: BorderRadius.circular(contentRadius ?? 10),
@@ -175,12 +176,10 @@ class _TrianglePainter extends CustomPainter {
     final path = Path();
     paint.isAntiAlias = true;
     paint.color = color;
-
-    // 绘制直角箭头
-    path.moveTo(0, 0); // 左上角
-    path.lineTo(size.width * 0.5, size.height); // 到箭头尖端
-    path.lineTo(size.width, 0); // 到右上角
-    path.close(); // 闭合路径
+    path.moveTo(0, 0); //
+    path.lineTo(size.width * 0.5, size.height); //
+    path.lineTo(size.width, 0); //
+    path.close(); //
     canvas.drawPath(path, paint);
   }
 

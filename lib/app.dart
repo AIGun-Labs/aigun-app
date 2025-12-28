@@ -31,7 +31,6 @@ class AIGunAppState extends State<AIGunApp> {
   @override
   void initState() {
     super.initState();
-    // 在 widget 构建完成后执行
     WidgetsBinding.instance.addPostFrameCallback(
       (_) => PermissionsService.requestTrackingPermission(context),
     );

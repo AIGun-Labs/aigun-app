@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'stats_model.freezed.dart';
 part 'stats_model.g.dart';
 
-// TODO：暂时这么写后面重构完毕再进行封装
 String? _stringFromDynamic(dynamic value) {
   if (value == null) return null;
   if (value is String) return value;

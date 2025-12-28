@@ -21,7 +21,6 @@ class MainActivity: FlutterActivity() {
 
   override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
     super.configureFlutterEngine(flutterEngine)
-    // 新增：绑定安装通道（模块化后的桥接）
     InstallBridge.bind(flutterEngine,this)
   }
 }

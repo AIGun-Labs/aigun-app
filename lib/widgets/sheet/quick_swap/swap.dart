@@ -69,10 +69,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
   late TextEditingController _sellPercentController;
   late TextEditingController _buyAmountController;
   final FocusNode _sellPercentFocusNode = FocusNode();
-
-  // 添加定时器用于延迟启动轮询
   Timer? _pollingStartTimer;
-  // 记录当前可见性状态
   double _currentVisibleFraction = 0;
   @override
   void initState() {
@@ -88,7 +85,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive) {
-      // App 失去焦点时关闭 Toast
       TradeStatusToastUtils.dismissToast();
     }
   }
@@ -122,12 +118,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
     //   fractionDigits: NumericConstants.four,
     // );
     final formatted = NumericFormatter.formatToWei(value);
-    // 获取当前光标位置
 
     final cursorPosition = _buyAmountController.selection.baseOffset;
 
     setState(() {
-      // 使用 TextEditingValue 来保留光标位置
       _buyAmountController.value = TextEditingValue(
         text: value,
         selection: TextSelection.collapsed(
@@ -144,26 +138,18 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
     String newValue,
     int oldPosition,
   ) {
-    // 如果位置无效，返回新文本长度
     if (oldPosition < 0 || oldPosition > oldValue.length) {
       return newValue.length;
     }
-
-    // 移除旧值中的逗号，计算实际的数字字符数量
     final oldWithoutCommas = oldValue.replaceAll(',', '');
     final newWithoutCommas = newValue.replaceAll(',', '');
-
-    // 如果数字部分没有变化，保持相对位置
     if (oldWithoutCommas == newWithoutCommas) {
-      // 计算光标前有多少个非逗号字符
       int nonCommaCharsBeforeCursor = 0;
       for (int i = 0; i < oldPosition && i < oldValue.length; i++) {
         if (oldValue[i] != ',') {
           nonCommaCharsBeforeCursor++;
         }
       }
-
-      // 在新文本中找到对应的位置
       int newPosition = 0;
       int nonCommaCount = 0;
       for (int i = 0; i < newValue.length; i++) {
@@ -179,8 +165,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
 
       return newPosition;
     }
-
-    // 如果数字发生了变化（例如删除或添加字符），将光标放在末尾
     return newValue.length;
   }
 
@@ -201,7 +185,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    // 取消轮询启动定时器
     _pollingStartTimer?.cancel();
     TradeStatusToastUtils.dismissToast();
     _sellPercentController.dispose();
@@ -234,7 +217,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                 message: S.of(context).transactionSuccess,
                 txHash: success.txHash ?? '',
                 amount: CurrencyFormatter.abbreviateTokenPrice(
-                  // TODO 后面在优化成使用 extesion
                   Calculator.fromAtomicUnits(
                     state.buyQuote?.outAmount ?? '0',
                     state.selectedToken?.decimals ?? 0,
@@ -278,7 +260,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           failure: (failure) {
             if (mounted) {
               _toastController?.dismiss();
-              // Toast 已在 Cubit 中显示，这里不再重复显示
             }
           },
         );
@@ -289,14 +270,9 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           onVisibilityChanged: (visibilityInfo) {
             if (!mounted) return;
             final newFraction = visibilityInfo.visibleFraction;
-
-            // 添加阈值防止快速启动/停止
             if (newFraction > 0.5 && _currentVisibleFraction <= 0.5) {
-              // 面板变为可见（超过50%）
               _pollingStartTimer?.cancel();
               _isVisible = true;
-
-              // 延迟启动轮询，确保面板完全打开
               _pollingStartTimer = Timer(const Duration(milliseconds: 200), () {
                 if (mounted && _currentVisibleFraction > 0.5) {
                   _quickTradeCubit.startPollingQuote();
@@ -304,17 +280,12 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                 }
               });
             } else if (newFraction < 0.1 && _currentVisibleFraction >= 0.1) {
-              // 面板变为不可见（低于10%）
               _pollingStartTimer?.cancel();
               _isVisible = false;
-
-              // 立即停止轮询
               _quickTradeCubit.stopPollingQuote();
               _balanceCubit.stopPollingBalance();
               TradeStatusToastUtils.dismissToast();
             }
-
-            // 更新当前可见性状态
             _currentVisibleFraction = newFraction;
           },
           child: SafeArea(
@@ -422,8 +393,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
         ),
 
         SizedBox(height: 18.h),
-
-        // 买卖切换按钮
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -456,7 +425,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                           alignment: Alignment.center,
                         ),
                         onPressed: () {
-                          // 更新模式为买入
                           TradeStatusToastUtils.dismissToast();
                           _quickTradeCubit.updateMode(QuickTradeMode.buy);
                         },
@@ -491,7 +459,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                           alignment: Alignment.center,
                         ),
                         onPressed: () {
-                          // 更新模式为卖出
                           TradeStatusToastUtils.dismissToast();
                           _quickTradeCubit.updateMode(QuickTradeMode.sell);
                         },
@@ -591,18 +558,12 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
       builder: (context, state) {
         final quickTradeCubit = _quickTradeCubit;
         final buttonState = quickTradeCubit.sellButtonState;
-
-        // 检查 sellPercent 是否为空或无效
         final sellPercent = state.sellPercent.isEmpty ? '0' : state.sellPercent;
-
-        // 计算卖出金额：如果是 100%，直接使用余额，避免浮点数精度问题
         final String sellAmount;
         if (sellPercent == '100' || sellPercent == 'all') {
           sellAmount = state.selectedToken?.balance ?? '0';
         } else {
-          // 先转换为百分比
           final sellPercentValue = sellPercent.toPercentage();
-          // 两数相乘得到结果
           sellAmount = sellPercentValue.safeMultiply(
             state.selectedToken?.balance ?? '0',
           );
@@ -632,14 +593,12 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                             alignment: Alignment.centerLeft,
                             children: [
                               TextField(
-                                // 卖出百分比 controller
                                 controller: _sellPercentController,
                                 keyboardType: TextInputType.number,
                                 onChanged: _handleSellPercentChange,
                                 enableInteractiveSelection: true,
                                 focusNode: _sellPercentFocusNode,
                                 onEditingComplete: () {
-                                  // 完成输入时保持当前值
                                   _sellPercentFocusNode.unfocus();
                                   _quickTradeCubit.updateSellPercent(
                                     _sellPercentController.text,
@@ -651,29 +610,23 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                                   }
                                 },
                                 inputFormatters: [
-                                  // 只允许输入整数
                                   FilteringTextInputFormatter.digitsOnly,
                                   TextInputFormatter.withFunction((
                                     oldValue,
                                     newValue,
                                   ) {
-                                    // 如果输入为空，允许
                                     if (newValue.text.isEmpty) {
                                       return newValue;
                                     }
-                                    // 转换为整数
                                     final int? value = int.tryParse(
                                       newValue.text,
                                     );
-                                    // 如果不是有效整数，禁止
                                     if (value == null) {
                                       return oldValue;
                                     }
-                                    // 不允许大于100的整数
                                     if (value > 100) {
                                       return oldValue;
                                     }
-                                    // 阻止多余的前导0（如00, 000等，但允许单个0）
                                     if (newValue.text.length > 1 &&
                                         newValue.text.startsWith('0')) {
                                       return oldValue;
@@ -698,7 +651,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                                 ),
                                 textAlign: TextAlign.left,
                               ),
-                              // 测量层：透明的文本用于计算宽度
                               IgnorePointer(
                                 child: Text(
                                   "${_sellPercentController.text.isEmpty ? "0" : _sellPercentController.text}%",
@@ -709,7 +661,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                                   ),
                                 ),
                               ),
-                              // 显示层：只显示百分号，位置动态调整
                               Positioned(
                                 left: _calculateTextWidth(
                                   _sellPercentController.text,
@@ -815,7 +766,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
     );
   }
 
-  // 买入输入行
   Widget _buildBuy(bool isBalanceEnough) {
     return BlocBuilder<QuickTradeCubit, QuickTradeState>(
       buildWhen: (previous, current) =>

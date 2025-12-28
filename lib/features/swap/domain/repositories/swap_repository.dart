@@ -21,8 +21,6 @@ abstract class SwapRepository {
     required TradeMode mode,
     required int decimals,
   });
-
-  /// 获取交易报价
   Future<Result<QuoteEntity>> getQuote({
     required String network,
     required String fromChainId,
@@ -34,15 +32,11 @@ abstract class SwapRepository {
     required String mode,
     required int decimals,
   });
-
-  /// 获取交易状态
   Future<Result<TransactionStatusEntity>> getTransactionStatus({
     required String txHash,
     required String chainId,
     required String network,
   });
-
-  // 以下是 local 的 中间层处理方法
   Future<({TransactionEntity from, TransactionEntity to})> getSelectedTokens();
 
   Future<void> saveFromToken(TransactionEntity token);

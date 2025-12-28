@@ -8,8 +8,6 @@ import '../../features/auth/infrastructure/models/auth_user_model.dart';
 
 class SecureUserStorageServiceImpl implements SecureUserStorageService {
   SecureUserStorageServiceImpl(this._storage);
-
-  //旧的待删除
   static const _userKey = 'auth_user';
 
   static const _userInfoKey = StorageKeys.userInfo;

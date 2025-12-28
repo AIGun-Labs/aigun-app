@@ -31,7 +31,7 @@ class BottomSheetTradeContent extends StatefulWidget {
 }
 
 class _TradeBottomSheetContentState extends State<BottomSheetTradeContent> {
-  bool isBuy = true; // true为买，false为卖
+  bool isBuy = true; // true，false
 
   bool canTrade = false;
 
@@ -45,24 +45,14 @@ class _TradeBottomSheetContentState extends State<BottomSheetTradeContent> {
 
   String _formatNumber(String value) {
     if (value.isEmpty) return '';
-
-    // 移除所有逗号
     String cleanValue = value.replaceAll(',', '');
-
-    // 检查是否为有效数字
     if (double.tryParse(cleanValue) == null) return value;
-
-    // 分离整数和小数部分
     List<String> parts = cleanValue.split('.');
     String integerPart = parts[0];
     String decimalPart = parts.length > 1 ? parts[1] : '';
-
-    // 格式化整数部分
     if (integerPart.isNotEmpty) {
       int number = int.tryParse(integerPart) ?? 0;
       String formattedInteger = _numberFormat.format(number);
-
-      // 如果有小数部分，添加回去
       if (decimalPart.isNotEmpty) {
         return '$formattedInteger.$decimalPart';
       } else {
@@ -89,10 +79,7 @@ class _TradeBottomSheetContentState extends State<BottomSheetTradeContent> {
               color: AppColors.textTertiary(context),
               borderRadius: BorderRadius.circular(2.r),
             ),
-            child: SizedBox(
-              width: 40.w,
-              height: 4.h,
-            ),
+            child: SizedBox(width: 40.w, height: 4.h),
           ),
           SizedBox(height: 16.h),
           const MediaToken(
@@ -117,51 +104,62 @@ class _TradeBottomSheetContentState extends State<BottomSheetTradeContent> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       TextButton(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all(isBuy
-                                ? AppColors.secondary
-                                : Colors.transparent),
-                            foregroundColor: WidgetStateProperty.all(isBuy
-                                ? Colors.white
-                                : AppColors.textTertiary(context)),
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(
+                            isBuy ? AppColors.secondary : Colors.transparent,
                           ),
-                          onPressed: () {
-                            setState(() {
-                              isBuy = true;
-                            });
-                          },
-                          child: const Text('买')),
+                          foregroundColor: WidgetStateProperty.all(
+                            isBuy
+                                ? Colors.white
+                                : AppColors.textTertiary(context),
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isBuy = true;
+                          });
+                        },
+                        child: const Text(''),
+                      ),
                       TextButton(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all(!isBuy
-                                ? AppColors.secondary
-                                : Colors.transparent),
-                            foregroundColor: WidgetStateProperty.all(!isBuy
-                                ? Colors.white
-                                : AppColors.textTertiary(context)),
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(
+                            !isBuy ? AppColors.secondary : Colors.transparent,
                           ),
-                          onPressed: () {
-                            setState(() {
-                              isBuy = false;
-                            });
-                          },
-                          child: const Text('卖')),
+                          foregroundColor: WidgetStateProperty.all(
+                            !isBuy
+                                ? Colors.white
+                                : AppColors.textTertiary(context),
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isBuy = false;
+                          });
+                        },
+                        child: const Text(''),
+                      ),
                     ],
                   ),
                 ),
                 if (isBuy)
                   TextButton.icon(
                     style: ButtonStyle(
-                      textStyle: WidgetStateProperty.all(TextStyle(
-                        fontSize: 14.sp,
-                        color: AppColors.textSecondary(context),
-                      )),
+                      textStyle: WidgetStateProperty.all(
+                        TextStyle(
+                          fontSize: 14.sp,
+                          color: AppColors.textSecondary(context),
+                        ),
+                      ),
                       padding: WidgetStateProperty.all(
-                          EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h)),
+                        EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
+                      ),
                       foregroundColor: WidgetStateProperty.all(
-                          AppColors.textSecondary(context)),
-                      backgroundColor:
-                          WidgetStateProperty.all(Colors.transparent),
+                        AppColors.textSecondary(context),
+                      ),
+                      backgroundColor: WidgetStateProperty.all(
+                        Colors.transparent,
+                      ),
                       overlayColor: WidgetStateProperty.all(Colors.transparent),
                     ),
                     iconAlignment: IconAlignment.end,
@@ -170,9 +168,9 @@ class _TradeBottomSheetContentState extends State<BottomSheetTradeContent> {
                         canTrade = !canTrade;
                       });
                     },
-                    label: const Text('用其他币买'),
+                    label: const Text(''),
                     icon: const Icon(Icons.sync_alt),
-                  )
+                  ),
               ],
             ),
           ),
@@ -181,67 +179,75 @@ class _TradeBottomSheetContentState extends State<BottomSheetTradeContent> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                  child: TextField(
-                controller: _amountController,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
-                  TextInputFormatter.withFunction((oldValue, newValue) {
-                    if (newValue.text.isEmpty) {
-                      return newValue;
-                    }
-                    String formatted = _formatNumber(newValue.text);
+                child: TextField(
+                  controller: _amountController,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+                    TextInputFormatter.withFunction((oldValue, newValue) {
+                      if (newValue.text.isEmpty) {
+                        return newValue;
+                      }
+                      String formatted = _formatNumber(newValue.text);
+                      int cursorPosition = newValue.selection.end;
+                      int commasBefore =
+                          newValue.text
+                              .substring(0, cursorPosition)
+                              .split(',')
+                              .length -
+                          1;
+                      int commasAfter = formatted.split(',').length - 1;
+                      int newCursorPosition =
+                          cursorPosition + (commasAfter - commasBefore);
 
-                    // 保持光标位置
-                    int cursorPosition = newValue.selection.end;
-                    int commasBefore = newValue.text
-                            .substring(0, cursorPosition)
-                            .split(',')
-                            .length -
-                        1;
-                    int commasAfter = formatted.split(',').length - 1;
-                    int newCursorPosition =
-                        cursorPosition + (commasAfter - commasBefore);
-
-                    return TextEditingValue(
-                      text: formatted,
-                      selection: TextSelection.collapsed(
-                        offset: newCursorPosition.clamp(0, formatted.length),
-                      ),
-                    );
-                  }),
-                ],
-                style: TextStyle(
-                  fontSize: 28.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-                decoration: InputDecoration(
-                  hintText: '123,455,678.23131',
-                  hintStyle: TextStyle(
+                      return TextEditingValue(
+                        text: formatted,
+                        selection: TextSelection.collapsed(
+                          offset: newCursorPosition.clamp(0, formatted.length),
+                        ),
+                      );
+                    }),
+                  ],
+                  style: TextStyle(
                     fontSize: 28.sp,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textTertiary(context),
                   ),
-                  border: InputBorder.none,
+                  decoration: InputDecoration(
+                    hintText: '123,455,678.23131',
+                    hintStyle: TextStyle(
+                      fontSize: 28.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textTertiary(context),
+                    ),
+                    border: InputBorder.none,
+                  ),
                 ),
-              )),
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Row(spacing: 4.w, children: [
-                    Image(
+                  Row(
+                    spacing: 4.w,
+                    children: [
+                      Image(
                         image: const AssetImage(
-                            "assets/images/icons/ai-agent.png"),
+                          "assets/images/icons/ai-agent.png",
+                        ),
                         width: 18.w,
-                        height: 18.h),
-                    Text(
+                        height: 18.h,
+                      ),
+                      Text(
                         style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textTertiary(context)),
-                        'SOL'),
-                  ]),
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textTertiary(context),
+                        ),
+                        'SOL',
+                      ),
+                    ],
+                  ),
                   Row(
                     spacing: 4.w,
                     children: [
@@ -251,106 +257,129 @@ class _TradeBottomSheetContentState extends State<BottomSheetTradeContent> {
                         size: 14.w,
                       ),
                       Text(
-                          style: TextStyle(
-                              fontSize: 16.sp,
-                              color: AppColors.textQuaternary(context)),
-                          '1.23 SOL'),
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          color: AppColors.textQuaternary(context),
+                        ),
+                        '1.23 SOL',
+                      ),
                     ],
-                  )
+                  ),
                 ],
-              )
+              ),
             ],
           ),
           SizedBox(height: 10.h),
           SizedBox(
-              child: isBuy
-                  ? ButtonAmountGroup(
-                      amounts: const ['0.2', '0.5', '1', '2'],
-                      onAmountSelected: (amount) {
-                        _amountController.text = amount.toString();
-                      })
-                  : ButtonAmountGroup(
-                      amounts: const ['25%', '50%', '75%', '100%'],
-                      onAmountSelected: (amount) {
-                        _amountController.text = amount.toString();
-                      })),
+            child: isBuy
+                ? ButtonAmountGroup(
+                    amounts: const ['0.2', '0.5', '1', '2'],
+                    onAmountSelected: (amount) {
+                      _amountController.text = amount.toString();
+                    },
+                  )
+                : ButtonAmountGroup(
+                    amounts: const ['25%', '50%', '75%', '100%'],
+                    onAmountSelected: (amount) {
+                      _amountController.text = amount.toString();
+                    },
+                  ),
+          ),
           Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(vertical: 10.r),
             child: canTrade
                 ? null
                 : Text(
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: AppColors.primary,
-                    ),
-                    "SOL余额不足，无法执行本次交易"),
+                    style: TextStyle(fontSize: 14.sp, color: AppColors.primary),
+                    "SOL，",
+                  ),
           ),
           SizedBox(
-              width: double.infinity,
-              height: 50.h,
-              child: canTrade
-                  ? ElevatedButton.icon(
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(
-                            AppColors.buttonPrimary(context)),
-                        foregroundColor: WidgetStateProperty.all(
-                            AppColors.background(context)),
-                        minimumSize: WidgetStateProperty.all(
-                            const Size(double.infinity, double.infinity)),
+            width: double.infinity,
+            height: 50.h,
+            child: canTrade
+                ? ElevatedButton.icon(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(
+                        AppColors.buttonPrimary(context),
                       ),
-                      onPressed: () {},
-                      label: Text(
-                          style: TextStyle(
-                              fontSize: 16.sp, fontWeight: FontWeight.w700),
-                          '立刻买入'),
-                      icon: SvgPicture.asset(
-                        'assets/images/icons/aim-outline.svg',
-                        width: 20.w,
-                        height: 20.h,
-                      ))
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      spacing: 10.w,
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                              style: ButtonStyle(
-                                textStyle: WidgetStateProperty.all(TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w700,
-                                )),
-                                elevation: WidgetStateProperty.all(0),
-                                backgroundColor: WidgetStateProperty.all(
-                                    AppColors.buttonPrimary(context)),
-                                foregroundColor: WidgetStateProperty.all(
-                                    AppColors.background(context)),
-                                minimumSize: WidgetStateProperty.all(const Size(
-                                    double.infinity, double.infinity)),
+                      foregroundColor: WidgetStateProperty.all(
+                        AppColors.background(context),
+                      ),
+                      minimumSize: WidgetStateProperty.all(
+                        const Size(double.infinity, double.infinity),
+                      ),
+                    ),
+                    onPressed: () {},
+                    label: Text(
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      '',
+                    ),
+                    icon: SvgPicture.asset(
+                      'assets/images/icons/aim-outline.svg',
+                      width: 20.w,
+                      height: 20.h,
+                    ),
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    spacing: 10.w,
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            textStyle: WidgetStateProperty.all(
+                              TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w700,
                               ),
-                              onPressed: () {},
-                              child: const Text('充值SOL')),
+                            ),
+                            elevation: WidgetStateProperty.all(0),
+                            backgroundColor: WidgetStateProperty.all(
+                              AppColors.buttonPrimary(context),
+                            ),
+                            foregroundColor: WidgetStateProperty.all(
+                              AppColors.background(context),
+                            ),
+                            minimumSize: WidgetStateProperty.all(
+                              const Size(double.infinity, double.infinity),
+                            ),
+                          ),
+                          onPressed: () {},
+                          child: const Text('SOL'),
                         ),
-                        Expanded(
-                          child: ElevatedButton(
-                              style: ButtonStyle(
-                                textStyle: WidgetStateProperty.all(TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w700,
-                                )),
-                                elevation: WidgetStateProperty.all(0),
-                                backgroundColor: WidgetStateProperty.all(
-                                    AppColors.quaternary),
-                                foregroundColor: WidgetStateProperty.all(
-                                    AppColors.background(context)),
-                                minimumSize: WidgetStateProperty.all(const Size(
-                                    double.infinity, double.infinity)),
+                      ),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            textStyle: WidgetStateProperty.all(
+                              TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w700,
                               ),
-                              onPressed: () {},
-                              child: const Text('用其他币买')),
+                            ),
+                            elevation: WidgetStateProperty.all(0),
+                            backgroundColor: WidgetStateProperty.all(
+                              AppColors.quaternary,
+                            ),
+                            foregroundColor: WidgetStateProperty.all(
+                              AppColors.background(context),
+                            ),
+                            minimumSize: WidgetStateProperty.all(
+                              const Size(double.infinity, double.infinity),
+                            ),
+                          ),
+                          onPressed: () {},
+                          child: const Text(''),
                         ),
-                      ],
-                    )),
+                      ),
+                    ],
+                  ),
+          ),
           SizedBox(height: 10.h),
         ],
       ),

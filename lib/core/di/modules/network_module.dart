@@ -20,7 +20,6 @@ class NetworkModule implements InjectionModule {
 
   @override
   Future<void> init() async {
-    // 注册 bestUrl
     String baseUrl;
     try {
       baseUrl = await DomainService.pickFastestDomain();

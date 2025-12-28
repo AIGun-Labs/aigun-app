@@ -5,12 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/router/constants.dart';
+// import '../../../../core/router/constants.dart';
 import '../../../../core/service_locator.dart';
 import '../../../../core/services/gate_keeper_service.dart';
 import '../../../../cubits/sound_effect/sound_effect_cubit.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../shared/presentation/cubits/new_user/new_user_cubit.dart';
+// import '../../../../shared/presentation/cubits/new_user/new_user_cubit.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/toast.dart';
 import '../../../collect/presentation/cubits/collect_cubit.dart';
@@ -40,27 +40,21 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   StreamSubscription<UpdateState>? _updateSubscription;
 
   bool? _lastLocked;
-
-  /// 检查更新
   Future<void> _checkForUpdate() async {
     final updateCubit = getIt<UpdateCubit>();
 
     await _updateSubscription?.cancel();
-
-    // 监听更新状态
     _updateSubscription = updateCubit.stream.listen((state) {
       if (!mounted) return;
 
       state.whenOrNull(
         available: (info, force) {
-          // 有可用更新，弹出更新弹窗
           showUpdateSheet(context, info: info, force: force);
         },
         installNeedsPermission: (path) async {
           await showInstallerDialog(
             context,
             onSetting: () async {
-              // 跳转设置页面
               updateCubit.openInstallPermissionSettings();
             },
           );
@@ -70,24 +64,18 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         },
       );
     });
-
-    // 开始检查更新
     await updateCubit.checkForUpdate();
   }
 
   @override
   void initState() {
     super.initState();
-    // 添加生命周期监听
     WidgetsBinding.instance.addObserver(this);
 
     widget.gatekeeper.isServiceLockedNotifier.addListener(
       _onServiceLockedChanged,
     );
-
-    // 延迟执行更新检查，等待首页加载完成
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      //版本检查
       _checkForUpdate();
     });
   }
@@ -95,32 +83,25 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void _onServiceLockedChanged() {
     if (!mounted) return;
     final isLocked = widget.gatekeeper.isServiceLockedNotifier.value;
-    // 如果状态没变化，就不要重复弹
     if (_lastLocked == isLocked) return;
     _lastLocked = isLocked;
-
-    // ✅ 把弹窗放到下一帧，避免「build 期间改 Overlay」
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   if (!mounted) return;
 
     //   if (isLocked) {
-    //     // 先关掉之前的弹窗，避免叠加
     //     NetworkToastUtils.dismiss();
     //     if (!widget.gatekeeper.isDeviceOnline) {
-    //       // 设备没网
     //       NetworkToastUtils.showNetworkFailed(
     //         context,
     //         S.of(context).networkIsNotConnected,
     //       );
     //     } else if (!widget.gatekeeper.isBackendHealthy) {
-    //       // 设备有网，但服务挂了
     //       NetworkToastUtils.showNetworkFailed(
     //         context,
     //         S.of(context).servicesAreNotHealthy,
     //       );
     //     }
     //   } else {
-    //     // 服务恢复，关闭提示
     //     NetworkToastUtils.dismiss();
     //   }
     // });
@@ -128,7 +109,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    // 移除生命周期监听
     WidgetsBinding.instance.removeObserver(this);
     _updateSubscription?.cancel();
     widget.gatekeeper.isServiceLockedNotifier.removeListener(
@@ -141,9 +121,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    // 当应用从后台返回前台时
     if (state == AppLifecycleState.resumed) {
-      // 检查是否需要恢复安装流程
       getIt<UpdateCubit>().resumeInstallFromSettings();
     }
   }
@@ -183,7 +161,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           decoration: BoxDecoration(
             border: Border(
               top: BorderSide(
-                color: AppColors.borderSecondary(context), // 使用应用主题的边框颜色
+                color: AppColors.borderSecondary(context), //
                 width: 1.0,
               ),
             ),
@@ -200,12 +178,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   void _onTabTapped(BuildContext context, int index) {
-    // 使用 goBranch 可以保持每个分支的导航状态
-    final userCubit = getIt<NewUserCubit>();
-    if (userCubit.state.authStatus != AuthStatus.authenticated && index != 0) {
-      context.pushNamed(RouteNames.login);
-      return;
-    }
     widget.navigationShell.goBranch(
       index,
       initialLocation: index == widget.navigationShell.currentIndex,

@@ -34,7 +34,7 @@ class DefaultKeyObfuscator implements KeyObfuscator {
 
   String _xorHexStrings(String a, String b) {
     if (a.length != b.length || a.length % 2 != 0) {
-      throw ArgumentError('hex 字符串长度必须相等并且为 偶数');
+      throw ArgumentError('hex  ');
     }
 
     final byteCount = a.length ~/ 2;

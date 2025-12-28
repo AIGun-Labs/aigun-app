@@ -13,7 +13,6 @@ class GateKeeperServiceImpl
     with WidgetsBindingObserver
     implements GateKeeperService {
   GateKeeperServiceImpl(String baseUrl) {
-    // 初始化一个干净的 Dio，不加任何业务拦截器
     _statusCheckDio = Dio(
       BaseOptions(
         baseUrl: baseUrl,
@@ -29,20 +28,13 @@ class GateKeeperServiceImpl
     );
 
     WidgetsBinding.instance.addObserver(this);
-    // 🚀 初始化立即开始轮询
     _startRecursivePolling();
   }
-
-  // 使用 UI 监听状态 (true = 锁定/不可用, false = 正常)
   @override
   final ValueNotifier<bool> isServiceLockedNotifier = ValueNotifier<bool>(
     false,
   );
-
-  //后端服务是否可用（通过 API 轮询确定）
   bool _isBackendHealthy = true;
-
-  //设备网络是否在线（通过 connectivity_plus 确定）
   bool _isDeviceOnline = true;
 
   @override
@@ -53,33 +45,19 @@ class GateKeeperServiceImpl
 
   @override
   bool get isServiceAvailable => _isBackendHealthy && _isDeviceOnline;
-
-  // 专门用于检测状态的 Dio 实例（必须独立，否则会被自己拦截死锁）
   late final Dio _statusCheckDio;
 
   late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
-
-  // 控制轮询是否继续
   bool _isDisposed = false;
-
-  // 用于控制递归轮询的 Future，确保只有一个在运行
   bool _isPolling = false;
-
-  // 状态接口配置
   final String _statusCheckPath = '/api/v1/status';
   final Duration _pollInterval = const Duration(seconds: 3);
-
-  // 连续不健康计数器
   int _consecutiveUnhealthyCount = 0;
-  // 不健康阈值
   static const int _unhealthyThreshold = 3;
 
   final LinkedHashMap<String, _PendingGroup> _pendingByKey =
       LinkedHashMap<String, _PendingGroup>();
-
-  // 设备网络状态变化处理
   void _handleConnectivityChange(List<ConnectivityResult> results) {
-    // 检查是否有任何有效的连接 (wifi, mobile, ethernet)
     final bool currentlyOnline = results.any(
       (r) => r != ConnectivityResult.none && r != ConnectivityResult.bluetooth,
     );
@@ -89,15 +67,11 @@ class GateKeeperServiceImpl
     _isDeviceOnline = currentlyOnline;
 
     if (currentlyOnline) {
-      // 只要设备网络恢复，立刻尝试检测服务状态
       _checkStatus();
     }
-
-    // 无论设备网络状态如何，都需要更新整体锁定状态
     _updateLockState();
   }
 
-  /// 递归轮询
   Future<void> _startRecursivePolling() async {
     if (_isDisposed || _isPolling) return;
 
@@ -116,14 +90,10 @@ class GateKeeperServiceImpl
     _isPolling = false;
   }
 
-  /// 检测状态接口逻辑
   Future<void> _checkStatus() async {
     if (!_isDeviceOnline) return;
     try {
       final response = await _statusCheckDio.get(_statusCheckPath);
-
-      // 假设后端返回 { "code": 0, "msg": "success" } 代表系统恢复
-      // 根据你的实际业务调整判断条件
       final isHealthy =
           response.statusCode == 200 &&
           response.data['code'] == 0 &&
@@ -148,7 +118,6 @@ class GateKeeperServiceImpl
     }
   }
 
-  /// 根据当前状态更新锁定状态
   void _updateLockState() {
     final bool shouldLock = !isServiceAvailable;
 
@@ -161,21 +130,18 @@ class GateKeeperServiceImpl
     }
   }
 
-  /// 标记后端为健康
   void _markBackendAsHealthy() {
     if (_isBackendHealthy) return;
     _isBackendHealthy = true;
     _updateLockState();
   }
 
-  /// 标记后端为不健康
   void _markBackendAsUnhealthy() {
     if (!_isBackendHealthy) return;
     _isBackendHealthy = false;
     _updateLockState();
   }
 
-  /// 🚀 释放队列中的请求
   void _flushQueue() {
     if (_pendingByKey.isEmpty) return;
 
@@ -215,14 +181,11 @@ class GateKeeperServiceImpl
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      // 应用恢复前台时，主动检查网络状态
-      // 这可以解决 connectivity_plus 在 WiFi 重连时不触发回调的问题
       Logger.info('App resumed, checking connectivity...');
       Connectivity().checkConnectivity().then(_handleConnectivityChange);
     }
   }
 
-  // 供拦截器调用：将请求加入等待队列
   @override
   void addPendingRequest(
     RequestOptions options,
@@ -234,7 +197,6 @@ class GateKeeperServiceImpl
     if (group.leader == null) {
       group.leader = _PendingWaiter(options, handler);
     } else {
-      // 重复请求：不再入“真实放行队列”，只作为 follower 等 leader 的结果
       group.followers.add(_PendingWaiter(options, handler));
     }
   }
@@ -255,8 +217,6 @@ class GateKeeperServiceImpl
     final key = dedupKey(response.requestOptions);
     final group = _pendingByKey.remove(key);
     if (group == null) return;
-
-    // leader 自己的 response 走正常 handler.next(response)，无需在此处理
     for (final w in group.followers) {
       w.handler.resolve(_cloneResponseFor(response, w.options));
     }
