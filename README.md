@@ -1,4 +1,4 @@
-# AIGun - AI Automated Trading Platform
+# AIGun - AI Trading Platform
 
 <p align="center">
   <img src="assets/images/logo/aigun-logo.jpg" alt="AIGun Logo" width="120"/>
