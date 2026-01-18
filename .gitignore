@@ -28,7 +28,7 @@ l10n/l10n.dart
 
 # env
 # .env.development
-.env.production
+# .env.production
 # .env.g.dart
 # .env.*.local
 
