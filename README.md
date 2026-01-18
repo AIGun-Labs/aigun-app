@@ -134,23 +134,25 @@ AIGun follows **Clean Architecture** combined with **Feature-Driven Development 
 lib/
 ├── main.dart                  # 🚀 Application entry point
 ├── app.dart                   # 🏠 MaterialApp configuration
-├── di/                        # 💉 Dependency Injection (GetIt)
-├── config/                    # ⚙️ Configuration
-│   ├── theme/                 #    Global theme (ThemeData)
-│   ├── env/                   #    Environment settings
-│   └── routes/                #    GoRouter configuration
+├── bootstrap.dart             # 🔧 App initialization
 │
-├── core/                      # 🧠 Core Layer (Pure Dart)
-│   ├── error/                 #    Failures & Exceptions
-│   ├── usecases/              #    UseCase base classes
+├── config/                    # ⚙️ Configuration
+│   ├── env/                   #    Environment settings (dev/prod)
+│   ├── chain.dart             #    Blockchain configurations
+│   └── ...                    #    Other app configs
+│
+├── core/                      # 🧠 Core Layer
+│   ├── di/                    #    💉 Dependency Injection (GetIt)
+│   ├── router/                #    GoRouter configuration
+│   ├── services/              #    Core services (storage, logger)
+│   ├── enums/                 #    Enumerations
 │   ├── types/                 #    Type definitions
 │   └── utils/                 #    Pure logic utilities
 │
 ├── infrastructure/            # 🔧 Infrastructure Layer
-│   ├── networking/            #    HTTP client (Dio)
-│   ├── storage/               #    Local & secure storage
+│   ├── network/               #    HTTP client (Dio)
 │   ├── services/              #    Third-party integrations
-│   └── router/                #    Navigation services
+│   └── serialization/         #    Data serialization
 │
 ├── shared/                    # 🔄 Shared Layer
 │   ├── domain/                #    Shared entities
@@ -159,10 +161,16 @@ lib/
 │   └── utils/                 #    UI helpers
 │
 ├── features/                  # 📦 Feature Modules
-│   ├── authentication/        #    Auth module
+│   ├── auth/                  #    Authentication
 │   ├── wallet/                #    Wallet management
-│   ├── trading/               #    Trading features
-│   └── settings/              #    App settings
+│   ├── swap/                  #    Token swap/trading
+│   ├── home/                  #    Home dashboard
+│   └── ...                    #    Other feature modules
+│
+├── screens/                   # 📱 Screen pages
+├── widgets/                   # 🧩 Reusable UI components
+├── cubits/                    # 🔄 BLoC/Cubit state management
+├── themes/                    # 🎨 App theming
 │
 └── l10n/                      # 🌍 Internationalization
 ```
@@ -307,7 +315,7 @@ Before you begin, ensure you have the following installed:
 
 ```bash
 # 1. Download Flutter SDK
-# Visit: https://docs.flutter.dev/get-started/install/macos
+# Visit: https://docs.flutter.dev/install/quick
 
 # 2. Add Flutter to PATH
 export PATH="$PATH:$HOME/development/flutter/bin"
@@ -323,7 +331,7 @@ flutter doctor
 
 ```bash
 # 1. Download Flutter SDK
-# Visit: https://docs.flutter.dev/get-started/install/windows
+# Visit: https://docs.flutter.dev/install/quick
 
 # 2. Add to PATH via System Environment Variables
 # Add: C:\src\flutter\bin
