@@ -64,7 +64,6 @@ Future<void> bootstrap(
   Bloc.observer = AppBlocObserver();
   SentryService.init(
     () async => runApp(SentryWidget(child: await builder())),
-    dsn:
-        'https://83220a9fe57fd4d8794717e665ad397d@o4509673590554624.ingest.us.sentry.io/4510152616509440',
+    dsn: AppConfig().env.sentryDsn,
   );
 }

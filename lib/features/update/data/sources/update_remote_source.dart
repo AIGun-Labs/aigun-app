@@ -10,7 +10,7 @@ class UpdateRemoteSource {
   final Dio _dio;
   static final Environment _env = AppConfig().environment;
 
-  final String _s3DownloadUrl = 'https://cdn.route.aigun.ai';
+  final String _s3DownloadUrl = AppConfig().env.cdn;
 
   String _checksumUrl = '';
 
