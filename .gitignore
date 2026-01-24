@@ -27,10 +27,10 @@ l10n/l10n_zh.dart
 l10n/l10n.dart
 
 # env
-# .env.development
-# .env.production
-# .env.g.dart
-# .env.*.local
+.env.development
+.env.production
+.env.g.dart
+.env.*.local
 
 # Generated files
 *.freezed.dart
